@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="El Cafetín">
+  <rect width="512" height="512" rx="112" fill="#fffaf0"/>
+  <circle cx="256" cy="256" r="194" fill="#245314"/>
+  <circle cx="256" cy="256" r="158" fill="#fffaf0"/>
+  <path d="M150 300c20 52 71 88 130 88 57 0 106-34 128-82 7-14-4-30-19-30H169c-15 0-25 11-19 24z" fill="#245314"/>
+  <path d="M164 216h214c30 0 54 24 54 54s-24 54-54 54h-16v-36h16c10 0 18-8 18-18s-8-18-18-18H164v-36z" fill="#b7d41f"/>
+  <path d="M133 213c12-42 54-70 102-70h42c48 0 90 28 102 70H133z" fill="#ffffff"/>
+  <path d="M210 133c-22-28 11-52 18-80 33 34 18 61-18 80zm62 10c-23-31 16-58 21-94 36 38 22 70-21 94zm58-9c-18-26 10-47 17-75 30 30 16 57-17 75z" fill="#245314"/>
+  <text x="256" y="458" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#245314">el cafetín</text>
+</svg>

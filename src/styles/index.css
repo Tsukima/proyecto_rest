@@ -1,0 +1,1189 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+html {
+  font-size: 100%;
+  --page-section-y: clamp(3rem, 6vw, 5rem);
+  --page-section-gap: clamp(2rem, 4vw, 3rem);
+  --page-title-size: clamp(2rem, 3.2vw, 3rem);
+  --page-card-title-size: clamp(1.5rem, 2vw, 2.25rem);
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: clamp(14px, 0.78vw, 15px);
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: clamp(14.5px, 0.74vw, 15.5px);
+  }
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.print-menu-document {
+  width: 794px;
+  min-height: 1123px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 26px 38px 24px;
+  font-family: "Arial", "Helvetica", sans-serif;
+  color: #203526;
+  border: 0;
+  box-shadow: 0 18px 45px rgba(21, 58, 34, 0.18);
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(31, 107, 50, 0.12) 0 10px, transparent 10px 24px),
+    linear-gradient(315deg, rgba(176, 139, 55, 0.18) 0 8px, transparent 8px 28px),
+    repeating-linear-gradient(
+      90deg,
+      rgba(31, 107, 50, 0.035) 0,
+      rgba(31, 107, 50, 0.035) 1px,
+      transparent 1px,
+      transparent 14px
+    ),
+    linear-gradient(115deg, #fffdf7 0%, #f7f0df 45%, #fff8eb 100%);
+  background-size: auto, auto, auto, auto;
+}
+
+.print-menu-document::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.print-menu-document::after {
+  content: "";
+  position: absolute;
+  inset: auto -12% -28% -12%;
+  height: 42%;
+  background:
+    linear-gradient(90deg, rgba(31, 107, 50, 0.1), rgba(176, 139, 55, 0.12), rgba(31, 107, 50, 0.08));
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.print-menu-document > * {
+  position: relative;
+  z-index: 1;
+}
+
+.print-menu-header {
+  text-align: center;
+  border-bottom: 0;
+  padding: 18px 18px 20px;
+  margin-bottom: 22px;
+  color: #fff;
+  background:
+    linear-gradient(90deg, rgba(20, 82, 40, 0.96), rgba(31, 107, 50, 0.94), rgba(70, 102, 42, 0.96));
+  box-shadow: inset 0 -5px 0 rgba(219, 177, 79, 0.72);
+}
+
+.print-menu-logo {
+  display: block;
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto 8px;
+}
+
+.print-menu-header-landscape {
+  margin-bottom: 8px;
+  padding: 10px 16px 12px;
+}
+
+.print-menu-header-landscape .print-menu-logo {
+  display: none;
+}
+
+.print-menu-header p {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f7e7b3;
+}
+
+.print-menu-header-landscape p {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.print-menu-header h2 {
+  margin: 0;
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.print-menu-header div {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.print-menu-body {
+  display: grid;
+  gap: 18px;
+}
+
+.print-menu-variant {
+  break-inside: avoid;
+  border: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.print-menu-variant > *:not(.print-menu-variant-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.print-menu-veggie-bottom-logo {
+  display: block;
+  width: 68%;
+  max-width: 280px;
+  height: auto;
+  margin: 18px auto 0;
+  opacity: 1;
+  object-fit: contain;
+}
+
+.print-menu-variant-header {
+  display: block;
+  border: 0;
+  padding: 0;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.print-menu-variant-header h3 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 900;
+  color: #1f6b32;
+  text-transform: uppercase;
+}
+
+.print-menu-variant-header p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #5a4630;
+}
+
+.print-menu-sections {
+  display: grid;
+  gap: 18px;
+}
+
+.print-menu-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 8px;
+  color: #1f6b32;
+  font-size: 26px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.print-menu-section h4::before,
+.print-menu-section h4::after {
+  content: "";
+  height: 3px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(31, 107, 50, 0), #1f6b32, #b08b37);
+}
+
+.print-menu-section h4::after {
+  background: linear-gradient(90deg, #b08b37, #1f6b32, rgba(31, 107, 50, 0));
+}
+
+.print-menu-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.print-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(31, 107, 50, 0.22);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.22;
+}
+
+.print-menu-item-name {
+  flex: 1;
+}
+
+.print-allergens {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  color: #1f6b32;
+}
+
+.print-allergen-abbr {
+  display: none;
+}
+
+.print-allergen-icons {
+  display: flex;
+  gap: 5px;
+}
+
+.print-allergen-icons svg,
+.print-allergen-legend svg {
+  filter: hue-rotate(70deg) saturate(1.15);
+}
+
+.print-menu-price-block {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  margin: 24px auto 4px;
+}
+
+.print-menu-includes {
+  margin: 0;
+  color: #5a4630;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.print-menu-price {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 6px 22px;
+  text-align: center;
+  font-size: 42px;
+  font-weight: 900;
+  color: #fff;
+  background: #1f6b32;
+  box-shadow: 0 5px 0 rgba(176, 139, 55, 0.72);
+}
+
+.print-gastroteca-document .print-menu-header {
+  margin-bottom: 18px;
+}
+
+.print-gastroteca-body {
+  display: grid;
+  grid-template-columns: repeat(var(--print-menu-column-count, 1), minmax(0, 1fr));
+  align-items: stretch;
+  justify-content: center;
+  gap: 14px;
+}
+
+.print-gastroteca-variant {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.print-gastroteca-list {
+  display: grid;
+  gap: 0;
+}
+
+.print-gastroteca-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+}
+
+.print-gastroteca-item-price {
+  color: #1f6b32;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.print-area-landscape-preview {
+  width: min(100%, 1123px);
+  margin: 0 auto;
+  overflow-x: auto;
+}
+
+.print-landscape {
+  width: 1123px;
+  min-height: 794px;
+  margin: 0 auto;
+}
+
+.print-preview-frame {
+  min-height: 0;
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid rgba(31, 107, 50, 0.16);
+  border-radius: 10px;
+  background:
+    linear-gradient(135deg, rgba(31, 107, 50, 0.08), rgba(176, 139, 55, 0.08)),
+    #f5f1e8;
+}
+
+.print-preview-frame-landscape {
+  padding: 20px;
+}
+
+.print-preview-frame .print-area {
+  margin: 0 auto;
+}
+
+.print-menu-note,
+.print-menu-footer {
+  font-size: 11px;
+  color: #666;
+}
+
+.print-menu-note {
+  margin: 12px 0 0;
+  font-style: italic;
+}
+
+.print-menu-footer {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 2px solid #1f6b32;
+  text-align: center;
+}
+
+.print-menu-footer p {
+  margin: 8px 0 0;
+}
+
+.print-allergen-legend {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  color: #1f6b32;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.print-allergen-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.print-menu-document-landscape {
+  width: 1123px;
+  height: 794px;
+  max-width: 100%;
+  padding: 18px 30px 58px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.print-menu-document-landscape > *:not(.print-menu-watermark) {
+  position: relative;
+  z-index: 1;
+}
+
+.print-menu-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 70%;
+  max-width: 760px;
+  height: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.print-menu-horizontal {
+  display: grid;
+  grid-template-columns: repeat(var(--print-menu-column-count, 3), minmax(0, 1fr));
+  gap: 0;
+  align-items: start;
+  flex: 1 1 auto;
+  min-height: 0;
+  text-align: center;
+}
+
+.print-menu-column {
+  box-sizing: border-box;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 22px;
+  text-align: center;
+}
+
+.print-menu-horizontal .print-menu-column + .print-menu-column {
+  border-left: 4px solid #1f6b32;
+}
+
+.print-menu-column-label {
+  display: none;
+  margin: 0 0 6px;
+  color: #24511b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.print-menu-horizontal .print-menu-variant {
+  padding: 0;
+  border: 0;
+  width: 100%;
+  max-width: 470px;
+  margin: 0 auto;
+  overflow: visible;
+  text-align: center;
+}
+
+.print-menu-horizontal .print-menu-variant-header {
+  display: block;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.print-menu-horizontal .print-menu-variant-header h3 {
+  color: #1f6b32;
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.print-menu-horizontal .print-menu-variant-header p {
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.print-menu-horizontal .print-menu-section h4 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 10px 0 6px;
+  color: #1f6b32;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.print-menu-horizontal .print-menu-section h4::before,
+.print-menu-horizontal .print-menu-section h4::after {
+  content: "";
+  height: 1px;
+  flex: 0 1 46px;
+  background: #1f6b32;
+}
+
+.print-menu-horizontal .print-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 38px;
+  margin-bottom: 0;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(86, 70, 48, 0.2);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.24;
+}
+
+.print-menu-horizontal .print-menu-item-name {
+  flex: none;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: center;
+}
+
+.print-menu-horizontal .print-allergens {
+  display: flex;
+  flex: none;
+  justify-content: center;
+  margin-left: 0;
+  overflow: visible;
+}
+
+.print-menu-horizontal .print-allergen-abbr {
+  display: none;
+}
+
+.print-menu-horizontal .print-allergen-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.print-menu-horizontal .print-allergen-icons svg {
+  width: 14px;
+  height: 14px;
+}
+
+.print-menu-horizontal .print-menu-price {
+  margin: 0 auto;
+  padding: 5px 20px;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.print-menu-horizontal .print-menu-price-block {
+  margin: 8px auto 0;
+  gap: 4px;
+}
+
+.print-menu-horizontal .print-menu-includes {
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.print-menu-horizontal .print-menu-sections {
+  gap: 7px;
+}
+
+.print-menu-horizontal .print-menu-section ul {
+  padding-left: 0;
+}
+
+.print-menu-horizontal .print-menu-section-desserts ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+.print-menu-horizontal .print-menu-section-desserts .print-menu-item {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: auto;
+  padding: 5px 0;
+  border-bottom: 0;
+}
+
+.print-menu-horizontal .print-menu-section-desserts .print-menu-item + .print-menu-item {
+  padding-left: 16px;
+}
+
+.print-menu-horizontal .print-menu-section-desserts .print-menu-item + .print-menu-item::before {
+  content: "|";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  color: #1f6b32;
+  font-weight: 900;
+  transform: translateY(-50%);
+}
+
+.print-menu-horizontal .print-menu-section-desserts .print-menu-item-name {
+  -webkit-line-clamp: 1;
+}
+
+.print-menu-horizontal .print-menu-note {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.print-menu-horizontal-three .print-menu-column {
+  padding: 0 10px;
+}
+
+.print-menu-horizontal-three .print-menu-variant {
+  max-width: none;
+}
+
+.print-menu-horizontal-three .print-menu-variant-header {
+  padding-bottom: 5px;
+  margin-bottom: 7px;
+}
+
+.print-menu-horizontal-three .print-menu-variant-header h3 {
+  font-size: 16.5px;
+  line-height: 1.25;
+}
+
+.print-menu-horizontal-three .print-menu-variant-header p {
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.print-menu-horizontal-three .print-menu-section h4 {
+  margin: 8px 0 5px;
+  font-size: 15.5px;
+  line-height: 1.25;
+}
+
+.print-menu-horizontal-three .print-menu-section h4::before,
+.print-menu-horizontal-three .print-menu-section h4::after {
+  flex-basis: 28px;
+}
+
+.print-menu-horizontal-three .print-menu-item {
+  min-height: 31px;
+  padding: 4px 0;
+  font-size: 13.5px;
+  line-height: 1.25;
+}
+
+.print-menu-horizontal-three .print-menu-sections {
+  gap: 5px;
+}
+
+.print-menu-horizontal-three .print-allergen-icons svg {
+  width: 12px;
+  height: 12px;
+}
+
+.print-menu-horizontal-three .print-menu-price {
+  padding: 4px 16px;
+  font-size: 24px;
+}
+
+.print-menu-horizontal-three .print-menu-price-block {
+  margin-top: 6px;
+}
+
+.print-menu-horizontal-three .print-menu-includes {
+  font-size: 11.5px;
+}
+
+.print-menu-horizontal-three .print-menu-note {
+  margin-top: 6px;
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+.print-menu-document-landscape .print-menu-footer {
+  position: absolute;
+  right: 30px;
+  bottom: 16px;
+  left: 30px;
+  margin-top: 0;
+  padding-top: 8px;
+  border-top: 2px solid rgba(31, 107, 50, 0.35);
+  font-size: 13px;
+  text-align: center;
+}
+
+.print-menu-document-landscape .print-menu-footer p {
+  margin: 4px 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+body.printing-landscape {
+  --print-page-width: 277mm;
+  --print-page-height: 190mm;
+}
+
+body.printing-portrait {
+  --print-page-width: 182mm;
+  --print-page-height: 269mm;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body.printing-landscape,
+  body.printing-portrait {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  html,
+  body {
+    margin: 0 !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+
+  body.printing-clean {
+    width: var(--print-page-width, 182mm) !important;
+    height: var(--print-page-height, 269mm) !important;
+    overflow: hidden !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  [data-slot="dialog-overlay"],
+  [data-slot="dialog-content"] > button {
+    display: none !important;
+  }
+
+  [data-slot="dialog-content"] {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    translate: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    display: block !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: var(--print-page-width, 182mm) !important;
+    max-width: var(--print-page-width, 182mm) !important;
+    height: var(--print-page-height, 269mm) !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background:
+      linear-gradient(135deg, rgba(31, 107, 50, 0.12) 0 10px, transparent 10px 24px),
+      linear-gradient(315deg, rgba(176, 139, 55, 0.18) 0 8px, transparent 8px 28px),
+      repeating-linear-gradient(
+        90deg,
+        rgba(31, 107, 50, 0.035) 0,
+        rgba(31, 107, 50, 0.035) 1px,
+        transparent 1px,
+        transparent 14px
+      ),
+      linear-gradient(115deg, #fffdf7 0%, #f7f0df 45%, #fff8eb 100%) !important;
+  }
+
+  body.printing-clean > *:not(.print-only-root) {
+    display: none !important;
+  }
+
+  body.printing-clean .print-only-root,
+  body.printing-clean .print-only-root * {
+    visibility: visible !important;
+  }
+
+  body.printing-clean .print-only-root {
+    display: block !important;
+    width: var(--print-page-width, 182mm) !important;
+    height: var(--print-page-height, 269mm) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  body.printing-clean .print-only-root .print-area {
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
+    overflow: hidden !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  .print-menu-document {
+    width: 100% !important;
+    height: var(--print-page-height, 269mm) !important;
+    box-sizing: border-box !important;
+    max-width: none;
+    overflow: hidden !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    box-shadow: none !important;
+  }
+
+  .print-menu-footer {
+    display: none !important;
+  }
+
+  .print-menu-header h2 {
+    font-size: 28px;
+  }
+
+  .print-menu-variant {
+    padding: 10px;
+  }
+
+  body.printing-portrait .print-menu-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+  }
+
+  body.printing-portrait .print-menu-logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 4px;
+  }
+
+  body.printing-portrait .print-menu-header p {
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+
+  body.printing-portrait .print-menu-header h2 {
+    font-size: 28px;
+  }
+
+  body.printing-portrait .print-menu-header div {
+    margin-top: 5px;
+    font-size: 10px;
+  }
+
+  body.printing-portrait .print-menu-body {
+    gap: 8px;
+  }
+
+  body.printing-portrait .print-menu-variant {
+    padding: 9px;
+    break-inside: avoid;
+  }
+
+  body.printing-portrait .print-menu-variant-header {
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+  }
+
+  body.printing-portrait .print-menu-variant-header h3 {
+    font-size: 17px;
+    line-height: 1.15;
+  }
+
+  body.printing-portrait .print-menu-variant-header strong {
+    font-size: 17px;
+  }
+
+  body.printing-portrait .print-menu-variant-header p {
+    font-size: 11px;
+  }
+
+  body.printing-portrait .print-menu-sections {
+    gap: 6px;
+  }
+
+  body.printing-portrait .print-menu-section h4 {
+    margin-bottom: 3px;
+    font-size: 12px;
+  }
+
+  body.printing-portrait .print-menu-section ul {
+    padding-left: 14px;
+  }
+
+  body.printing-portrait .print-menu-item {
+    margin-bottom: 3px;
+    font-size: 11.5px;
+    line-height: 1.2;
+  }
+
+  body.printing-portrait .print-allergens {
+    display: inline;
+    margin-left: 4px;
+    font-size: 8px;
+  }
+
+  body.printing-portrait .print-menu-note {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+
+  body.printing-portrait .print-menu-footer {
+    margin-top: 8px;
+    padding-top: 6px;
+    font-size: 8px;
+  }
+
+  .print-menu-horizontal {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  body.printing-landscape .print-area {
+    width: 277mm !important;
+    max-width: 277mm !important;
+    height: 190mm !important;
+    display: flex !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+  }
+
+  body.printing-landscape .print-menu-document {
+    width: 100% !important;
+    height: 190mm !important;
+    box-sizing: border-box !important;
+    padding: 7mm 8mm 15mm !important;
+    overflow: hidden !important;
+    zoom: 0.78;
+  }
+
+  body.printing-landscape .print-menu-header {
+    margin-bottom: 7px;
+    padding: 8px 14px 9px;
+  }
+
+  body.printing-landscape .print-menu-logo {
+    width: 170px;
+    height: auto;
+    margin-bottom: 4px;
+  }
+
+  body.printing-landscape .print-menu-header h2 {
+    font-size: 24px;
+  }
+
+  body.printing-landscape .print-menu-horizontal {
+    display: grid !important;
+    grid-template-columns: repeat(var(--print-menu-column-count, 2), minmax(0, 1fr)) !important;
+    align-items: start !important;
+    justify-content: center !important;
+    gap: 0;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  body.printing-landscape .print-menu-horizontal .print-menu-column + .print-menu-column {
+    border-left: 4px solid #1f6b32;
+  }
+
+  body.printing-landscape .print-menu-column {
+    box-sizing: border-box;
+    min-width: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 22px;
+    text-align: center;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-column {
+    padding: 0 9px;
+  }
+
+  body.printing-landscape .print-menu-variant {
+    break-inside: auto;
+    page-break-inside: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  body.printing-landscape .print-menu-variant-header h3,
+  body.printing-landscape .print-menu-variant-header p,
+  body.printing-landscape .print-menu-item-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  body.printing-landscape .print-menu-variant-header h3 {
+    -webkit-line-clamp: 2;
+    font-size: 21px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-variant-header h3 {
+    font-size: 16.5px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-variant-header p {
+    -webkit-line-clamp: 1;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-variant-header p {
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-section h4 {
+    margin: 10px 0 6px;
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-section h4 {
+    margin: 8px 0 5px;
+    font-size: 15.5px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-menu-item-name {
+    -webkit-line-clamp: 2;
+  }
+
+  body.printing-landscape .print-menu-item {
+    min-height: 38px;
+    padding: 6px 0;
+    font-size: 16px;
+    line-height: 1.24;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-item {
+    min-height: 31px;
+    padding: 4px 0;
+    font-size: 13.5px;
+    line-height: 1.25;
+  }
+
+  body.printing-landscape .print-allergens {
+    white-space: nowrap;
+  }
+
+  body.printing-landscape .print-allergen-icons svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-allergen-icons svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  body.printing-landscape .print-menu-price-block {
+    margin: 8px auto 0;
+    gap: 4px;
+  }
+
+  body.printing-landscape .print-menu-includes {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  body.printing-landscape .print-menu-price {
+    margin: 0 auto;
+    padding: 5px 20px;
+    font-size: 30px;
+    line-height: 1.1;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-price-block {
+    margin-top: 6px;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-includes {
+    font-size: 11.5px;
+  }
+
+  body.printing-landscape .print-menu-horizontal-three .print-menu-price {
+    padding: 4px 16px;
+    font-size: 24px;
+  }
+
+  body.printing-landscape .print-menu-footer {
+    position: absolute;
+    right: 8mm;
+    bottom: 4mm;
+    left: 8mm;
+    margin-top: 0;
+    padding-top: 6px;
+    font-size: 13px;
+  }
+
+  body.printing-landscape .print-menu-footer p {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  body.printing-landscape .print-gastroteca-document {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: stretch !important;
+  }
+
+  body.printing-landscape .print-gastroteca-body {
+    display: grid !important;
+    grid-template-columns: repeat(var(--print-menu-column-count, 1), minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    flex: 1 1 auto !important;
+  }
+
+  body.printing-landscape .print-gastroteca-variant {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  body.printing-landscape .print-gastroteca-item {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    min-height: 40px;
+    padding: 6px 0;
+    font-size: 14px;
+  }
+}

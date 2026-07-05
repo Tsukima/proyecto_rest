@@ -1,0 +1,20 @@
+{
+  "name": "El Cafetín Pontevedra",
+  "short_name": "El Cafetín",
+  "description": "Carta, menús, galería y reservas online de El Cafetín Pontevedra.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fffaf0",
+  "theme_color": "#245314",
+  "categories": ["food", "business"],
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
