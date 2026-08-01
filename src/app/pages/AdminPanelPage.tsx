@@ -2082,35 +2082,87 @@ function HistorialReservasTab({
   );
 }
 
-function prepareOcrImage(file: File): Promise<string> {
+function prepareOcrImage(file: File, maxSide = 2200): Promise<HTMLCanvasElement> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = () => reject(new Error("No se pudo leer la imagen seleccionada."));
-    reader.onload = () => {
-      const image = new Image();
-      image.onerror = () => reject(new Error("No se pudo preparar la imagen para OCR."));
-      image.onload = () => {
-        const maxSide = 1600;
-        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
-        const width = Math.max(1, Math.round(image.width * scale));
-        const height = Math.max(1, Math.round(image.height * scale));
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const context = canvas.getContext("2d");
-        if (!context) {
-          reject(new Error("No se pudo procesar la imagen en este navegador."));
-          return;
-        }
-        context.fillStyle = "#ffffff";
-        context.fillRect(0, 0, width, height);
-        context.drawImage(image, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", 0.9));
-      };
-      image.src = String(reader.result || "");
+    const objectUrl = URL.createObjectURL(file);
+
+    const drawToCanvas = (source: CanvasImageSource, sourceWidth: number, sourceHeight: number) => {
+      const scale = Math.min(1, maxSide / Math.max(sourceWidth, sourceHeight));
+      const width = Math.max(1, Math.round(sourceWidth * scale));
+      const height = Math.max(1, Math.round(sourceHeight * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      if (!context) {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error("No se pudo procesar la imagen en este navegador."));
+        return;
+      }
+
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, width, height);
+      context.drawImage(source, 0, 0, width, height);
+
+      const imageData = context.getImageData(0, 0, width, height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+        const contrast = Math.max(0, Math.min(255, (gray - 128) * 1.35 + 128));
+        data[i] = contrast;
+        data[i + 1] = contrast;
+        data[i + 2] = contrast;
+      }
+      context.putImageData(imageData, 0, 0);
+      URL.revokeObjectURL(objectUrl);
+      resolve(canvas);
     };
-    reader.readAsDataURL(file);
+
+    if ("createImageBitmap" in window) {
+      (window as any)
+        .createImageBitmap(file, { imageOrientation: "from-image" })
+        .then((bitmap: ImageBitmap) => {
+          drawToCanvas(bitmap, bitmap.width, bitmap.height);
+          bitmap.close?.();
+        })
+        .catch(() => {
+          const image = new Image();
+          image.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("No se pudo preparar la imagen para OCR."));
+          };
+          image.onload = () => drawToCanvas(image, image.naturalWidth || image.width, image.naturalHeight || image.height);
+          image.src = objectUrl;
+        });
+      return;
+    }
+
+    const image = new Image();
+    image.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error("No se pudo preparar la imagen para OCR."));
+    };
+    image.onload = () => drawToCanvas(image, image.naturalWidth || image.width, image.naturalHeight || image.height);
+    image.src = objectUrl;
   });
+}
+
+async function recognizeOcrText(
+  image: HTMLCanvasElement | File,
+  onProgress: (message: string) => void,
+) {
+  const result = await recognize(image, "eng", {
+    workerPath: "/ocr/worker.min.js",
+    corePath: "/ocr",
+    langPath: "/ocr/lang",
+    workerBlobURL: false,
+    logger: (message) => {
+      if (message.status === "recognizing text") {
+        onProgress(`Leyendo texto ${Math.round((message.progress || 0) * 100)}%`);
+      }
+    },
+  });
+  return result.data.text.trim();
 }
 
 function withTimeout<T>(promise: Promise<T>, milliseconds: number, message: string): Promise<T> {
@@ -2543,28 +2595,36 @@ function AdminPanel() {
         message: "El OCR está extrayendo el texto de la foto.",
       }));
 
-      const result = await withTimeout(
-        recognize(preparedImage, "eng", {
-          workerPath: "/ocr/worker.min.js",
-          corePath: "/ocr",
-          langPath: "/ocr/lang",
-          workerBlobURL: false,
-          logger: (message) => {
-            if (message.status === "recognizing text") {
-              const progressText = `Leyendo texto ${Math.round((message.progress || 0) * 100)}%`;
-              setOcrStatus(progressText);
-              setOcrResult((current) => ({
-                ...current,
-                message: progressText,
-              }));
-            }
-          },
-        }),
+      const updateOcrProgress = (progressText: string) => {
+        setOcrStatus(progressText);
+        setOcrResult((current) => ({
+          ...current,
+          message: progressText,
+        }));
+      };
+
+      let text = await withTimeout(
+        recognizeOcrText(preparedImage, updateOcrProgress),
         45000,
         "El OCR tardó demasiado en leer la foto. Intenta con una imagen más nítida, tomada de frente y con buena luz.",
       );
-      const text = result.data.text.trim();
-      if (!text) throw new Error("No se detectó texto en la imagen.");
+
+      if (!text || text.length < 6) {
+        setOcrResult((current) => ({
+          ...current,
+          title: "Segundo intento",
+          message: "No se leyó suficiente texto. Probando con la foto original.",
+        }));
+        text = await withTimeout(
+          recognizeOcrText(file, updateOcrProgress),
+          45000,
+          "El OCR no pudo leer la foto original. Intenta con más luz y que el papel ocupe casi toda la imagen.",
+        );
+      }
+
+      if (!text || text.length < 6) {
+        throw new Error("No se detectó texto suficiente en la imagen. Intenta tomar la foto más cerca, de frente y con buena luz.");
+      }
 
       setOcrStatus("Guardando reservas...");
       setOcrResult((current) => ({
