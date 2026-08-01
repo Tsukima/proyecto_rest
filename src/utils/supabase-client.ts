@@ -411,7 +411,16 @@ export const api = {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ fecha, texto }),
     });
-    const data = await response.json();
+    const raw = await response.text();
+    let data: any = {};
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch {
+      const preview = raw?.replace(/\s+/g, ' ').trim().slice(0, 160);
+      throw new Error(preview
+        ? `El servidor no devolvió JSON válido: ${preview}`
+        : 'El servidor no devolvió una respuesta válida');
+    }
     if (!response.ok) throw new Error(data.error || 'Error al procesar reservas OCR');
     return data;
   },

@@ -2514,6 +2514,7 @@ function AdminPanel() {
     message: string;
     processed?: number;
     cancelled?: number;
+    allowManual?: boolean;
   }>({
     open: false,
     loading: false,
@@ -2521,6 +2522,7 @@ function AdminPanel() {
     title: "",
     message: "",
   });
+  const [ocrManualText, setOcrManualText] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -2557,20 +2559,85 @@ function AdminPanel() {
     }
   };
 
+  const getSelectedOcrDate = () => filterDate
+    ? format(filterDate, "yyyy-MM-dd")
+    : calendarSelectedDay === "week"
+      ? format(new Date(), "yyyy-MM-dd")
+      : calendarSelectedDay;
+
+  const saveOcrReservationsFromText = async (selectedDate: string, text: string) => {
+    const cleanText = text.trim();
+    if (!cleanText) {
+      throw new Error("Escribe o pega el texto de la reserva antes de cargarla.");
+    }
+
+    setOcrStatus("Guardando reservas...");
+    setOcrResult((current) => ({
+      ...current,
+      open: true,
+      loading: true,
+      success: false,
+      title: "Guardando reserva",
+      message: "Estamos cargando la reserva en el panel.",
+      allowManual: false,
+    }));
+
+    const response = await withTimeout(
+      api.processOcrReservations(selectedDate, cleanText),
+      20000,
+      "La reserva fue leída, pero el servidor tardó demasiado en responder. Revisa la conexión y vuelve a intentarlo.",
+    );
+    await withTimeout(load(), 20000, "La reserva se guardó, pero no se pudo actualizar la lista automáticamente.");
+
+    const processed = Number(response.reservasProcesadas) || 0;
+    const cancelled = Number(response.reservasCanceladas) || 0;
+    setOcrResult({
+      open: true,
+      loading: false,
+      success: processed > 0,
+      title: processed > 0 ? "Reserva cargada correctamente" : "No se detectaron reservas",
+      message: processed > 0
+        ? "La reserva se guardó en el panel."
+        : "No se encontró ninguna línea con hora y cantidad de personas. Puedes ajustar el texto y volver a cargarlo.",
+      processed,
+      cancelled,
+      allowManual: processed === 0,
+    });
+  };
+
+  const handleManualOcrSubmit = async () => {
+    setOcrLoading(true);
+    setError(null);
+    try {
+      await saveOcrReservationsFromText(getSelectedOcrDate(), ocrManualText);
+    } catch (err: any) {
+      const message = err.message || "No se pudo cargar la reserva";
+      setError(message);
+      setOcrResult({
+        open: true,
+        loading: false,
+        success: false,
+        title: "No se pudo subir la reserva",
+        message,
+        allowManual: true,
+      });
+    } finally {
+      setOcrLoading(false);
+      setOcrStatus("");
+    }
+  };
+
   const handleOcrImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
 
-    const selectedDate = filterDate
-      ? format(filterDate, "yyyy-MM-dd")
-      : calendarSelectedDay === "week"
-        ? format(new Date(), "yyyy-MM-dd")
-        : calendarSelectedDay;
+    const selectedDate = getSelectedOcrDate();
 
     setOcrLoading(true);
     setOcrStatus("Leyendo imagen...");
     setError(null);
+    setOcrManualText("");
     setOcrResult({
       open: true,
       loading: true,
@@ -2626,34 +2693,11 @@ function AdminPanel() {
         throw new Error("No se detectó texto suficiente en la imagen. Intenta tomar la foto más cerca, de frente y con buena luz.");
       }
 
-      setOcrStatus("Guardando reservas...");
-      setOcrResult((current) => ({
-        ...current,
-        title: "Guardando reserva",
-        message: "Ya leímos el texto. Estamos cargando la reserva en el panel.",
-      }));
-      const response = await withTimeout(
-        api.processOcrReservations(selectedDate, text),
-        20000,
-        "La reserva fue leída, pero el servidor tardó demasiado en responder. Revisa la conexión y vuelve a intentarlo.",
-      );
-      await withTimeout(load(), 20000, "La reserva se guardó, pero no se pudo actualizar la lista automáticamente.");
-      const processed = Number(response.reservasProcesadas) || 0;
-      const cancelled = Number(response.reservasCanceladas) || 0;
-      setOcrResult({
-        open: true,
-        loading: false,
-        success: processed > 0,
-        title: processed > 0 ? "Reserva cargada correctamente" : "No se detectaron reservas",
-        message: processed > 0
-          ? "La lectura OCR terminó y las reservas se guardaron en el panel."
-          : "La foto se leyó, pero no se encontró ninguna línea con hora y cantidad de personas.",
-        processed,
-        cancelled,
-      });
+      setOcrManualText(text);
+      await saveOcrReservationsFromText(selectedDate, text);
     } catch (err: any) {
       const message = err.message === "The string did not match the expected pattern."
-        ? "No se pudo leer la foto en este navegador. Intenta tomarla de nuevo, con buena luz y el papel completo dentro de la imagen."
+        ? "No se pudo leer la foto en este navegador. Puedes tomarla de nuevo o escribir la reserva abajo para cargarla manualmente."
         : err.message || "No se pudo procesar la imagen OCR";
       setError(message);
       setOcrResult({
@@ -2662,6 +2706,7 @@ function AdminPanel() {
         success: false,
         title: "No se pudo subir la reserva",
         message,
+        allowManual: true,
       });
     } finally {
       setOcrLoading(false);
@@ -3151,7 +3196,32 @@ function AdminPanel() {
             </div>
           )}
 
+          {ocrResult.allowManual && (
+            <div className="space-y-2">
+              <Label htmlFor="ocr-manual-text">Cargar reserva manualmente</Label>
+              <Textarea
+                id="ocr-manual-text"
+                value={ocrManualText}
+                onChange={(event) => setOcrManualText(event.target.value)}
+                placeholder="Ejemplo: 20:00 Terraza 2 personas López&#10;21:30 Mesa 4 4 pax García"
+                className="min-h-24"
+              />
+              <p className="text-xs text-muted-foreground">
+                Puedes escribir los datos en cualquier orden. Solo son obligatorios la hora y la cantidad de personas.
+              </p>
+            </div>
+          )}
+
           <DialogFooter>
+            {ocrResult.allowManual && (
+              <Button
+                variant="outline"
+                disabled={ocrResult.loading || ocrLoading}
+                onClick={handleManualOcrSubmit}
+              >
+                Cargar texto
+              </Button>
+            )}
             <Button
               disabled={ocrResult.loading}
               onClick={() => setOcrResult((current) => ({ ...current, open: false }))}
