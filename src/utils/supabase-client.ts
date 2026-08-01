@@ -403,14 +403,7 @@ export const api = {
     return data;
   },
 
-  processOcrReservations: async (fecha: string, texto: string) => {
-    const token = api.getAdminToken();
-    if (!token) throw new Error('No hay sesión de administrador');
-    const response = await fetch(`${API_BASE}/api/reservas/ocr`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ fecha, texto }),
-    });
+  parseApiJsonResponse: async (response: Response, fallbackMessage: string) => {
     const raw = await response.text();
     let data: any = {};
     try {
@@ -421,8 +414,30 @@ export const api = {
         ? `El servidor no devolvió JSON válido: ${preview}`
         : 'El servidor no devolvió una respuesta válida');
     }
-    if (!response.ok) throw new Error(data.error || 'Error al procesar reservas OCR');
+    if (!response.ok) throw new Error(data.error || fallbackMessage);
     return data;
+  },
+
+  analyzeOcrReservations: async (fecha: string, texto: string) => {
+    const token = api.getAdminToken();
+    if (!token) throw new Error('No hay sesión de administrador');
+    const response = await fetch(`${API_BASE}/api/reservas/ocr/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ fecha, texto }),
+    });
+    return api.parseApiJsonResponse(response, 'Error al analizar reservas OCR');
+  },
+
+  processOcrReservations: async (fecha: string, texto: string, reservas?: any[]) => {
+    const token = api.getAdminToken();
+    if (!token) throw new Error('No hay sesión de administrador');
+    const response = await fetch(`${API_BASE}/api/reservas/ocr`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(reservas ? { fecha, reservas } : { fecha, texto }),
+    });
+    return api.parseApiJsonResponse(response, 'Error al procesar reservas OCR');
   },
 
   // ─── Menus ────────────────────────────────────────────────────────────────

@@ -65,6 +65,19 @@ type Reservation = {
   created_at?: string;
 };
 
+type OcrDraftReservation = {
+  id: string;
+  fecha: string;
+  hora: string;
+  mesa: number | string | null;
+  personas: number | string;
+  nombre: string;
+  telefono: string;
+  zona: string;
+  estado: "confirmada" | "cancelada";
+  raw_line?: string;
+};
+
 const ZONE_LABELS: Record<string, string> = {
   terraza: "GastroGarden",
   interior: "Bistro",
@@ -2523,6 +2536,7 @@ function AdminPanel() {
     message: "",
   });
   const [ocrManualText, setOcrManualText] = useState("");
+  const [ocrDrafts, setOcrDrafts] = useState<OcrDraftReservation[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -2565,43 +2579,42 @@ function AdminPanel() {
       ? format(new Date(), "yyyy-MM-dd")
       : calendarSelectedDay;
 
-  const saveOcrReservationsFromText = async (selectedDate: string, text: string) => {
+  const reviewOcrReservationsFromText = async (selectedDate: string, text: string) => {
     const cleanText = text.trim();
     if (!cleanText) {
       throw new Error("Escribe o pega el texto de la reserva antes de cargarla.");
     }
 
-    setOcrStatus("Guardando reservas...");
+    setOcrStatus("Analizando reservas...");
     setOcrResult((current) => ({
       ...current,
       open: true,
       loading: true,
       success: false,
-      title: "Guardando reserva",
-      message: "Estamos cargando la reserva en el panel.",
+      title: "Revisando datos",
+      message: "Estamos detectando hora, personas, nombre y zona para que puedas confirmarlo.",
       allowManual: false,
     }));
 
     const response = await withTimeout(
-      api.processOcrReservations(selectedDate, cleanText),
+      api.analyzeOcrReservations(selectedDate, cleanText),
       20000,
-      "La reserva fue leída, pero el servidor tardó demasiado en responder. Revisa la conexión y vuelve a intentarlo.",
+      "La foto fue leída, pero el servidor tardó demasiado en analizarla. Revisa la conexión y vuelve a intentarlo.",
     );
-    await withTimeout(load(), 20000, "La reserva se guardó, pero no se pudo actualizar la lista automáticamente.");
 
-    const processed = Number(response.reservasProcesadas) || 0;
-    const cancelled = Number(response.reservasCanceladas) || 0;
+    const drafts = Array.isArray(response.reservas) ? response.reservas : [];
+    setOcrDrafts(drafts);
     setOcrResult({
       open: true,
       loading: false,
-      success: processed > 0,
-      title: processed > 0 ? "Reserva cargada correctamente" : "No se detectaron reservas",
-      message: processed > 0
-        ? "La reserva se guardó en el panel."
-        : "No se encontró ninguna línea con hora y cantidad de personas. Puedes ajustar el texto y volver a cargarlo.",
-      processed,
-      cancelled,
-      allowManual: processed === 0,
+      success: drafts.length > 0,
+      title: drafts.length > 0 ? "Revisa antes de guardar" : "No se detectaron reservas",
+      message: drafts.length > 0
+        ? "Corrige lo necesario y pulsa Guardar reservas revisadas."
+        : "No se encontró ninguna línea con hora y cantidad de personas. Puedes ajustar el texto y volver a analizarlo.",
+      processed: undefined,
+      cancelled: Number(response.reservasCanceladas) || 0,
+      allowManual: drafts.length === 0,
     });
   };
 
@@ -2609,7 +2622,7 @@ function AdminPanel() {
     setOcrLoading(true);
     setError(null);
     try {
-      await saveOcrReservationsFromText(getSelectedOcrDate(), ocrManualText);
+      await reviewOcrReservationsFromText(getSelectedOcrDate(), ocrManualText);
     } catch (err: any) {
       const message = err.message || "No se pudo cargar la reserva";
       setError(message);
@@ -2618,6 +2631,82 @@ function AdminPanel() {
         loading: false,
         success: false,
         title: "No se pudo subir la reserva",
+        message,
+        allowManual: true,
+      });
+    } finally {
+      setOcrLoading(false);
+      setOcrStatus("");
+    }
+  };
+
+  const updateOcrDraft = (id: string, field: keyof OcrDraftReservation, value: any) => {
+    setOcrDrafts((current) =>
+      current.map((draft) => draft.id === id ? { ...draft, [field]: value } : draft)
+    );
+  };
+
+  const removeOcrDraft = (id: string) => {
+    setOcrDrafts((current) => current.filter((draft) => draft.id !== id));
+  };
+
+  const handleSaveReviewedOcr = async () => {
+    const selectedDate = getSelectedOcrDate();
+    const validDrafts = ocrDrafts.filter((draft) =>
+      String(draft.hora || "").trim() && Number(draft.personas) > 0
+    );
+
+    if (validDrafts.length === 0) {
+      setOcrResult((current) => ({
+        ...current,
+        title: "Faltan datos",
+        message: "Debe quedar al menos una reserva con hora y cantidad de personas.",
+        allowManual: true,
+      }));
+      return;
+    }
+
+    setOcrLoading(true);
+    setOcrStatus("Guardando reservas...");
+    setOcrResult((current) => ({
+      ...current,
+      loading: true,
+      success: false,
+      title: "Guardando reservas",
+      message: "Estamos cargando las reservas revisadas en el panel.",
+      allowManual: false,
+    }));
+
+    try {
+      const response = await withTimeout(
+        api.processOcrReservations(selectedDate, ocrManualText || "reservas revisadas", validDrafts),
+        20000,
+        "El servidor tardó demasiado en guardar las reservas. Revisa la conexión y vuelve a intentarlo.",
+      );
+      await withTimeout(load(), 20000, "Las reservas se guardaron, pero no se pudo actualizar la lista automáticamente.");
+
+      const processed = Number(response.reservasProcesadas) || 0;
+      const cancelled = Number(response.reservasCanceladas) || 0;
+      setOcrDrafts([]);
+      setOcrResult({
+        open: true,
+        loading: false,
+        success: processed > 0,
+        title: processed > 0 ? "Reservas cargadas correctamente" : "No se guardaron reservas",
+        message: processed > 0
+          ? "Las reservas revisadas se guardaron en el panel."
+          : "No había reservas válidas para guardar.",
+        processed,
+        cancelled,
+      });
+    } catch (err: any) {
+      const message = err.message || "No se pudieron guardar las reservas revisadas";
+      setError(message);
+      setOcrResult({
+        open: true,
+        loading: false,
+        success: false,
+        title: "No se pudo guardar",
         message,
         allowManual: true,
       });
@@ -2638,6 +2727,7 @@ function AdminPanel() {
     setOcrStatus("Leyendo imagen...");
     setError(null);
     setOcrManualText("");
+    setOcrDrafts([]);
     setOcrResult({
       open: true,
       loading: true,
@@ -2694,7 +2784,7 @@ function AdminPanel() {
       }
 
       setOcrManualText(text);
-      await saveOcrReservationsFromText(selectedDate, text);
+      await reviewOcrReservationsFromText(selectedDate, text);
     } catch (err: any) {
       const message = err.message === "The string did not match the expected pattern."
         ? "No se pudo leer la foto en este navegador. Puedes tomarla de nuevo o escribir la reserva abajo para cargarla manualmente."
@@ -3196,9 +3286,103 @@ function AdminPanel() {
             </div>
           )}
 
+          {ocrDrafts.length > 0 && (
+            <div className="max-h-[52vh] space-y-3 overflow-y-auto pr-1">
+              {ocrDrafts.map((draft, index) => (
+                <div key={draft.id} className="rounded-xl border bg-muted/20 p-3 space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div>
+                      <p className="font-semibold text-primary">Reserva detectada {index + 1}</p>
+                      {draft.raw_line && (
+                        <p className="text-xs text-muted-foreground line-clamp-2">{draft.raw_line}</p>
+                      )}
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeOcrDraft(draft.id)}
+                      disabled={ocrResult.loading}
+                    >
+                      Quitar
+                    </Button>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <Label>Hora</Label>
+                      <Input
+                        value={draft.hora}
+                        onChange={(event) => updateOcrDraft(draft.id, "hora", event.target.value)}
+                        placeholder="20:00"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Pax</Label>
+                      <Input
+                        type="number"
+                        min="1"
+                        value={draft.personas}
+                        onChange={(event) => updateOcrDraft(draft.id, "personas", event.target.value)}
+                        placeholder="2"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Nombre</Label>
+                      <Input
+                        value={draft.nombre}
+                        onChange={(event) => updateOcrDraft(draft.id, "nombre", event.target.value)}
+                        placeholder="Cliente"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Teléfono</Label>
+                      <Input
+                        value={draft.telefono}
+                        onChange={(event) => updateOcrDraft(draft.id, "telefono", event.target.value)}
+                        placeholder="Opcional"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Zona</Label>
+                      <Select
+                        value={draft.zona || "interior"}
+                        onValueChange={(value) => updateOcrDraft(draft.id, "zona", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Zona" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="interior">Bistro</SelectItem>
+                          <SelectItem value="terraza">GastroGarden</SelectItem>
+                          <SelectItem value="cafeteria">Cafetería</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1">
+                      <Label>Estado</Label>
+                      <Select
+                        value={draft.estado || "confirmada"}
+                        onValueChange={(value) => updateOcrDraft(draft.id, "estado", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Estado" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="confirmada">Confirmada</SelectItem>
+                          <SelectItem value="cancelada">Cancelada</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {ocrResult.allowManual && (
             <div className="space-y-2">
-              <Label htmlFor="ocr-manual-text">Cargar reserva manualmente</Label>
+              <Label htmlFor="ocr-manual-text">Escribir o corregir texto</Label>
               <Textarea
                 id="ocr-manual-text"
                 value={ocrManualText}
@@ -3213,13 +3397,21 @@ function AdminPanel() {
           )}
 
           <DialogFooter>
+            {ocrDrafts.length > 0 && (
+              <Button
+                disabled={ocrResult.loading || ocrLoading}
+                onClick={handleSaveReviewedOcr}
+              >
+                Guardar reservas revisadas
+              </Button>
+            )}
             {ocrResult.allowManual && (
               <Button
                 variant="outline"
                 disabled={ocrResult.loading || ocrLoading}
                 onClick={handleManualOcrSubmit}
               >
-                Cargar texto
+                Analizar texto
               </Button>
             )}
             <Button

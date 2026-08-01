@@ -1132,17 +1132,33 @@ async function createOcrReservations(c: any) {
     const auth = await requireAdmin(c);
     if (auth instanceof Response) return auth;
 
-    const { fecha, texto } = await c.req.json();
+    const { fecha, texto, reservas } = await c.req.json();
 
     if (!isValidOcrDate(fecha)) {
       return c.json({ error: "La fecha debe tener formato válido YYYY-MM-DD" }, 400);
     }
 
-    if (!texto || !String(texto).trim()) {
+    const parsedReservations = Array.isArray(reservas)
+      ? reservas
+          .map((reservation: any) => ({
+            fecha,
+            hora: String(reservation.hora || reservation.time || "").trim(),
+            mesa: reservation.mesa === "" || reservation.mesa === undefined ? null : Number(reservation.mesa),
+            personas: Number(reservation.personas || reservation.guests || 0),
+            nombre: String(reservation.nombre || reservation.name || "Sin nombre").trim() || "Sin nombre",
+            telefono: String(reservation.telefono || reservation.phone || "").trim(),
+            zona: String(reservation.zona || reservation.zone || "").trim(),
+            estado: reservation.estado === "cancelada" || reservation.status === "cancelled" ? "cancelada" : "confirmada",
+            origen: "ocr",
+            raw_line: reservation.raw_line || "Reserva revisada manualmente desde OCR",
+          }))
+          .filter((reservation: any) => reservation.hora && reservation.personas > 0)
+      : parseOcrReservations(fecha, texto);
+
+    if (!Array.isArray(reservas) && (!texto || !String(texto).trim())) {
       return c.json({ error: "El texto OCR no puede estar vacío" }, 400);
     }
 
-    const parsedReservations = parseOcrReservations(fecha, texto);
     for (const parsedReservation of parsedReservations) {
       await saveOcrReservationRecord(parsedReservation);
     }
@@ -1155,6 +1171,38 @@ async function createOcrReservations(c: any) {
   } catch (error) {
     console.log(`Error al procesar reservas OCR: ${error}`);
     return c.json({ error: "Error al procesar reservas OCR" }, 500);
+  }
+}
+
+async function analyzeOcrReservations(c: any) {
+  try {
+    const auth = await requireAdmin(c);
+    if (auth instanceof Response) return auth;
+
+    const { fecha, texto } = await c.req.json();
+
+    if (!isValidOcrDate(fecha)) {
+      return c.json({ error: "La fecha debe tener formato válido YYYY-MM-DD" }, 400);
+    }
+
+    if (!texto || !String(texto).trim()) {
+      return c.json({ error: "El texto OCR no puede estar vacío" }, 400);
+    }
+
+    const reservas = parseOcrReservations(fecha, texto).map((reservation: any, index: number) => ({
+      id: `draft-${Date.now()}-${index}`,
+      ...reservation,
+    }));
+
+    return c.json({
+      ok: true,
+      reservas,
+      reservasDetectadas: reservas.length,
+      reservasCanceladas: reservas.filter((reservation: any) => reservation.estado === "cancelada").length,
+    });
+  } catch (error) {
+    console.log(`Error al analizar OCR: ${error}`);
+    return c.json({ error: "Error al analizar reservas OCR" }, 500);
   }
 }
 
@@ -1802,6 +1850,8 @@ app.post("/make-server-8a892de6/occupied-tables", async (c) => {
 // Create reservations from OCR text
 app.post("/make-server-8a892de6/api/reservas/ocr", createOcrReservations);
 app.post("/api/reservas/ocr", createOcrReservations);
+app.post("/make-server-8a892de6/api/reservas/ocr/analyze", analyzeOcrReservations);
+app.post("/api/reservas/ocr/analyze", analyzeOcrReservations);
 
 // Create reservation endpoint
 app.post("/make-server-8a892de6/reservations", async (c) => {
