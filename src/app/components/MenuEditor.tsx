@@ -802,6 +802,9 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
     ...(weekendMenus?.map((menu) => ({ type: "variant" as const, menu, group: "Fin de Semana" })) ?? []),
     ...(hasPrintableDegustation(degustation) ? [{ type: "degustation" as const, degustation, group: "Degustación" }] : []),
   ];
+  const isWeekendDocument = Boolean(weekendMenus?.length);
+  const documentTitle = isWeekendDocument ? "Menú fin de semana" : "Menú del día";
+  const documentKicker = isWeekendDocument ? "Especial sábado" : "Cocina en movimiento";
 
   const print = () => {
     printCurrentDocument("landscape");
@@ -821,11 +824,21 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
 
         <div className="print-preview-frame print-preview-frame-landscape">
           <div className="print-area print-landscape bg-white text-neutral-950 rounded-md border p-6 shadow-sm">
-            <div className="print-menu-document print-menu-document-landscape">
+            <div className="print-menu-document print-menu-document-landscape print-editorial-menu-document">
             <header className="print-menu-header print-menu-header-landscape">
               <img className="print-menu-logo" src={logoImg} alt="El Cafetín" />
               <p>Oferta gastronómica</p>
             </header>
+            <div className="print-editorial-heading">
+              <div>
+                <h2>{documentTitle}</h2>
+                <p>{documentKicker}</p>
+              </div>
+              <div>
+                <h3>Recomendaciones</h3>
+                <span>del chef</span>
+              </div>
+            </div>
             <img className="print-menu-watermark" src={logoImg} alt="" aria-hidden="true" />
 
             <main
@@ -846,9 +859,11 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
             </main>
 
             <footer className="print-menu-footer">
-              <p>
-                Si padece alguna alergia o intolerancia, comuníquelo al personal antes de realizar el pedido.
-              </p>
+              <div className="print-editorial-footer-grid">
+                <span><strong>el cafetín</strong> Pontevedra</span>
+                <span><em>Reserva tu mesa</em> 986 84 78 74</span>
+                <span>@elcafetinpontevedra · El Cafetín Pontevedra</span>
+              </div>
             </footer>
             </div>
           </div>

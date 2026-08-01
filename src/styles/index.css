@@ -908,6 +908,308 @@ svg {
   line-height: 1.35;
 }
 
+.print-editorial-menu-document {
+  padding: 22px 30px 70px;
+  background:
+    radial-gradient(circle at 85% 45%, rgba(31, 107, 50, 0.055), transparent 24%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(31, 107, 50, 0.028) 0,
+      rgba(31, 107, 50, 0.028) 1px,
+      transparent 1px,
+      transparent 16px
+    ),
+    #fffdf4;
+  box-shadow: none;
+}
+
+.print-editorial-menu-document::after {
+  display: none;
+}
+
+.print-editorial-menu-document .print-menu-header {
+  display: none;
+}
+
+.print-editorial-menu-document .print-menu-watermark {
+  width: 38%;
+  opacity: 0.045;
+}
+
+.print-editorial-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 42px;
+  align-items: start;
+  margin-bottom: 12px;
+  color: #0c2d19;
+}
+
+.print-editorial-heading > div {
+  min-height: 104px;
+}
+
+.print-editorial-heading > div + div {
+  border-left: 2px solid rgba(12, 45, 25, 0.35);
+  padding-left: 42px;
+}
+
+.print-editorial-heading h2,
+.print-editorial-heading h3 {
+  margin: 0;
+  color: #0a2915;
+  font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.print-editorial-heading h2 {
+  max-width: 360px;
+  font-size: 68px;
+}
+
+.print-editorial-heading h3 {
+  font-size: 58px;
+}
+
+.print-editorial-heading p,
+.print-editorial-heading span {
+  display: inline-block;
+  margin: 10px 0 0;
+  color: #0a2915;
+  font-family: "Segoe Script", "Brush Script MT", cursive;
+  font-size: 30px;
+  line-height: 1;
+  transform: rotate(-4deg);
+  border-bottom: 2px solid #0a2915;
+}
+
+.print-editorial-menu-document .print-menu-horizontal {
+  grid-template-columns: repeat(var(--print-menu-column-count, 2), minmax(0, 1fr));
+  align-items: stretch;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-column {
+  padding: 0 30px;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-column:first-child {
+  padding-left: 38px;
+}
+
+.print-editorial-menu-document .print-menu-column:last-child {
+  padding-right: 38px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-column + .print-menu-column {
+  border-left: 2px solid rgba(12, 45, 25, 0.35);
+}
+
+.print-editorial-menu-document .print-menu-column::before {
+  position: absolute;
+  left: 2px;
+  top: 64px;
+  width: 42px;
+  color: #0a2915;
+  font-size: 32px;
+  line-height: 2.45;
+  opacity: 0.9;
+  white-space: pre-line;
+}
+
+.print-editorial-menu-document .print-menu-column:nth-child(1)::before {
+  content: "◌\A ◁\A 🐟\A ♘\A ◇";
+}
+
+.print-editorial-menu-document .print-menu-column:nth-child(2)::before {
+  content: "✺\A ◉\A ◇\A ♨\A ▱";
+}
+
+.print-editorial-menu-document .print-menu-column:nth-child(3)::before {
+  content: "◌\A ◇\A ◉\A ✺\A ▱";
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  display: none;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-variant {
+  max-width: none;
+  margin: 0;
+  padding-left: 34px;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-variant-header {
+  margin: 0 0 10px;
+  padding: 0;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-variant-header h3 {
+  color: #0a2915;
+  font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
+  font-size: 27px;
+  letter-spacing: 0.025em;
+  line-height: 1;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-section h4 {
+  justify-content: flex-start;
+  margin: 14px 0 7px;
+  color: #0a2915;
+  font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-section h4::before {
+  display: none;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-section h4::after {
+  flex: 0 1 64px;
+  height: 2px;
+  background: rgba(12, 45, 25, 0.55);
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-sections {
+  gap: 5px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-item {
+  align-items: flex-start;
+  min-height: 42px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(12, 45, 25, 0.16);
+  color: #142c1b;
+  font-size: 15.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-item-name {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-allergens {
+  justify-content: flex-start;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-section-desserts ul {
+  justify-content: flex-start;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-price-block {
+  justify-items: start;
+  margin: 10px 0 0;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-includes {
+  color: #243b2b;
+  font-family: "Segoe Script", "Brush Script MT", cursive;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.print-editorial-menu-document .print-menu-horizontal .print-menu-price {
+  margin: 0;
+  padding: 0;
+  color: #0a2915;
+  background: transparent;
+  box-shadow: none;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 42px;
+  font-weight: 500;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column {
+  padding: 0 18px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-variant {
+  padding-left: 20px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column::before {
+  left: 0;
+  top: 50px;
+  font-size: 22px;
+  line-height: 2.6;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-variant-header h3 {
+  font-size: 20px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-section h4 {
+  font-size: 16px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-item {
+  min-height: 33px;
+  padding: 5px 0;
+  font-size: 12.5px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-includes {
+  font-size: 14px;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-price {
+  font-size: 30px;
+}
+
+.print-editorial-menu-document .print-menu-footer {
+  right: 30px;
+  bottom: 12px;
+  left: 30px;
+  padding-top: 8px;
+  border-top: 2px solid rgba(12, 45, 25, 0.65);
+}
+
+.print-editorial-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: center;
+  gap: 22px;
+  color: #0a2915;
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.print-editorial-footer-grid span {
+  display: block;
+  text-align: center;
+}
+
+.print-editorial-footer-grid span + span {
+  border-left: 2px solid rgba(12, 45, 25, 0.45);
+  padding-left: 22px;
+}
+
+.print-editorial-footer-grid strong {
+  display: block;
+  font-size: 19px;
+  text-transform: lowercase;
+}
+
+.print-editorial-footer-grid em {
+  display: block;
+  font-family: "Segoe Script", "Brush Script MT", cursive;
+  font-size: 19px;
+  font-style: normal;
+}
+
 @page {
   size: A4;
   margin: 14mm;
@@ -1369,4 +1671,120 @@ body.printing-portrait {
     padding: 6px 0;
     font-size: 14px;
   }
+}
+
+body.printing-landscape .print-editorial-menu-document {
+  padding: 22px 30px 70px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-header {
+  display: none !important;
+}
+
+body.printing-landscape .print-editorial-heading {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) !important;
+  gap: 42px !important;
+  margin-bottom: 12px !important;
+}
+
+body.printing-landscape .print-editorial-heading h2 {
+  font-size: 68px !important;
+  line-height: 0.92 !important;
+}
+
+body.printing-landscape .print-editorial-heading h3 {
+  font-size: 58px !important;
+  line-height: 0.92 !important;
+}
+
+body.printing-landscape .print-editorial-heading p,
+body.printing-landscape .print-editorial-heading span {
+  font-size: 30px !important;
+  line-height: 1 !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal {
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-column {
+  padding: 0 30px !important;
+  text-align: left !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-column {
+  padding: 0 18px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal .print-menu-column + .print-menu-column {
+  border-left: 2px solid rgba(12, 45, 25, 0.35) !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-variant {
+  max-width: none !important;
+  margin: 0 !important;
+  padding-left: 34px !important;
+  text-align: left !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-variant {
+  padding-left: 20px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-variant-header,
+body.printing-landscape .print-editorial-menu-document .print-menu-item-name {
+  text-align: left !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-variant-header h3 {
+  font-size: 27px !important;
+  line-height: 1 !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-variant-header h3 {
+  font-size: 20px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-section h4 {
+  justify-content: flex-start !important;
+  margin: 14px 0 7px !important;
+  font-size: 22px !important;
+  text-align: left !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-section h4 {
+  font-size: 16px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-section h4::before {
+  display: none !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-item {
+  align-items: flex-start !important;
+  min-height: 42px !important;
+  padding: 7px 0 !important;
+  font-size: 15.5px !important;
+  text-align: left !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-item {
+  min-height: 33px !important;
+  padding: 5px 0 !important;
+  font-size: 12.5px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-price {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 42px !important;
+  color: #0a2915 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-price {
+  font-size: 30px !important;
 }
