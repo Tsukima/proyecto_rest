@@ -1,4 +1,4 @@
-import { useState, useMemo, type CSSProperties } from "react";
+import { useState, useMemo, type CSSProperties, type ReactElement } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -569,12 +569,127 @@ function MenuPreviewDialog({ open, onClose, menus, title }: {
   );
 }
 
+type IngredientIllustrationKind =
+  | "fish"
+  | "octopus"
+  | "shell"
+  | "meat"
+  | "chicken"
+  | "vegetable"
+  | "cheese"
+  | "dessert"
+  | "egg"
+  | "leaf";
+
+const INGREDIENT_KEYWORDS: Array<{ kind: IngredientIllustrationKind; words: string[] }> = [
+  { kind: "octopus", words: ["pulpo", "calamar", "chipiron", "sepia", "molusco"] },
+  { kind: "shell", words: ["vieira", "zamburina", "almeja", "mejillon", "ostra", "berberecho"] },
+  { kind: "fish", words: ["atun", "bonito", "merluza", "salmon", "bacalao", "pescado", "lubina", "rodaballo", "sardina", "xurelo"] },
+  { kind: "chicken", words: ["pollo", "gallina", "ave", "carnitas"] },
+  { kind: "meat", words: ["buey", "ternera", "secreto", "cerdo", "jamon", "pork", "carne", "costilla", "solomillo"] },
+  { kind: "vegetable", words: ["zanahoria", "brocol", "coliflor", "verdura", "vegano", "veggie", "hummus", "garbanzo", "seta", "calabacin"] },
+  { kind: "cheese", words: ["queso", "cheddar", "parmesano", "lacteo", "cremoso"] },
+  { kind: "egg", words: ["huevo", "tortilla"] },
+  { kind: "dessert", words: ["postre", "tarta", "cheesecake", "flan", "chocolate", "limon", "semifrio", "bizcocho"] },
+];
+
+function normalizeIngredientText(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function detectIngredientIllustration(name: string): IngredientIllustrationKind {
+  const normalized = normalizeIngredientText(name);
+  return INGREDIENT_KEYWORDS.find((group) => group.words.some((word) => normalized.includes(word)))?.kind ?? "leaf";
+}
+
+function IngredientIllustration({ name }: { name: string }) {
+  const kind = detectIngredientIllustration(name);
+  const common = {
+    className: "ingredient-illustration-svg",
+    viewBox: "0 0 64 64",
+    fill: "none",
+    xmlns: "http://www.w3.org/2000/svg",
+    "aria-hidden": true,
+  };
+
+  const drawings: Record<IngredientIllustrationKind, ReactElement> = {
+    fish: (
+      <svg {...common}>
+        <path d="M8 32c9-12 25-15 39-6l9-8c-1 8-1 20 0 28l-9-8C33 47 17 44 8 32Z" />
+        <path d="M20 32c4-4 10-6 17-5M20 32c4 4 10 6 17 5M14 32h.1" />
+      </svg>
+    ),
+    octopus: (
+      <svg {...common}>
+        <path d="M20 25c0-8 5-14 12-14s12 6 12 14c0 6-3 11-8 13H28c-5-2-8-7-8-13Z" />
+        <path d="M18 42c5-3 8-2 10 2 2-4 6-4 8 0 2-4 5-5 10-2M16 50c5-5 10-5 14 0M34 50c4-5 9-5 14 0M27 25h.1M37 25h.1" />
+      </svg>
+    ),
+    shell: (
+      <svg {...common}>
+        <path d="M12 45c3-18 11-28 20-28s17 10 20 28H12Z" />
+        <path d="M32 17v28M20 45c2-12 6-20 12-28M44 45c-2-12-6-20-12-28M15 38h34" />
+      </svg>
+    ),
+    meat: (
+      <svg {...common}>
+        <path d="M18 37c-4-9 2-20 13-23 13-4 27 4 22 17-4 12-23 22-35 6Z" />
+        <path d="M22 35c6 5 17 4 24-4M13 45l-5 6M18 49l-5 6" />
+      </svg>
+    ),
+    chicken: (
+      <svg {...common}>
+        <path d="M16 39c2-13 11-21 24-18 11 3 15 14 8 22-7 9-26 9-32-4Z" />
+        <path d="M43 24c4-8 12-8 14-1M49 29c5 0 8 4 7 9M22 42c-2 5-5 8-10 9" />
+      </svg>
+    ),
+    vegetable: (
+      <svg {...common}>
+        <path d="M34 12c8 8 8 18 0 30-8-12-8-22 0-30Z" />
+        <path d="M34 42c-10-3-17-10-20-22 12 2 19 9 20 22ZM34 42c10-3 17-10 20-22-12 2-19 9-20 22ZM34 42v12" />
+      </svg>
+    ),
+    cheese: (
+      <svg {...common}>
+        <path d="M12 42 44 18l8 8v20H12v-4Z" />
+        <path d="M20 41h.1M31 36h.1M42 43h.1M44 18v28" />
+      </svg>
+    ),
+    dessert: (
+      <svg {...common}>
+        <path d="M14 43h36l-4 8H18l-4-8Z" />
+        <path d="M18 43c2-11 8-18 14-18s12 7 14 18M25 25c0-7 3-12 7-12s7 5 7 12" />
+      </svg>
+    ),
+    egg: (
+      <svg {...common}>
+        <path d="M18 38c0-13 7-27 14-27s14 14 14 27c0 9-6 15-14 15s-14-6-14-15Z" />
+        <path d="M27 39c0-4 2-7 5-7s5 3 5 7-2 6-5 6-5-2-5-6Z" />
+      </svg>
+    ),
+    leaf: (
+      <svg {...common}>
+        <path d="M14 43c3-18 18-27 36-27-1 18-11 32-29 34" />
+        <path d="M18 48c9-11 19-19 31-30M29 37l-10-2M37 29l-2-10" />
+      </svg>
+    ),
+  };
+
+  return drawings[kind];
+}
+
 function PrintableItem({ item }: { item: MenuItem }) {
   const shown = item.name.trim();
   if (!shown) return null;
 
   return (
     <li className="print-menu-item">
+      <span className="print-ingredient-illustration">
+        <IngredientIllustration name={shown} />
+      </span>
       <span className="print-menu-item-name">{shown}</span>
       {item.allergens.length > 0 && (
         <span className="print-allergens">
