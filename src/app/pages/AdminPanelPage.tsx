@@ -2493,6 +2493,7 @@ function AdminPanel() {
     try {
       const preparedImage = await prepareOcrImage(file);
       const result = await recognize(preparedImage, "eng", {
+        workerBlobURL: false,
         logger: (message) => {
           if (message.status === "recognizing text") {
             setOcrStatus(`Leyendo texto ${Math.round((message.progress || 0) * 100)}%`);

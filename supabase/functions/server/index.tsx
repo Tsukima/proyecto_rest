@@ -1039,6 +1039,28 @@ function isValidOcrDate(date: string) {
 
 function parseOcrReservations(fecha: string, texto: string) {
   const cancelPattern = /\b(cancelada|cancelado|canceladas|cancelados|anulada|anulado|anuladas|anulados|cancelacion|cancelación)\b/i;
+  const zoneFromLine = (line: string) => {
+    const raw = line.toLowerCase();
+    if (raw.includes("terraza") || raw.includes("gastro garden") || raw.includes("gastrogarden")) return "terraza";
+    if (raw.includes("gastroteca") || raw.includes("bistro") || raw.includes("comedor") || raw.includes("interior")) return "interior";
+    if (raw.includes("cafeteria") || raw.includes("cafetería") || raw.includes("cafeter")) return "cafeteria";
+    return "";
+  };
+  const cleanNameFromLine = (line: string) => {
+    const cleaned = line
+      .replace(/(\d{1,2}:\d{2})/g, " ")
+      .replace(/mesa\s*\d+/gi, " ")
+      .replace(/\b\d{1,2}\s*(personas?|comensales?|pax|px|pers?|p)\b/gi, " ")
+      .replace(/\b(personas?|comensales?|pax|px|pers?)\s*\d{1,2}\b/gi, " ")
+      .replace(/(?:\+?\d[\d\s().-]{6,}\d)/g, " ")
+      .replace(/\b(terraza|gastro\s*garden|gastrogarden|gastroteca|bistro|comedor|interior|cafeteria|cafetería)\b/gi, " ")
+      .replace(cancelPattern, " ")
+      .replace(/[|•,;:/]+/g, " ")
+      .replace(/\s+-\s+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return cleaned || "Sin nombre";
+  };
 
   return String(texto || "")
     .split(/\r?\n/)
@@ -1046,15 +1068,14 @@ function parseOcrReservations(fecha: string, texto: string) {
     .filter(Boolean)
     .map((line) => {
       const hora = line.match(/(\d{1,2}:\d{2})/)?.[1] || "";
-      const mesaMatch = line.match(/mesa\s+(\d+)/i);
-      const personasMatch = line.match(/(\d+)\s+personas?/i);
+      const mesaMatch = line.match(/mesa\s*(\d+)/i);
+      const personasMatch =
+        line.match(/\b(\d{1,2})\s*(?:personas?|comensales?|pax|px|pers?|p)\b/i) ||
+        line.match(/\b(?:personas?|comensales?|pax|px|pers?)\s*(\d{1,2})\b/i);
+      const phoneMatch = line.match(/(?:\+?\d[\d\s().-]{6,}\d)/);
 
       if (!hora || !personasMatch) return null;
 
-      const cleanedLine = line.replace(cancelPattern, "").trim();
-      const dashParts = cleanedLine.split(/\s+-\s+/).map((part) => part.trim()).filter(Boolean);
-      const fallbackName = cleanedLine.match(/([A-Za-zÀ-ÿ'´`-]+)\s*$/)?.[1] || "Sin nombre";
-      const nombre = dashParts[dashParts.length - 1]?.replace(cancelPattern, "").trim() || fallbackName;
       const estado = cancelPattern.test(line) ? "cancelada" : "confirmada";
 
       return {
@@ -1062,7 +1083,9 @@ function parseOcrReservations(fecha: string, texto: string) {
         hora,
         mesa: mesaMatch ? Number(mesaMatch[1]) : null,
         personas: Number(personasMatch[1]),
-        nombre,
+        nombre: cleanNameFromLine(line),
+        telefono: phoneMatch?.[0]?.replace(/[^\d+]/g, "") || "",
+        zona: zoneFromLine(line),
         estado,
         origen: "ocr",
         raw_line: line,
@@ -1079,6 +1102,8 @@ async function saveOcrReservationRecord(parsedReservation: any) {
     table: parsedReservation.mesa,
     guests: parsedReservation.personas,
     name: parsedReservation.nombre,
+    phone: parsedReservation.telefono || "",
+    zone: parsedReservation.zona || "",
     status: parsedReservation.estado === "cancelada" ? "cancelled" : "confirmed",
     estado: parsedReservation.estado,
     source: "ocr",
