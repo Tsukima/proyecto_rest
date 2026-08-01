@@ -2113,6 +2113,21 @@ function prepareOcrImage(file: File): Promise<string> {
   });
 }
 
+function withTimeout<T>(promise: Promise<T>, milliseconds: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = window.setTimeout(() => reject(new Error(message)), milliseconds);
+    promise
+      .then((value) => {
+        window.clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((error) => {
+        window.clearTimeout(timer);
+        reject(error);
+      });
+  });
+}
+
 function ReservationCalendarView({
   reservations,
   weekDate,
@@ -2441,6 +2456,7 @@ function AdminPanel() {
   const [ocrStatus, setOcrStatus] = useState("");
   const [ocrResult, setOcrResult] = useState<{
     open: boolean;
+    loading: boolean;
     success: boolean;
     title: string;
     message: string;
@@ -2448,6 +2464,7 @@ function AdminPanel() {
     cancelled?: number;
   }>({
     open: false,
+    loading: false,
     success: false,
     title: "",
     message: "",
@@ -2502,27 +2519,67 @@ function AdminPanel() {
     setOcrLoading(true);
     setOcrStatus("Leyendo imagen...");
     setError(null);
+    setOcrResult({
+      open: true,
+      loading: true,
+      success: false,
+      title: "Procesando foto",
+      message: "Estamos preparando la imagen para leer la reserva. No cierres esta ventana.",
+    });
 
     try {
-      const preparedImage = await prepareOcrImage(file);
-      const result = await recognize(preparedImage, "eng", {
-        workerBlobURL: false,
-        logger: (message) => {
-          if (message.status === "recognizing text") {
-            setOcrStatus(`Leyendo texto ${Math.round((message.progress || 0) * 100)}%`);
-          }
-        },
-      });
+      if (/hei[cf]/i.test(file.type) || /\.hei[cf]$/i.test(file.name)) {
+        throw new Error("El formato HEIC/HEIF de iPhone no es compatible con el OCR. Cambia la cámara a formato JPEG o sube una captura en JPG/PNG.");
+      }
+
+      const preparedImage = await withTimeout(
+        prepareOcrImage(file),
+        15000,
+        "La imagen tardó demasiado en prepararse. Intenta tomar la foto de nuevo o usa una imagen más clara.",
+      );
+      setOcrResult((current) => ({
+        ...current,
+        title: "Leyendo reserva",
+        message: "El OCR está extrayendo el texto de la foto.",
+      }));
+
+      const result = await withTimeout(
+        recognize(preparedImage, "eng", {
+          workerBlobURL: false,
+          logger: (message) => {
+            if (message.status === "recognizing text") {
+              const progressText = `Leyendo texto ${Math.round((message.progress || 0) * 100)}%`;
+              setOcrStatus(progressText);
+              setOcrResult((current) => ({
+                ...current,
+                message: progressText,
+              }));
+            }
+          },
+        }),
+        45000,
+        "El OCR tardó demasiado en leer la foto. Intenta con una imagen más nítida, tomada de frente y con buena luz.",
+      );
       const text = result.data.text.trim();
       if (!text) throw new Error("No se detectó texto en la imagen.");
 
       setOcrStatus("Guardando reservas...");
-      const response = await api.processOcrReservations(selectedDate, text);
-      await load();
+      setOcrResult((current) => ({
+        ...current,
+        title: "Guardando reserva",
+        message: "Ya leímos el texto. Estamos cargando la reserva en el panel.",
+      }));
+      const response = await withTimeout(
+        api.processOcrReservations(selectedDate, text),
+        20000,
+        "La reserva fue leída, pero el servidor tardó demasiado en responder. Revisa la conexión y vuelve a intentarlo.",
+      );
+      await withTimeout(load(), 20000, "La reserva se guardó, pero no se pudo actualizar la lista automáticamente.");
       const processed = Number(response.reservasProcesadas) || 0;
       const cancelled = Number(response.reservasCanceladas) || 0;
       setOcrResult({
         open: true,
+        loading: false,
         success: processed > 0,
         title: processed > 0 ? "Reserva cargada correctamente" : "No se detectaron reservas",
         message: processed > 0
@@ -2538,6 +2595,7 @@ function AdminPanel() {
       setError(message);
       setOcrResult({
         open: true,
+        loading: false,
         success: false,
         title: "No se pudo subir la reserva",
         message,
@@ -3005,7 +3063,9 @@ function AdminPanel() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              {ocrResult.success ? (
+              {ocrResult.loading ? (
+                <RefreshCw className="h-5 w-5 animate-spin text-primary" />
+              ) : ocrResult.success ? (
                 <CheckCircle className="h-5 w-5 text-primary" />
               ) : (
                 <XCircle className="h-5 w-5 text-destructive" />
@@ -3029,8 +3089,11 @@ function AdminPanel() {
           )}
 
           <DialogFooter>
-            <Button onClick={() => setOcrResult((current) => ({ ...current, open: false }))}>
-              Entendido
+            <Button
+              disabled={ocrResult.loading}
+              onClick={() => setOcrResult((current) => ({ ...current, open: false }))}
+            >
+              {ocrResult.loading ? "Procesando..." : "Entendido"}
             </Button>
           </DialogFooter>
         </DialogContent>
