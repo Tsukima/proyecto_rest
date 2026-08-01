@@ -2545,6 +2545,9 @@ function AdminPanel() {
 
       const result = await withTimeout(
         recognize(preparedImage, "eng", {
+          workerPath: "/ocr/worker.min.js",
+          corePath: "/ocr",
+          langPath: "/ocr/lang",
           workerBlobURL: false,
           logger: (message) => {
             if (message.status === "recognizing text") {
