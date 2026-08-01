@@ -2650,6 +2650,37 @@ function AdminPanel() {
     setOcrDrafts((current) => current.filter((draft) => draft.id !== id));
   };
 
+  const handleEditOcrReservation = () => {
+    if (ocrDrafts.length === 0) {
+      setOcrDrafts([
+        {
+          id: `manual-${Date.now()}`,
+          fecha: getSelectedOcrDate(),
+          hora: "",
+          mesa: null,
+          personas: "",
+          nombre: "",
+          telefono: "",
+          zona: "interior",
+          estado: "confirmada",
+          raw_line: ocrManualText || "Reserva creada manualmente desde el alert OCR",
+        },
+      ]);
+    }
+
+    setOcrResult((current) => ({
+      ...current,
+      open: true,
+      loading: false,
+      success: true,
+      title: "Editar reserva",
+      message: "Completa o corrige los datos y pulsa Guardar reservas revisadas.",
+      allowManual: false,
+      processed: undefined,
+      cancelled: undefined,
+    }));
+  };
+
   const handleSaveReviewedOcr = async () => {
     const selectedDate = getSelectedOcrDate();
     const validDrafts = ocrDrafts.filter((draft) =>
@@ -3397,6 +3428,15 @@ function AdminPanel() {
           )}
 
           <DialogFooter>
+            {!ocrResult.loading && ocrDrafts.length === 0 && (
+              <Button
+                variant="outline"
+                disabled={ocrLoading}
+                onClick={handleEditOcrReservation}
+              >
+                Editar reserva
+              </Button>
+            )}
             {ocrDrafts.length > 0 && (
               <Button
                 disabled={ocrResult.loading || ocrLoading}
