@@ -368,6 +368,189 @@ svg {
   margin: 0 auto;
 }
 
+.reservation-form-print-area {
+  width: 794px;
+  min-height: 1123px;
+  padding: 34px;
+}
+
+.reservation-paper-form {
+  min-height: 1055px;
+  border: 2px solid #1f5a2a;
+  padding: 26px;
+  background:
+    linear-gradient(90deg, rgba(31, 90, 42, 0.045) 1px, transparent 1px) 0 0 / 18px 18px,
+    #fffdf6;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #12331d;
+}
+
+.reservation-paper-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 4px solid #1f5a2a;
+  padding-bottom: 18px;
+}
+
+.reservation-paper-header p {
+  margin: 0 0 8px;
+  color: #1f5a2a;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.reservation-paper-header h2 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.1;
+  color: #0e351c;
+}
+
+.reservation-paper-date {
+  min-width: 170px;
+  border: 1px solid rgba(31, 90, 42, 0.35);
+  padding: 10px 12px;
+  text-align: center;
+  background: rgba(234, 244, 222, 0.75);
+}
+
+.reservation-paper-date span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.reservation-paper-date strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.reservation-paper-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.reservation-paper-meta div {
+  min-height: 54px;
+  border: 1px solid rgba(31, 90, 42, 0.35);
+  background: rgba(255, 255, 255, 0.76);
+  padding: 8px;
+}
+
+.reservation-paper-meta span,
+.reservation-paper-meta small {
+  display: block;
+}
+
+.reservation-paper-meta span {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.reservation-paper-meta small {
+  margin-top: 4px;
+  color: #5b665d;
+  font-size: 10px;
+}
+
+.reservation-paper-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.reservation-paper-table th,
+.reservation-paper-table td {
+  border: 1px solid rgba(31, 90, 42, 0.42);
+}
+
+.reservation-paper-table th {
+  padding: 9px 5px;
+  background: #1f5a2a;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.reservation-paper-table td {
+  height: 49px;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.reservation-paper-table th:nth-child(1),
+.reservation-paper-table td:nth-child(1) {
+  width: 36px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.reservation-paper-table th:nth-child(2),
+.reservation-paper-table td:nth-child(2),
+.reservation-paper-table th:nth-child(3),
+.reservation-paper-table td:nth-child(3),
+.reservation-paper-table th:nth-child(6),
+.reservation-paper-table td:nth-child(6),
+.reservation-paper-table th:nth-child(7),
+.reservation-paper-table td:nth-child(7) {
+  width: 66px;
+}
+
+.reservation-paper-table th:nth-child(4),
+.reservation-paper-table td:nth-child(4) {
+  width: 150px;
+}
+
+.reservation-paper-table th:nth-child(5),
+.reservation-paper-table td:nth-child(5) {
+  width: 118px;
+}
+
+.reservation-paper-footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.reservation-paper-footer div {
+  min-height: 68px;
+  border: 1px solid rgba(31, 90, 42, 0.35);
+  background: rgba(234, 244, 222, 0.7);
+  padding: 11px 13px;
+}
+
+.reservation-paper-footer strong,
+.reservation-paper-footer span {
+  display: block;
+}
+
+.reservation-paper-footer strong {
+  margin-bottom: 5px;
+  font-size: 13px;
+  color: #1f5a2a;
+  text-transform: uppercase;
+}
+
+.reservation-paper-footer span {
+  font-size: 12px;
+  line-height: 1.35;
+  color: #344037;
+}
+
 .print-menu-note,
 .print-menu-footer {
   font-size: 11px;

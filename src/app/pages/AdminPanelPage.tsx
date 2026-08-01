@@ -28,7 +28,7 @@ import {
 import {
   CalendarIcon, Search, Filter, Users, CheckCircle, XCircle,
   ShieldCheck, RefreshCw, Trash2, MessageSquare, Plus, BadgeCheck, UserSearch, Bell, UtensilsCrossed, History, Wine,
-  ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Camera,
+  ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Camera, Printer,
 } from "lucide-react";
 import { GastrotecaMenuEditor, WeekdayMenuEditor, WeekendMenuEditor } from "../components/MenuEditor";
 import { AllergenIcon } from "../components/AllergenIcon";
@@ -2193,6 +2193,142 @@ function withTimeout<T>(promise: Promise<T>, milliseconds: number, message: stri
   });
 }
 
+function printReservationForm() {
+  const styleId = "reservation-form-print-style";
+  const rootId = "reservation-form-print-only-root";
+  const existingRoot = document.getElementById(rootId);
+  existingRoot?.remove();
+
+  const existingStyle = document.getElementById(styleId);
+  existingStyle?.remove();
+
+  const style = document.createElement("style");
+  style.id = styleId;
+  style.textContent = "@page { size: A4 portrait; margin: 0; }";
+  document.head.appendChild(style);
+
+  const printArea = document.querySelector(".reservation-form-print-area");
+  const printRoot = document.createElement("div");
+  printRoot.id = rootId;
+  printRoot.className = "print-only-root";
+  if (printArea) {
+    printRoot.appendChild(printArea.cloneNode(true));
+    document.body.appendChild(printRoot);
+  }
+
+  document.body.classList.add("printing-portrait", "printing-clean");
+  const cleanup = () => {
+    document.body.classList.remove("printing-portrait", "printing-clean");
+    document.getElementById(rootId)?.remove();
+    document.getElementById(styleId)?.remove();
+    window.removeEventListener("afterprint", cleanup);
+  };
+
+  window.addEventListener("afterprint", cleanup);
+  window.setTimeout(() => {
+    requestAnimationFrame(() => window.print());
+  }, 80);
+}
+
+function PrintableReservationFormDialog({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
+  const rows = Array.from({ length: 14 }, (_, index) => index + 1);
+  const today = new Date().toLocaleDateString("es-ES");
+
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <DialogContent className="max-w-5xl">
+        <DialogHeader className="print:hidden">
+          <DialogTitle className="flex items-center gap-2">
+            <Printer className="h-5 w-5 text-primary" />
+            Formulario imprimible de reservas
+          </DialogTitle>
+          <DialogDescription>
+            Hoja sencilla para rellenar a mano. Pensada para probarla con el equipo antes de cambiar el flujo.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="print-preview-frame max-h-[70vh] overflow-auto">
+          <div className="print-area reservation-form-print-area bg-white text-neutral-950 rounded-md border shadow-sm">
+            <div className="reservation-paper-form">
+              <header className="reservation-paper-header">
+                <div>
+                  <p>El Cafetín Pontevedra</p>
+                  <h2>Formulario de reservas</h2>
+                </div>
+                <div className="reservation-paper-date">
+                  <span>Fecha</span>
+                  <strong>{today}</strong>
+                </div>
+              </header>
+
+              <section className="reservation-paper-meta">
+                <div><span>Día</span></div>
+                <div><span>Responsable</span></div>
+                <div><span>Turno</span><small>Comida / Cena</small></div>
+                <div><span>Zona</span><small>Bistro / Terraza / Gastroteca</small></div>
+              </section>
+
+              <table className="reservation-paper-table">
+                <thead>
+                  <tr>
+                    <th>Nº</th>
+                    <th>Hora</th>
+                    <th>Pax</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Zona</th>
+                    <th>Mesa</th>
+                    <th>Notas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr key={row}>
+                      <td>{row}</td>
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                      <td />
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <footer className="reservation-paper-footer">
+                <div>
+                  <strong>Recordatorio</strong>
+                  <span>Confirmar teléfono, número de personas, hora de llegada y zona.</span>
+                </div>
+                <div>
+                  <strong>Estado</strong>
+                  <span>Marcar canceladas o cambios importantes en notas.</span>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+
+        <DialogFooter className="print:hidden">
+          <Button variant="outline" onClick={onClose}>Cerrar</Button>
+          <Button onClick={printReservationForm}>
+            <Printer className="h-4 w-4 mr-2" />
+            Imprimir formulario
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function ReservationCalendarView({
   reservations,
   weekDate,
@@ -2510,6 +2646,7 @@ function AdminPanel() {
   const [deleteTarget, setDeleteTarget] = useState<Reservation | null>(null);
   const [expandedComments, setExpandedComments] = useState<string | null>(null);
   const [showNewDialog, setShowNewDialog] = useState(false);
+  const [showReservationFormDialog, setShowReservationFormDialog] = useState(false);
   const [calendarWeekDate, setCalendarWeekDate] = useState(new Date());
   const [calendarSelectedDay, setCalendarSelectedDay] = useState(format(new Date(), "yyyy-MM-dd"));
   const [calendarSelectedZone, setCalendarSelectedZone] = useState("all");
@@ -2900,6 +3037,10 @@ function AdminPanel() {
             <p className="text-muted-foreground mt-1">El Cafetín de Pontevedra · Gestión de reservas</p>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setShowReservationFormDialog(true)}>
+              <Printer className="h-4 w-4 mr-2" />
+              Formulario
+            </Button>
             <Button onClick={() => setShowNewDialog(true)}>
               <Plus className="h-4 w-4 mr-2" />
               Nueva Reserva
@@ -3262,6 +3403,11 @@ function AdminPanel() {
         open={showNewDialog}
         onClose={() => setShowNewDialog(false)}
         onCreated={load}
+      />
+
+      <PrintableReservationFormDialog
+        open={showReservationFormDialog}
+        onClose={() => setShowReservationFormDialog(false)}
       />
 
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
