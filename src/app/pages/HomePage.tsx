@@ -107,23 +107,23 @@ export function HomePage() {
               Descubre el menú disponible para el día de hoy
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {showWeekdayMenu && <Card className="bg-gradient-to-br from-[#fff3d8] via-[#f8fff2] to-[#cfe9c3] border-primary/40 hover:shadow-xl transition-shadow h-full">
-              <CardHeader className="text-center">
-                <CardTitle className="text-[length:var(--page-card-title-size)] mb-4 text-primary">🍽️ Menú del Día</CardTitle>
-                <p className="text-lg font-medium text-foreground/80">Lunes a Viernes</p>
-                <p className="text-4xl font-bold text-primary mt-4">18,00 €</p>
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {showWeekdayMenu && <Card className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#fff7e6] via-[#f8fff2] to-[#dcefd2] border-primary/25 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full">
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-primary/80" />
+              <CardHeader className="text-center pb-3 pt-8">
+                <CardTitle className="text-3xl md:text-4xl font-bold text-primary">🍽️ Menú del Día</CardTitle>
+                <p className="text-base font-semibold text-foreground/75">Lunes a Viernes</p>
               </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <p className="text-muted-foreground">
+              <CardContent className="text-center space-y-5 px-8 pb-8">
+                <p className="text-muted-foreground leading-relaxed">
                   Menús que cambian diariamente con ingredientes de temporada
                 </p>
-                <p className="text-sm italic">
+                <p className="inline-flex rounded-full bg-white/75 px-4 py-2 text-sm italic text-foreground/80 shadow-sm">
                   Incluye: Bebida, postre o café
                 </p>
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-1">
                   <Link to="/menu-dia">
-                    <Button variant="outline" className="w-full border-primary/35 text-primary hover:bg-primary hover:text-primary-foreground">
+                    <Button variant="outline" className="rounded-full border-primary/35 px-7 text-primary hover:bg-primary hover:text-primary-foreground">
                       Ver Menú
                     </Button>
                   </Link>
@@ -131,43 +131,44 @@ export function HomePage() {
               </CardContent>
             </Card>}
 
-            {showWeekendMenu && <Card className="bg-gradient-to-br from-[#dcefd2] via-[#fffaf0] to-[#f2ddb7] border-primary/40 hover:shadow-xl transition-shadow h-full">
-              <CardHeader className="text-center">
-                <CardTitle className="text-[length:var(--page-card-title-size)] mb-4 text-primary">🍷 Menú Fin de Semana</CardTitle>
-                <p className="text-lg font-medium text-foreground/80">Sábado</p>
-                <p className="text-4xl font-bold text-primary mt-4">28,00 €</p>
+            {showWeekendMenu && <Card className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#e7f4df] via-[#fffaf0] to-[#f3e0b8] border-primary/25 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full">
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-primary/80" />
+              <CardHeader className="text-center pb-3 pt-8">
+                <CardTitle className="text-3xl md:text-4xl font-bold text-primary">🍷 Menú Fin de Semana</CardTitle>
+                <p className="text-base font-semibold text-foreground/75">Sábado</p>
               </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <p className="text-muted-foreground">
+              <CardContent className="text-center space-y-5 px-8 pb-8">
+                <p className="text-muted-foreground leading-relaxed">
                   Menús especiales con ingredientes premium
                 </p>
-                <p className="text-sm italic">
+                <p className="inline-flex rounded-full bg-white/75 px-4 py-2 text-sm italic text-foreground/80 shadow-sm">
                   Incluye: Bebida, postre o café
                 </p>
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-1">
                   <Link to="/menu-fin-de-semana">
-                    <Button variant="outline" className="w-full border-primary/35 text-primary hover:bg-primary hover:text-primary-foreground">
+                    <Button variant="outline" className="rounded-full border-primary/35 px-7 text-primary hover:bg-primary hover:text-primary-foreground">
                       Ver Menú
                     </Button>
                   </Link>
                 </div>
               </CardContent>
             </Card>}
-            <Card className="bg-gradient-to-br from-[#f6ead6] via-[#fffaf0] to-[#dcefd2] border-primary/40 hover:shadow-xl transition-shadow h-full">
-              <CardHeader className="text-center">
-                <CardTitle className="text-[length:var(--page-card-title-size)] mb-4 text-primary">📖 Carta</CardTitle>
-                <p className="text-lg font-medium text-foreground/80">Disponible toda la semana</p>
+            <Card className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#f6ead6] via-[#fffaf0] to-[#dcefd2] border-primary/25 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full">
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-primary/80" />
+              <CardHeader className="text-center pb-3 pt-8">
+                <CardTitle className="text-3xl md:text-4xl font-bold text-primary">📖 Carta</CardTitle>
+                <p className="text-base font-semibold text-foreground/75">Disponible toda la semana</p>
               </CardHeader>
-              <CardContent className="text-center space-y-4">
-                <p className="text-muted-foreground">
+              <CardContent className="text-center space-y-5 px-8 pb-8">
+                <p className="text-muted-foreground leading-relaxed">
                   Consulta nuestros platos, bebidas y propuestas de la casa
                 </p>
-                <p className="text-sm italic">
+                <p className="inline-flex rounded-full bg-white/75 px-4 py-2 text-sm italic text-foreground/80 shadow-sm">
                   Cocina, cafetería, vinos y bebidas
                 </p>
-                <div className="flex justify-center pt-2">
+                <div className="flex justify-center pt-1">
                   <Link to="/menu">
-                    <Button variant="outline" className="w-full border-primary/35 text-primary hover:bg-primary hover:text-primary-foreground">
+                    <Button variant="outline" className="rounded-full border-primary/35 px-7 text-primary hover:bg-primary hover:text-primary-foreground">
                       Ver Carta
                     </Button>
                   </Link>
@@ -194,14 +195,29 @@ export function HomePage() {
             <div>
               <h2 className="text-[length:var(--page-title-size)] font-bold mb-6">Sobre Nosotros</h2>
               <p className="text-lg text-muted-foreground mb-4">
-                En El Cafetín de Pontevedra te ofrecemos una experiencia gastronómica
-                única con un toque náutico especial. Nuestro espacio combina la calidez
-                de un cafetín tradicional con la modernidad de un gastrobar contemporáneo.
+                En El Cafetín de Pontevedra te invitamos a disfrutar de una experiencia gastronómica
+                que se siente como estar en casa. Nuestro espacio combina la esencia de un cafetín
+                tradicional con la comodidad de un lugar pensado para relajarse, compartir y saborear
+                cada momento.
+              </p>
+              <p className="text-lg text-muted-foreground mb-4">
+                El edificio cuenta con tres plantas, cada una con su propio encanto.
+              </p>
+              <p className="text-lg text-muted-foreground mb-3">
+                En el nivel principal, <strong>La Cafetería</strong> abre de lunes a sábado,
+                perfecta para empezar el día o hacer una pausa agradable.
+              </p>
+              <p className="text-lg text-muted-foreground mb-3">
+                En la planta superior, <strong>El Bistro</strong> ofrece cocina al mediodía,
+                ideal para disfrutar de platos caseros y un ambiente tranquilo.
+              </p>
+              <p className="text-lg text-muted-foreground mb-3">
+                En el sótano, <strong>La Gastroteca</strong> abre de jueves a sábado por la noche,
+                con propuestas elaboradas y un ambiente íntimo que invita a quedarse.
               </p>
               <p className="text-lg text-muted-foreground mb-6">
-                Abiertos de lunes a sábado en <strong>La Cafetería</strong>, con servicio de cocina en
-                <strong> El Bistro</strong> al mediodía y <strong>La Gastroteca</strong> de jueves a sábado por la noche.
-                Productos frescos, tapas elaboradas y un ambiente acogedor en el corazón de Pontevedra.
+                Trabajamos con productos frescos, tapas cuidadas y una atención cercana que hace
+                que cada visita sea especial.
               </p>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">

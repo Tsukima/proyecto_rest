@@ -51,16 +51,33 @@ export function MenuPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="mb-8 grid gap-3 rounded-2xl border border-primary/15 bg-white/80 p-3 shadow-sm md:grid-cols-3">
+          <div className="rounded-xl bg-[#fbf6ea] px-4 py-3 text-center">
+            <p className="text-base font-bold text-primary">☕ La Cafetería</p>
+            <p className="text-xs text-muted-foreground">Lunes - Sábado · 10:00 - 23:00</p>
+            <p className="text-xs text-muted-foreground">Cocina nocturna L-X · 20:00 - 21:50</p>
+          </div>
+          <div className="rounded-xl bg-[#f8fff2] px-4 py-3 text-center">
+            <p className="text-base font-bold text-primary">🍽️ El Bistro</p>
+            <p className="text-xs text-muted-foreground">Lunes - Sábado · 13:30 - 17:00</p>
+            <p className="text-xs text-muted-foreground">Cocina abierta · 13:00 - 16:00</p>
+          </div>
+          <div className="rounded-xl bg-[#fff3d8] px-4 py-3 text-center">
+            <p className="text-base font-bold text-primary">🍷 La Gastroteca</p>
+            <p className="text-xs text-muted-foreground">Jueves - Sábado · 20:00 - 00:00</p>
+            <p className="text-xs text-muted-foreground">Cocina abierta · 20:30 - 23:50</p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-5 mb-8">
           <Card className="bg-gradient-to-br from-[#fff3d8] via-[#f8fff2] to-[#cfe9c3] border-primary/40 hover:shadow-xl transition-shadow cursor-pointer overflow-hidden"
                 onClick={() => window.location.href = '/menu-dia'}>
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl mb-4 text-primary">🍽️ Menú del Día</CardTitle>
-              <p className="text-lg font-medium text-foreground/80">Lunes a Viernes</p>
-              <p className="text-4xl font-bold text-primary mt-4">18,00 €</p>
+            <CardHeader className="text-center pb-3">
+              <CardTitle className="text-2xl md:text-[1.7rem] mb-2 text-primary">🍽️ Menú del Día</CardTitle>
+              <p className="text-base font-medium text-foreground/80">Lunes a Viernes</p>
             </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <p className="text-muted-foreground mb-4">
+            <CardContent className="text-center space-y-3 pt-0 pb-5">
+              <p className="text-sm text-muted-foreground">
                 Menús que cambian diariamente con ingredientes de temporada
               </p>
               <p className="text-sm italic">
@@ -72,15 +89,33 @@ export function MenuPage() {
             </CardContent>
           </Card>
 
+          <Card className="bg-gradient-to-br from-[#f7ead1] via-[#fffaf0] to-[#dcefd2] border-primary/40 hover:shadow-xl transition-shadow cursor-pointer overflow-hidden"
+                onClick={() => window.location.href = '/desayunos'}>
+            <CardHeader className="text-center pb-3">
+              <CardTitle className="text-2xl md:text-[1.7rem] mb-2 text-primary">☕ Desayunos</CardTitle>
+              <p className="text-base font-medium text-foreground/80">Cafetería</p>
+            </CardHeader>
+            <CardContent className="text-center space-y-3 pt-0 pb-5">
+              <p className="text-sm text-muted-foreground">
+                Cafés, tostadas, bollería y opciones para empezar el día
+              </p>
+              <p className="text-sm italic">
+                Disponible en horario de cafetería
+              </p>
+              <Button variant="outline" className="border-primary/35 text-primary hover:bg-primary hover:text-primary-foreground">
+                Ver Desayunos
+              </Button>
+            </CardContent>
+          </Card>
+
           <Card className="bg-gradient-to-br from-[#dcefd2] via-[#fffaf0] to-[#f2ddb7] border-primary/40 hover:shadow-xl transition-shadow cursor-pointer overflow-hidden"
                 onClick={() => window.location.href = '/menu-fin-de-semana'}>
-            <CardHeader className="text-center">
-              <CardTitle className="text-3xl mb-4 text-primary">🍷 Menú Fin de Semana</CardTitle>
-              <p className="text-lg font-medium text-foreground/80">Sábado y Domingo</p>
-              <p className="text-4xl font-bold text-primary mt-4">28,00 €</p>
+            <CardHeader className="text-center pb-3">
+              <CardTitle className="text-2xl md:text-[1.7rem] mb-2 text-primary">🍷 Menú Fin de Semana</CardTitle>
+              <p className="text-base font-medium text-foreground/80">Sábado y Domingo</p>
             </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <p className="text-muted-foreground mb-4">
+            <CardContent className="text-center space-y-3 pt-0 pb-5">
+              <p className="text-sm text-muted-foreground">
                 Menús especiales con ingredientes premium
               </p>
               <p className="text-sm italic">
@@ -89,54 +124,6 @@ export function MenuPage() {
               <Button variant="outline" className="border-primary/35 text-primary hover:bg-primary hover:text-primary-foreground">
                 Ver Menú
               </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <Card className="bg-white/85 border-primary/15 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center text-primary">☕ La Cafetería</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-2">
-              <p className="text-sm font-medium">Horario General</p>
-              <p className="text-lg font-bold">Lunes - Sábado</p>
-              <p className="text-muted-foreground">10:00 - 23:00</p>
-              <div className="pt-4 border-t mt-4">
-                <p className="text-xs text-muted-foreground">Cocina nocturna</p>
-                <p className="text-sm font-medium">Lunes - Miércoles</p>
-                <p className="text-xs">20:00 - 21:50</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/85 border-primary/15 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center text-primary">🍽️ El Bistro</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-2">
-              <p className="text-sm font-medium">Horario de Servicio</p>
-              <p className="text-lg font-bold">Lunes - Sábado</p>
-              <p className="text-muted-foreground">13:30 - 17:00</p>
-              <div className="pt-4 border-t mt-4">
-                <p className="text-xs text-muted-foreground">Cocina abierta</p>
-                <p className="text-sm font-medium">13:00 - 16:00</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/85 border-primary/15 shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center text-primary">🍷 La Gastroteca</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-2">
-              <p className="text-sm font-medium">Horario de Servicio</p>
-              <p className="text-lg font-bold">Jueves - Sábado</p>
-              <p className="text-muted-foreground">20:00 - 00:00</p>
-              <div className="pt-4 border-t mt-4">
-                <p className="text-xs text-muted-foreground">Cocina abierta</p>
-                <p className="text-sm font-medium">20:30 - 23:50</p>
-              </div>
             </CardContent>
           </Card>
         </div>

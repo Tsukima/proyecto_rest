@@ -89,11 +89,6 @@ export function WeekdayMenuPage() {
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary mb-3">Oferta Gastronómica</p>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 text-primary">Menú del Día</h1>
           <p className="text-xl text-muted-foreground mb-6">De lunes a viernes</p>
-          {mainMenu && (
-            <div className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full shadow-lg">
-              <span className="text-4xl font-bold">{mainMenu.price}</span>
-            </div>
-          )}
           <p className="text-sm text-muted-foreground mt-4 italic">
             {mainMenu?.includes || "Incluye: Bebida, postre o café"}
           </p>
@@ -102,16 +97,15 @@ export function WeekdayMenuPage() {
         {loading ? (
           <div className="text-center py-16 text-muted-foreground">Cargando menú…</div>
         ) : (
-          <>
+          <div className="grid gap-8 lg:grid-cols-2">
             {/* Main menu */}
             {mainMenu && (
-              <Card className="bg-white/90 backdrop-blur shadow-xl border-primary/15 mb-8">
-                <CardContent className="p-8 md:p-12">
+              <Card className="bg-white/90 backdrop-blur shadow-xl border-primary/15">
+                <CardContent className="p-6 md:p-8">
                   {mainMenu.sections.map((section, i) => (
                     <MenuSection key={i} section={section} />
                   ))}
                   <div className="mt-8 pt-6 border-t border-primary/15 text-center">
-                    <p className="text-4xl font-bold text-primary">{mainMenu.price}</p>
                     <p className="text-sm text-muted-foreground italic mt-2">
                       {mainMenu.includes || "Incluye: Bebida, postre o café"}
                     </p>
@@ -122,7 +116,7 @@ export function WeekdayMenuPage() {
 
             {/* Veggie menu */}
             {veggieMenu && (
-              <Card className="bg-gradient-to-br from-[#f8fff2] via-white to-[#dcefd2] border-primary/25 mb-8 shadow-sm">
+              <Card className="bg-gradient-to-br from-[#f8fff2] via-white to-[#dcefd2] border-primary/25 shadow-sm">
                 <CardHeader>
                   <CardTitle className="text-2xl flex items-center justify-center gap-3 text-center">
                     <span className="text-3xl">🌱</span>
@@ -134,13 +128,12 @@ export function WeekdayMenuPage() {
                     <MenuSection key={i} section={section} compact isVeggie />
                   ))}
                   <div className="pt-4 border-t border-primary/10">
-                    <p className="text-center font-bold text-primary text-4xl">{veggieMenu.price}</p>
                     <p className="text-center text-sm text-muted-foreground italic mt-1">{veggieMenu.includes}</p>
                   </div>
                 </CardContent>
               </Card>
             )}
-          </>
+          </div>
         )}
 
         <div className="p-6 bg-[#fbf6ea] rounded-xl border border-primary/15">

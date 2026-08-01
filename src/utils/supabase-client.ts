@@ -531,6 +531,27 @@ export const api = {
     return res;
   },
 
+  getBreakfastMenu: async () => {
+    const response = await fetch(`${API_BASE}/breakfast-menu`, {
+      headers: { 'Authorization': `Bearer ${publicAnonKey}` },
+    });
+    if (!response.ok) throw new Error('Error al obtener carta de desayunos');
+    return response.json();
+  },
+
+  saveBreakfastMenu: async (data: any) => {
+    const token = api.getAdminToken();
+    if (!token) throw new Error('No hay sesión de administrador');
+    const response = await fetch(`${API_BASE}/admin/breakfast-menu`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data),
+    });
+    const res = await response.json();
+    if (!response.ok) throw new Error(res.error || 'Error al guardar carta de desayunos');
+    return res;
+  },
+
   getZoneAvailability: async (date: string, time: string, guests?: string | number): Promise<Record<string, { total: number; reserved: number; available: number; canFit?: boolean }>> => {
     try {
       const response = await fetch(`${API_BASE}/zone-availability`, {

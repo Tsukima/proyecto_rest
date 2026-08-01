@@ -5,6 +5,7 @@ import { MenuPage } from "./pages/MenuPage";
 import { WeekdayMenuPage } from "./pages/WeekdayMenuPage";
 import { WeekendMenuPage } from "./pages/WeekendMenuPage";
 import { BeveragesPage } from "./pages/BeveragesPage";
+import { BreakfastMenuPage } from "./pages/BreakfastMenuPage";
 import { GalleryPage } from "./pages/GalleryPage";
 import { ReservationsPage } from "./pages/ReservationsPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
       { path: "menu-dia", Component: WeekdayMenuPage },
       { path: "menu-fin-de-semana", Component: WeekendMenuPage },
       { path: "beverages", Component: BeveragesPage },
+      { path: "desayunos", Component: BreakfastMenuPage },
       { path: "carta-vinos", Component: WineListPage },
       { path: "gallery", Component: GalleryPage },
       { path: "reservations", Component: ReservationsPage },

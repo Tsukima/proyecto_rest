@@ -33,6 +33,7 @@ import { GastrotecaMenuEditor, WeekdayMenuEditor, WeekendMenuEditor } from "../c
 import { AllergenIcon } from "../components/AllergenIcon";
 import { DEFAULT_BEVERAGES, beverageTitleWithEmoji, normalizeBeverageData, type BeverageData, type BeverageItem, type BeverageSection } from "../data/beverages";
 import { DEFAULT_GENERAL_MENU, normalizeGeneralMenuData, type GeneralMenuData, type GeneralMenuItem, type GeneralMenuSection } from "../data/general-menu";
+import { DEFAULT_BREAKFAST_MENU, normalizeBreakfastMenuData, type BreakfastMenuData } from "../data/breakfast-menu";
 import { DEFAULT_WINE_LIST, normalizeWineListData, type WineGroup, type WineItem, type WineListData, type WineSection } from "../data/wine-list";
 import { addDays, format, startOfWeek } from "date-fns";
 import { es } from "date-fns/locale";
@@ -858,9 +859,17 @@ const DEFAULT_GASTROTECA: any = {
 function GeneralMenuEditor({
   data,
   onSave,
+  title = "Carta general",
+  description = "Edita las secciones y platos que se muestran en la pagina publica de carta.",
+  savedLabel = "Carta general guardada.",
+  saveLabel = "Guardar y publicar carta",
 }: {
   data: GeneralMenuData;
   onSave: (data: GeneralMenuData) => Promise<void>;
+  title?: string;
+  description?: string;
+  savedLabel?: string;
+  saveLabel?: string;
 }) {
   const [sections, setSections] = useState<GeneralMenuSection[]>(normalizeGeneralMenuData(data).sections);
   const [saving, setSaving] = useState(false);
@@ -951,9 +960,9 @@ function GeneralMenuEditor({
           <div>
             <CardTitle className="flex items-center gap-2">
               <UtensilsCrossed className="h-5 w-5 text-primary" />
-              Carta general
+              {title}
             </CardTitle>
-            <CardDescription>Edita las secciones y platos que se muestran en la pagina publica de carta.</CardDescription>
+            <CardDescription>{description}</CardDescription>
           </div>
           <Button type="button" variant="outline" onClick={addSection}>
             <Plus className="h-4 w-4 mr-2" />
@@ -1074,9 +1083,9 @@ function GeneralMenuEditor({
         ))}
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
-          {saved && <span className="text-sm text-primary">Carta general guardada.</span>}
+          {saved && <span className="text-sm text-primary">{savedLabel}</span>}
           <Button type="button" onClick={handleSave} disabled={saving}>
-            {saving ? "Guardando..." : "Guardar y publicar carta"}
+            {saving ? "Guardando..." : saveLabel}
           </Button>
         </div>
       </CardContent>
@@ -1086,7 +1095,9 @@ function GeneralMenuEditor({
 
 function GeneralMenuTab() {
   const [generalMenuData, setGeneralMenuData] = useState<GeneralMenuData>(DEFAULT_GENERAL_MENU);
+  const [breakfastMenuData, setBreakfastMenuData] = useState<BreakfastMenuData>(DEFAULT_BREAKFAST_MENU);
   const [apiStatus, setApiStatus] = useState<"loading" | "ok" | "offline">("loading");
+  const [section, setSection] = useState<"general" | "breakfast">("general");
 
   useEffect(() => {
     const local = localStorage.getItem("published:general-menu");
@@ -1098,9 +1109,25 @@ function GeneralMenuTab() {
       }
     }
 
+    const localBreakfast = localStorage.getItem("published:breakfast-menu");
+    if (localBreakfast) {
+      try {
+        setBreakfastMenuData(normalizeBreakfastMenuData(JSON.parse(localBreakfast)));
+      } catch {
+        setBreakfastMenuData(DEFAULT_BREAKFAST_MENU);
+      }
+    }
+
     api.getGeneralMenu()
       .then((data) => {
         setGeneralMenuData(normalizeGeneralMenuData(data));
+        setApiStatus("ok");
+      })
+      .catch(() => setApiStatus("offline"));
+
+    api.getBreakfastMenu()
+      .then((data) => {
+        setBreakfastMenuData(normalizeBreakfastMenuData(data));
         setApiStatus("ok");
       })
       .catch(() => setApiStatus("offline"));
@@ -1117,6 +1144,17 @@ function GeneralMenuTab() {
     }
   };
 
+  const saveBreakfastMenu = async (data: BreakfastMenuData) => {
+    setBreakfastMenuData(data);
+    localStorage.setItem("published:breakfast-menu", JSON.stringify(data));
+    try {
+      await api.saveBreakfastMenu(data);
+      setApiStatus("ok");
+    } catch {
+      setApiStatus("offline");
+    }
+  };
+
   return (
     <div className="space-y-6">
       {apiStatus === "offline" && (
@@ -1126,7 +1164,35 @@ function GeneralMenuTab() {
         </div>
       )}
 
-      <GeneralMenuEditor data={generalMenuData} onSave={saveGeneralMenu} />
+      <div className="flex flex-wrap gap-2">
+        <Button
+          type="button"
+          variant={section === "general" ? "default" : "outline"}
+          onClick={() => setSection("general")}
+        >
+          Carta general
+        </Button>
+        <Button
+          type="button"
+          variant={section === "breakfast" ? "default" : "outline"}
+          onClick={() => setSection("breakfast")}
+        >
+          Desayunos
+        </Button>
+      </div>
+
+      {section === "general" ? (
+        <GeneralMenuEditor data={generalMenuData} onSave={saveGeneralMenu} />
+      ) : (
+        <GeneralMenuEditor
+          data={breakfastMenuData}
+          onSave={saveBreakfastMenu}
+          title="Carta de desayunos"
+          description="Edita las secciones y productos que se muestran en la carta publica de desayunos."
+          savedLabel="Carta de desayunos guardada."
+          saveLabel="Guardar y publicar desayunos"
+        />
+      )}
     </div>
   );
 }

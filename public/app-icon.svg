@@ -1,10 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="El Cafetín">
-  <rect width="512" height="512" rx="112" fill="#fffaf0"/>
-  <circle cx="256" cy="256" r="194" fill="#245314"/>
-  <circle cx="256" cy="256" r="158" fill="#fffaf0"/>
-  <path d="M150 300c20 52 71 88 130 88 57 0 106-34 128-82 7-14-4-30-19-30H169c-15 0-25 11-19 24z" fill="#245314"/>
-  <path d="M164 216h214c30 0 54 24 54 54s-24 54-54 54h-16v-36h16c10 0 18-8 18-18s-8-18-18-18H164v-36z" fill="#b7d41f"/>
-  <path d="M133 213c12-42 54-70 102-70h42c48 0 90 28 102 70H133z" fill="#ffffff"/>
-  <path d="M210 133c-22-28 11-52 18-80 33 34 18 61-18 80zm62 10c-23-31 16-58 21-94 36 38 22 70-21 94zm58-9c-18-26 10-47 17-75 30 30 16 57-17 75z" fill="#245314"/>
-  <text x="256" y="458" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#245314">el cafetín</text>
+  <path
+    d="M366 54C221 82 108 194 87 325c-10 63 4 111 39 143 3-78 28-150 73-209 42-55 95-94 154-112-49 37-86 89-112 156-19 50-29 104-30 163 78-12 141-54 178-120 43-78 45-177 6-290-10-3-19-3-29-2Z"
+    fill="#a7c912"
+  />
+  <path
+    d="M228 468h58V347h-58v121Z"
+    fill="#a7c912"
+  />
+  <path
+    d="M158 330c64-15 119-48 165-99"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="40"
+    stroke-linecap="round"
+  />
+  <path
+    d="M225 269c-31-41-66-67-106-80"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="34"
+    stroke-linecap="round"
+  />
+  <path
+    d="M288 208c-13-35-34-62-63-82"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="34"
+    stroke-linecap="round"
+  />
 </svg>

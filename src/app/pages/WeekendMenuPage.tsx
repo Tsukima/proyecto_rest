@@ -113,7 +113,6 @@ export function WeekendMenuPage() {
                       {menu.isVeggie && <span>🌱</span>}
                       {menu.title}
                     </CardTitle>
-                    <p className="text-center text-3xl font-bold text-primary mt-2">{menu.price}</p>
                     {menu.includes && (
                       <p className="text-center text-sm text-muted-foreground italic mt-2">{menu.includes}</p>
                     )}
@@ -146,7 +145,6 @@ export function WeekendMenuPage() {
                 <CardContent>
                   <Card className="bg-white/90 border-primary/15">
                     <CardHeader className="bg-[#fbf6ea] border-b border-primary/10">
-                      <p className="text-center text-3xl font-bold text-primary">{menuData.degustation.price}</p>
                       <p className="text-center text-sm text-muted-foreground italic mt-2">{menuData.degustation.includes}</p>
                     </CardHeader>
                     <CardContent className="space-y-6 pt-6">

@@ -367,6 +367,33 @@ const DEFAULT_GENERAL_MENU = {
   ],
 };
 
+const DEFAULT_BREAKFAST_MENU = {
+  sections: [
+    {
+      title: "☕ Cafés e infusiones",
+      items: [
+        { name: "Café solo", price: "1.40" },
+        { name: "Café con leche", description: "Lácteos", price: "1.60" },
+        { name: "Infusión", price: "1.80" },
+      ],
+    },
+    {
+      title: "🥐 Bollería y tostadas",
+      items: [
+        { name: "Croissant", description: "Gluten, lácteos, huevo", price: "2.00" },
+        { name: "Tostada con tomate y aceite", description: "Gluten", price: "2.50" },
+        { name: "Tostada con mantequilla y mermelada", description: "Gluten, lácteos", price: "2.80" },
+      ],
+    },
+    {
+      title: "🥤 Zumos",
+      items: [
+        { name: "Zumo de naranja natural", price: "3.00" },
+      ],
+    },
+  ],
+};
+
 const DEFAULT_WINE_LIST = {
   groups: [
     {
@@ -525,6 +552,16 @@ app.get("/make-server-8a892de6/general-menu", async (c) => {
   }
 });
 
+app.get("/make-server-8a892de6/breakfast-menu", async (c) => {
+  try {
+    const data = await kv.get("breakfast-menu") || DEFAULT_BREAKFAST_MENU;
+    return c.json(data);
+  } catch (error) {
+    console.log(`Error al obtener carta de desayunos: ${error}`);
+    return c.json(DEFAULT_BREAKFAST_MENU);
+  }
+});
+
 // ─── ADMIN MENU ENDPOINTS ────────────────────────────────────────────────────
 
 app.put("/make-server-8a892de6/admin/menus/weekday", async (c) => {
@@ -608,6 +645,20 @@ app.put("/make-server-8a892de6/admin/general-menu", async (c) => {
   } catch (error) {
     console.log(`Error al guardar carta general: ${error}`);
     return c.json({ error: "Error al guardar carta general" }, 500);
+  }
+});
+
+app.put("/make-server-8a892de6/admin/breakfast-menu", async (c) => {
+  try {
+    const auth = await requireAdmin(c);
+    if (auth instanceof Response) return auth;
+    const body = await c.req.json();
+    await kv.set("breakfast-menu", body);
+    console.log("Carta de desayunos actualizada");
+    return c.json({ success: true });
+  } catch (error) {
+    console.log(`Error al guardar carta de desayunos: ${error}`);
+    return c.json({ error: "Error al guardar carta de desayunos" }, 500);
   }
 });
 
@@ -978,6 +1029,108 @@ async function saveReservationRecord(reservation: any, source = "client") {
   }
 
   return reservation;
+}
+
+function isValidOcrDate(date: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(date || ""))) return false;
+  const parsed = new Date(`${date}T00:00:00`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+}
+
+function parseOcrReservations(fecha: string, texto: string) {
+  const cancelPattern = /\b(cancelada|cancelado|canceladas|cancelados|anulada|anulado|anuladas|anulados|cancelacion|cancelación)\b/i;
+
+  return String(texto || "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const hora = line.match(/(\d{1,2}:\d{2})/)?.[1] || "";
+      const mesaMatch = line.match(/mesa\s+(\d+)/i);
+      const personasMatch = line.match(/(\d+)\s+personas?/i);
+
+      if (!hora || !personasMatch) return null;
+
+      const cleanedLine = line.replace(cancelPattern, "").trim();
+      const dashParts = cleanedLine.split(/\s+-\s+/).map((part) => part.trim()).filter(Boolean);
+      const fallbackName = cleanedLine.match(/([A-Za-zÀ-ÿ'´`-]+)\s*$/)?.[1] || "Sin nombre";
+      const nombre = dashParts[dashParts.length - 1]?.replace(cancelPattern, "").trim() || fallbackName;
+      const estado = cancelPattern.test(line) ? "cancelada" : "confirmada";
+
+      return {
+        fecha,
+        hora,
+        mesa: mesaMatch ? Number(mesaMatch[1]) : null,
+        personas: Number(personasMatch[1]),
+        nombre,
+        estado,
+        origen: "ocr",
+        raw_line: line,
+      };
+    })
+    .filter(Boolean);
+}
+
+async function saveOcrReservationRecord(parsedReservation: any) {
+  const reservation = {
+    id: `OCR-${Date.now()}-${crypto.randomUUID()}`,
+    date: parsedReservation.fecha,
+    time: parsedReservation.hora,
+    table: parsedReservation.mesa,
+    guests: parsedReservation.personas,
+    name: parsedReservation.nombre,
+    status: parsedReservation.estado === "cancelada" ? "cancelled" : "confirmed",
+    estado: parsedReservation.estado,
+    source: "ocr",
+    origen: "ocr",
+    comments: `Reserva importada por OCR${parsedReservation.raw_line ? `: ${parsedReservation.raw_line}` : ""}`,
+    created_at: new Date().toISOString(),
+  };
+
+  const allReservationsKey = "all_reservations";
+  const allReservationIds = await kv.get(allReservationsKey) || [];
+
+  await kv.set(`reservation:${reservation.id}`, reservation);
+  if (!allReservationIds.includes(reservation.id)) {
+    await kv.set(allReservationsKey, [...allReservationIds, reservation.id]);
+  }
+
+  if (reservation.status === "confirmed") {
+    await addReservationHistory("confirmed", reservation, { source: "ocr" });
+  }
+
+  return reservation;
+}
+
+async function createOcrReservations(c: any) {
+  try {
+    const auth = await requireAdmin(c);
+    if (auth instanceof Response) return auth;
+
+    const { fecha, texto } = await c.req.json();
+
+    if (!isValidOcrDate(fecha)) {
+      return c.json({ error: "La fecha debe tener formato válido YYYY-MM-DD" }, 400);
+    }
+
+    if (!texto || !String(texto).trim()) {
+      return c.json({ error: "El texto OCR no puede estar vacío" }, 400);
+    }
+
+    const parsedReservations = parseOcrReservations(fecha, texto);
+    for (const parsedReservation of parsedReservations) {
+      await saveOcrReservationRecord(parsedReservation);
+    }
+
+    return c.json({
+      ok: true,
+      reservasProcesadas: parsedReservations.length,
+      reservasCanceladas: parsedReservations.filter((reservation: any) => reservation.estado === "cancelada").length,
+    });
+  } catch (error) {
+    console.log(`Error al procesar reservas OCR: ${error}`);
+    return c.json({ error: "Error al procesar reservas OCR" }, 500);
+  }
 }
 
 function dialogflowText(text: string, outputContexts: any[] = []) {
@@ -1620,6 +1773,10 @@ app.post("/make-server-8a892de6/occupied-tables", async (c) => {
     return c.json({ error: "Error al obtener mesas ocupadas" }, 500);
   }
 });
+
+// Create reservations from OCR text
+app.post("/make-server-8a892de6/api/reservas/ocr", createOcrReservations);
+app.post("/api/reservas/ocr", createOcrReservations);
 
 // Create reservation endpoint
 app.post("/make-server-8a892de6/reservations", async (c) => {
