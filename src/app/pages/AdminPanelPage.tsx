@@ -2439,6 +2439,19 @@ function AdminPanel() {
   const ocrInputRef = useRef<HTMLInputElement>(null);
   const [ocrLoading, setOcrLoading] = useState(false);
   const [ocrStatus, setOcrStatus] = useState("");
+  const [ocrResult, setOcrResult] = useState<{
+    open: boolean;
+    success: boolean;
+    title: string;
+    message: string;
+    processed?: number;
+    cancelled?: number;
+  }>({
+    open: false,
+    success: false,
+    title: "",
+    message: "",
+  });
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -2506,11 +2519,29 @@ function AdminPanel() {
       setOcrStatus("Guardando reservas...");
       const response = await api.processOcrReservations(selectedDate, text);
       await load();
-      alert(`OCR completado: ${response.reservasProcesadas} reserva(s) procesada(s), ${response.reservasCanceladas} cancelada(s).`);
+      const processed = Number(response.reservasProcesadas) || 0;
+      const cancelled = Number(response.reservasCanceladas) || 0;
+      setOcrResult({
+        open: true,
+        success: processed > 0,
+        title: processed > 0 ? "Reserva cargada correctamente" : "No se detectaron reservas",
+        message: processed > 0
+          ? "La lectura OCR terminó y las reservas se guardaron en el panel."
+          : "La foto se leyó, pero no se encontró ninguna línea con hora y cantidad de personas.",
+        processed,
+        cancelled,
+      });
     } catch (err: any) {
-      setError(err.message === "The string did not match the expected pattern."
+      const message = err.message === "The string did not match the expected pattern."
         ? "No se pudo leer la foto en este navegador. Intenta tomarla de nuevo, con buena luz y el papel completo dentro de la imagen."
-        : err.message || "No se pudo procesar la imagen OCR");
+        : err.message || "No se pudo procesar la imagen OCR";
+      setError(message);
+      setOcrResult({
+        open: true,
+        success: false,
+        title: "No se pudo subir la reserva",
+        message,
+      });
     } finally {
       setOcrLoading(false);
       setOcrStatus("");
@@ -2966,6 +2997,44 @@ function AdminPanel() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Dialog
+        open={ocrResult.open}
+        onOpenChange={(open) => setOcrResult((current) => ({ ...current, open }))}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {ocrResult.success ? (
+                <CheckCircle className="h-5 w-5 text-primary" />
+              ) : (
+                <XCircle className="h-5 w-5 text-destructive" />
+              )}
+              {ocrResult.title}
+            </DialogTitle>
+            <DialogDescription>{ocrResult.message}</DialogDescription>
+          </DialogHeader>
+
+          {ocrResult.processed !== undefined && (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg border bg-primary/10 p-4 text-center">
+                <div className="text-2xl font-bold text-primary">{ocrResult.processed}</div>
+                <div className="text-xs text-muted-foreground">Procesadas</div>
+              </div>
+              <div className="rounded-lg border bg-muted/40 p-4 text-center">
+                <div className="text-2xl font-bold">{ocrResult.cancelled || 0}</div>
+                <div className="text-xs text-muted-foreground">Canceladas</div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button onClick={() => setOcrResult((current) => ({ ...current, open: false }))}>
+              Entendido
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
