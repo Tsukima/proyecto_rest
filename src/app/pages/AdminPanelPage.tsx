@@ -2082,6 +2082,37 @@ function HistorialReservasTab({
   );
 }
 
+function prepareOcrImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("No se pudo leer la imagen seleccionada."));
+    reader.onload = () => {
+      const image = new Image();
+      image.onerror = () => reject(new Error("No se pudo preparar la imagen para OCR."));
+      image.onload = () => {
+        const maxSide = 1600;
+        const scale = Math.min(1, maxSide / Math.max(image.width, image.height));
+        const width = Math.max(1, Math.round(image.width * scale));
+        const height = Math.max(1, Math.round(image.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        if (!context) {
+          reject(new Error("No se pudo procesar la imagen en este navegador."));
+          return;
+        }
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, width, height);
+        context.drawImage(image, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", 0.9));
+      };
+      image.src = String(reader.result || "");
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function ReservationCalendarView({
   reservations,
   weekDate,
@@ -2460,7 +2491,8 @@ function AdminPanel() {
     setError(null);
 
     try {
-      const result = await recognize(file, "spa+eng", {
+      const preparedImage = await prepareOcrImage(file);
+      const result = await recognize(preparedImage, "eng", {
         logger: (message) => {
           if (message.status === "recognizing text") {
             setOcrStatus(`Leyendo texto ${Math.round((message.progress || 0) * 100)}%`);
@@ -2475,7 +2507,9 @@ function AdminPanel() {
       await load();
       alert(`OCR completado: ${response.reservasProcesadas} reserva(s) procesada(s), ${response.reservasCanceladas} cancelada(s).`);
     } catch (err: any) {
-      setError(err.message || "No se pudo procesar la imagen OCR");
+      setError(err.message === "The string did not match the expected pattern."
+        ? "No se pudo leer la foto en este navegador. Intenta tomarla de nuevo, con buena luz y el papel completo dentro de la imagen."
+        : err.message || "No se pudo procesar la imagen OCR");
     } finally {
       setOcrLoading(false);
       setOcrStatus("");
