@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, type ChangeEvent } from "react";
 import { useNavigate } from "react-router";
+import { recognize } from "tesseract.js";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
@@ -27,7 +28,7 @@ import {
 import {
   CalendarIcon, Search, Filter, Users, CheckCircle, XCircle,
   ShieldCheck, RefreshCw, Trash2, MessageSquare, Plus, BadgeCheck, UserSearch, Bell, UtensilsCrossed, History, Wine,
-  ChevronLeft, ChevronRight, ChevronDown, ChevronUp,
+  ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Camera,
 } from "lucide-react";
 import { GastrotecaMenuEditor, WeekdayMenuEditor, WeekendMenuEditor } from "../components/MenuEditor";
 import { AllergenIcon } from "../components/AllergenIcon";
@@ -2404,6 +2405,9 @@ function AdminPanel() {
   const [calendarOpen, setCalendarOpen] = useState(true);
   const [focusedReservationId, setFocusedReservationId] = useState<string | null>(null);
   const calendarSectionRef = useRef<HTMLDivElement>(null);
+  const ocrInputRef = useRef<HTMLInputElement>(null);
+  const [ocrLoading, setOcrLoading] = useState(false);
+  const [ocrStatus, setOcrStatus] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -2437,6 +2441,44 @@ function AdminPanel() {
     } finally {
       setActionLoading(null);
       setDeleteTarget(null);
+    }
+  };
+
+  const handleOcrImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    const selectedDate = filterDate
+      ? format(filterDate, "yyyy-MM-dd")
+      : calendarSelectedDay === "week"
+        ? format(new Date(), "yyyy-MM-dd")
+        : calendarSelectedDay;
+
+    setOcrLoading(true);
+    setOcrStatus("Leyendo imagen...");
+    setError(null);
+
+    try {
+      const result = await recognize(file, "spa+eng", {
+        logger: (message) => {
+          if (message.status === "recognizing text") {
+            setOcrStatus(`Leyendo texto ${Math.round((message.progress || 0) * 100)}%`);
+          }
+        },
+      });
+      const text = result.data.text.trim();
+      if (!text) throw new Error("No se detectó texto en la imagen.");
+
+      setOcrStatus("Guardando reservas...");
+      const response = await api.processOcrReservations(selectedDate, text);
+      await load();
+      alert(`OCR completado: ${response.reservasProcesadas} reserva(s) procesada(s), ${response.reservasCanceladas} cancelada(s).`);
+    } catch (err: any) {
+      setError(err.message || "No se pudo procesar la imagen OCR");
+    } finally {
+      setOcrLoading(false);
+      setOcrStatus("");
     }
   };
 
@@ -2670,6 +2712,28 @@ function AdminPanel() {
                   className="pl-10"
                 />
               </div>
+              <input
+                ref={ocrInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleOcrImage}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                className="gap-2 shrink-0 border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground"
+                onClick={() => ocrInputRef.current?.click()}
+                disabled={ocrLoading}
+              >
+                {ocrLoading ? (
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Camera className="h-4 w-4" />
+                )}
+                {ocrLoading ? ocrStatus || "Escaneando..." : "Escanear reserva"}
+              </Button>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="gap-2 shrink-0">

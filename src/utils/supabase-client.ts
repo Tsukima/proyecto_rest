@@ -403,6 +403,19 @@ export const api = {
     return data;
   },
 
+  processOcrReservations: async (fecha: string, texto: string) => {
+    const token = api.getAdminToken();
+    if (!token) throw new Error('No hay sesión de administrador');
+    const response = await fetch(`${API_BASE}/api/reservas/ocr`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ fecha, texto }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Error al procesar reservas OCR');
+    return data;
+  },
+
   // ─── Menus ────────────────────────────────────────────────────────────────
 
   getWeekdayMenu: async () => {
