@@ -2797,6 +2797,30 @@ body.printing-landscape .print-editorial-menu-document .print-editorial-heading 
   font-size: 25px !important;
 }
 
+.print-editorial-menu-document .print-menu-horizontal-three {
+  gap: 28px 34px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1) {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) {
+  position: relative !important;
+  background: rgba(255, 249, 242, 0.78) !important;
+  border-color: rgba(225, 88, 69, 0.22) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: 18px;
+  left: 18px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(225, 88, 69, 0.55), transparent);
+}
+
 .print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-column-label {
   margin-bottom: 18px !important;
   padding-bottom: 0 !important;
