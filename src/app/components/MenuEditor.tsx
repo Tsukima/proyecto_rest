@@ -913,9 +913,21 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
   });
 
   const columns = [
-    ...(weekdayMenus?.map((menu) => ({ type: "variant" as const, menu, group: "Menú del Día" })) ?? []),
-    ...(weekendMenus?.map((menu) => ({ type: "variant" as const, menu, group: "Fin de Semana" })) ?? []),
-    ...(hasPrintableDegustation(degustation) ? [{ type: "degustation" as const, degustation, group: "Degustación" }] : []),
+    ...(weekdayMenus?.map((menu) => ({
+      type: "variant" as const,
+      menu,
+      group: menu.title || (menu.isVeggie ? "Menú Veggie" : "Menú del Día"),
+    })) ?? []),
+    ...(weekendMenus?.map((menu) => ({
+      type: "variant" as const,
+      menu,
+      group: menu.title || "Menú Fin de Semana",
+    })) ?? []),
+    ...(hasPrintableDegustation(degustation) ? [{
+      type: "degustation" as const,
+      degustation,
+      group: degustation?.title || "Menú Degustación",
+    }] : []),
   ];
   const isWeekendDocument = Boolean(weekendMenus?.length);
   const documentTitle = isWeekendDocument ? "Menú fin de semana" : "Menú del día";
@@ -948,10 +960,6 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
               <div>
                 <h2>{documentTitle}</h2>
                 <p>{documentKicker}</p>
-              </div>
-              <div>
-                <h3>Recomendaciones</h3>
-                <span>del chef</span>
               </div>
             </div>
             <img className="print-menu-watermark" src={logoImg} alt="" aria-hidden="true" />

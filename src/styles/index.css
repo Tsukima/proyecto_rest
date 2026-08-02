@@ -2632,3 +2632,73 @@ body.printing-landscape .print-gastroteca-item {
   padding: 8px 0 !important;
   font-size: 20px !important;
 }
+
+/* Menu del Dia poster refinement: no chef block, variants shown as columns. */
+.print-editorial-menu-document .print-editorial-heading {
+  display: block !important;
+  margin: 0 0 18px !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading > div {
+  min-height: 118px !important;
+  width: 100% !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading h2 {
+  max-width: 100% !important;
+  font-size: 96px !important;
+  line-height: 0.84 !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading p {
+  margin-left: 4px !important;
+  font-size: 32px !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  display: block !important;
+  margin: 0 0 12px !important;
+  color: #0a2915 !important;
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.015em !important;
+  line-height: 1 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label::after {
+  content: "";
+  display: inline-block;
+  width: 72px;
+  height: 1px;
+  margin-left: 12px;
+  vertical-align: middle;
+  background: rgba(10, 41, 21, 0.55);
+}
+
+.print-editorial-menu-document .print-menu-variant-header {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal {
+  min-height: 468px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column-label {
+  font-size: 20px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column-label::after {
+  width: 34px !important;
+  margin-left: 8px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading h2 {
+  font-size: 96px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading p {
+  font-size: 32px !important;
+}
