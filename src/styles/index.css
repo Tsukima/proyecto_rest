@@ -2975,3 +2975,180 @@ body.printing-landscape .print-editorial-menu-document .print-menu-item {
   padding: 1px 0 4px !important;
   font-size: inherit !important;
 }
+
+/* Readability pass: make the poster easier to understand at first glance. */
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(10, 41, 21, 0.12) !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.54) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1),
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) {
+  box-shadow: 8px 10px 0 rgba(10, 41, 21, 0.12) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) {
+  padding: 18px 24px !important;
+  border-left: 2px solid rgba(10, 41, 21, 0.28) !important;
+  box-shadow: 10px 12px 0 rgba(10, 41, 21, 0.12) !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 8px !important;
+  padding-bottom: 5px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1) .print-menu-column-label::after,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) .print-menu-column-label::after {
+  content: "+ bebida, postre o cafe" !important;
+  display: inline !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #252525 !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-section {
+  break-inside: avoid !important;
+  padding: 3px 0 5px !important;
+}
+
+.print-editorial-menu-document .print-menu-section + .print-menu-section {
+  border-top: 1px solid rgba(10, 41, 21, 0.1) !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4 {
+  display: block !important;
+  margin: 3px 0 4px !important;
+  color: #d77a1f !important;
+  font-size: 17px !important;
+  text-align: left !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4::before {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-section ul {
+  counter-reset: poster-choice !important;
+}
+
+.print-editorial-menu-document .print-menu-item {
+  position: relative !important;
+  padding: 2px 0 5px 18px !important;
+}
+
+.print-editorial-menu-document .print-menu-item::before {
+  counter-increment: poster-choice !important;
+  content: counter(poster-choice) !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 999px !important;
+  background: rgba(215, 122, 31, 0.16) !important;
+  color: #d77a1f !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+}
+
+.print-editorial-menu-document .print-menu-section ul:has(.print-menu-item:only-child) .print-menu-item::before {
+  content: "" !important;
+  background: rgba(215, 122, 31, 0.4) !important;
+}
+
+.print-editorial-menu-document .print-menu-item-name {
+  display: block !important;
+  font-size: 13px !important;
+  line-height: 1.18 !important;
+}
+
+.print-editorial-menu-document .print-allergens {
+  display: flex !important;
+  margin: 3px 0 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-price-block {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  margin-top: auto !important;
+  border-top: 1px solid rgba(194, 88, 151, 0.35) !important;
+  padding-top: 5px !important;
+}
+
+.print-editorial-menu-document .print-menu-price-block .print-menu-includes {
+  margin: 0 !important;
+  text-align: right !important;
+}
+
+.print-editorial-menu-document .print-menu-price {
+  white-space: nowrap !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section {
+  padding: 5px 0 7px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section + .print-menu-section {
+  border-top: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin: 8px 0 4px !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4::before,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4::after {
+  content: "" !important;
+  display: block !important;
+  flex: 0 1 40px !important;
+  height: 1px !important;
+  background: rgba(215, 122, 31, 0.55) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item {
+  padding: 3px 0 6px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item::before {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item-name {
+  font-size: 15px !important;
+  line-height: 1.18 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-allergens {
+  justify-content: center !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
+  font-size: 34px !important;
+}
