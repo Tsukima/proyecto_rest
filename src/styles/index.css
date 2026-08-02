@@ -2702,3 +2702,276 @@ body.printing-landscape .print-editorial-menu-document .print-editorial-heading 
 body.printing-landscape .print-editorial-menu-document .print-editorial-heading p {
   font-size: 32px !important;
 }
+
+/* Refined daily poster: left daily/veggie stack + right degustation card. */
+.print-editorial-menu-document {
+  padding: 22px 34px 70px !important;
+  background:
+    radial-gradient(circle at 15% 96%, rgba(218, 126, 36, 0.13), transparent 18%),
+    radial-gradient(circle at 82% 96%, rgba(194, 88, 151, 0.13), transparent 22%),
+    linear-gradient(180deg, #fffdfa 0%, #fffdf7 58%, #fff6f4 100%) !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading {
+  margin: 0 0 10px !important;
+  border-bottom: 2px solid rgba(194, 88, 151, 0.45) !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading > div {
+  display: flex !important;
+  min-height: 54px !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading h2 {
+  color: #d77a1f !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 38px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1 !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading p {
+  margin: 0 0 6px !important;
+  color: #222222 !important;
+  border: 0 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  transform: none !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr) !important;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 0.88fr) !important;
+  gap: 20px 34px !important;
+  min-height: 512px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column {
+  position: relative !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border-left: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1) {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2 !important;
+  padding-left: 34px !important;
+  border-left: 2px solid rgba(10, 41, 21, 0.28) !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  margin: 0 0 6px !important;
+  padding-bottom: 4px !important;
+  border-bottom: 1px solid rgba(194, 88, 151, 0.42) !important;
+  color: #d77a1f !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label::after {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) .print-menu-column-label {
+  color: #e15845 !important;
+  font-size: 25px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-column-label {
+  margin-bottom: 18px !important;
+  padding-bottom: 0 !important;
+  border: 0 !important;
+  text-align: center !important;
+  color: #d77a1f !important;
+  font-size: 30px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-variant {
+  height: auto !important;
+  padding: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-sections {
+  display: grid !important;
+  gap: 7px !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4 {
+  margin: 5px 0 2px !important;
+  color: #d77a1f !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4::after {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4 {
+  justify-content: center !important;
+  margin: 12px 0 4px !important;
+  color: #d77a1f !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-item {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 1px 0 4px !important;
+  border-bottom: 0 !important;
+}
+
+.print-editorial-menu-document .print-ingredient-illustration {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-item-name {
+  display: inline !important;
+  color: #252525 !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.005em !important;
+  line-height: 1.12 !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item {
+  padding: 6px 0 10px !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item-name {
+  display: block !important;
+  max-width: 420px !important;
+  margin: 0 auto !important;
+  font-size: 16px !important;
+  line-height: 1.15 !important;
+}
+
+.print-editorial-menu-document .print-allergens {
+  display: inline-flex !important;
+  margin-left: 4px !important;
+  vertical-align: middle !important;
+}
+
+.print-editorial-menu-document .print-allergen-abbr {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  gap: 2px !important;
+  vertical-align: middle !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 13px !important;
+  height: 13px !important;
+  border-radius: 999px !important;
+  background: #c55b9c !important;
+  color: #ffffff !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons svg {
+  width: 10px !important;
+  height: 10px !important;
+  color: #ffffff !important;
+}
+
+.print-editorial-menu-document .print-menu-price-block,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
+  margin-top: 8px !important;
+  padding-top: 0 !important;
+  text-align: right !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
+  display: block !important;
+  margin: 22px auto 6px !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-price {
+  color: #222222 !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 400 !important;
+}
+
+.print-editorial-menu-document .print-menu-includes,
+.print-editorial-menu-document .print-menu-note {
+  color: #252525 !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-note {
+  max-width: 300px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-veggie-bottom-logo {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-footer {
+  bottom: 10px !important;
+}
+
+.print-editorial-footer-grid {
+  grid-template-columns: 0.9fr 1.2fr 1.1fr !important;
+  min-height: 46px !important;
+}
+
+.print-poster-reserve {
+  font-size: 27px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading h2 {
+  font-size: 38px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading p {
+  font-size: 22px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-item {
+  display: block !important;
+  min-height: 0 !important;
+  padding: 1px 0 4px !important;
+  font-size: inherit !important;
+}
