@@ -3176,3 +3176,414 @@ body.printing-landscape .print-editorial-menu-document .print-menu-item {
 .print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
   font-size: 34px !important;
 }
+
+/* Definitive Gastroteca-inspired printable menu line. */
+.print-editorial-menu-document {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 24px 30px 72px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 8% 100%, rgba(215, 122, 31, 0.16), transparent 17%),
+    radial-gradient(circle at 86% 100%, rgba(194, 88, 151, 0.13), transparent 20%),
+    linear-gradient(180deg, #fffefa 0%, #fffdf8 100%) !important;
+  box-shadow: none !important;
+  color: #092413 !important;
+}
+
+.print-editorial-menu-document .print-menu-header,
+.print-editorial-menu-document .print-menu-watermark,
+.print-editorial-menu-document .print-menu-veggie-bottom-logo {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading {
+  display: grid !important;
+  grid-template-columns: 0.45fr 0.55fr !important;
+  gap: 34px !important;
+  align-items: start !important;
+  margin: 0 0 14px !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading > div {
+  min-height: 142px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading > div + div {
+  padding-left: 38px !important;
+  border-left: 2px solid rgba(9, 36, 19, 0.28) !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading h2,
+.print-editorial-menu-document .print-editorial-heading h3 {
+  margin: 0 !important;
+  color: #092413 !important;
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.018em !important;
+  line-height: 0.85 !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading h2 {
+  max-width: 380px !important;
+  font-size: 74px !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading h3 {
+  font-size: 58px !important;
+}
+
+.print-editorial-menu-document .print-editorial-heading p,
+.print-editorial-menu-document .print-editorial-heading span {
+  display: inline-block !important;
+  margin: 10px 0 0 !important;
+  padding: 0 8px 3px 0 !important;
+  border: 0 !important;
+  border-bottom: 2px solid #092413 !important;
+  color: #092413 !important;
+  font-family: "Segoe Script", "Brush Script MT", cursive !important;
+  font-size: 27px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  transform: rotate(-4deg) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal {
+  display: grid !important;
+  grid-template-columns: repeat(var(--print-menu-column-count, 2), minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  min-height: 452px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three {
+  grid-template-columns: 0.45fr 0.55fr !important;
+  grid-template-rows: auto auto !important;
+  column-gap: 34px !important;
+  row-gap: 12px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1) {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2) {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  padding-top: 12px !important;
+  border-top: 2px solid rgba(194, 88, 151, 0.34) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) {
+  grid-column: 2 !important;
+  grid-row: 1 / span 2 !important;
+  padding-left: 38px !important;
+  border-left: 2px solid rgba(9, 36, 19, 0.28) !important;
+}
+
+.print-editorial-menu-document .print-menu-column,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(1),
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(2),
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) {
+  min-width: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.print-editorial-menu-document .print-menu-column {
+  padding: 0 14px 0 0 !important;
+  border: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 0 0 8px !important;
+  padding: 0 0 4px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(194, 88, 151, 0.42) !important;
+  color: #d77a1f !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 27px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label::after {
+  content: "+ bebida, postre o cafe" !important;
+  display: inline !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #252525 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-column-label {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-variant {
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.print-editorial-menu-document .print-menu-variant-header {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-section {
+  break-inside: avoid !important;
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-section + .print-menu-section {
+  border-top: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4 {
+  display: flex !important;
+  justify-content: flex-start !important;
+  margin: 0 0 4px !important;
+  color: #d77a1f !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4::before,
+.print-editorial-menu-document .print-menu-section h4::after {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-section ul {
+  display: grid !important;
+  gap: 5px !important;
+}
+
+.print-editorial-menu-document .print-menu-item,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 58px minmax(0, 1fr) !important;
+  column-gap: 16px !important;
+  align-items: center !important;
+  min-height: 51px !important;
+  padding: 3px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(9, 36, 19, 0.13) !important;
+}
+
+.print-editorial-menu-document .print-menu-item::before,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item::before {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-ingredient-illustration {
+  display: flex !important;
+  grid-row: 1 / span 2 !important;
+  width: 48px !important;
+  height: 48px !important;
+  color: #092413 !important;
+  opacity: 0.92 !important;
+}
+
+.print-editorial-menu-document .print-menu-item-name,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-item-name {
+  display: block !important;
+  color: #092413 !important;
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1.04 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-allergens,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-allergens {
+  display: flex !important;
+  grid-column: 2 !important;
+  justify-content: flex-start !important;
+  margin: 2px 0 0 !important;
+}
+
+.print-editorial-menu-document .print-allergen-abbr {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  gap: 3px !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 999px !important;
+  background: #c55b9c !important;
+  color: #ffffff !important;
+}
+
+.print-editorial-menu-document .print-allergen-icons svg {
+  width: 10px !important;
+  height: 10px !important;
+  color: #ffffff !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4 {
+  justify-content: center !important;
+  gap: 10px !important;
+  margin: 7px 0 4px !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4::before,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-section h4::after {
+  content: "" !important;
+  display: block !important;
+  flex: 0 1 52px !important;
+  height: 1px !important;
+  background: rgba(215, 122, 31, 0.55) !important;
+}
+
+.print-editorial-menu-document .print-menu-price-block {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  margin-top: 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-includes,
+.print-editorial-menu-document .print-menu-note {
+  margin: 0 !important;
+  color: #242424 !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  text-align: right !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-menu-price,
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
+  color: #151515 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 38px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:nth-child(3) .print-menu-price {
+  display: block !important;
+  margin: 18px auto 4px !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-footer {
+  position: absolute !important;
+  right: 30px !important;
+  bottom: 10px !important;
+  left: 30px !important;
+  padding-top: 10px !important;
+  border-top: 2px solid rgba(9, 36, 19, 0.65) !important;
+}
+
+.print-editorial-menu-document .print-editorial-footer-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1.25fr 1.1fr !important;
+  align-items: center !important;
+  min-height: 45px !important;
+  gap: 18px !important;
+  color: #092413 !important;
+}
+
+.print-editorial-menu-document .print-editorial-footer-grid > span {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 38px !important;
+}
+
+.print-editorial-menu-document .print-editorial-footer-grid > span + span {
+  border-left: 2px solid rgba(9, 36, 19, 0.55) !important;
+}
+
+.print-editorial-menu-document .print-poster-brand img {
+  width: 118px !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.print-editorial-menu-document .print-poster-reserve {
+  flex-direction: column !important;
+  color: #092413 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 30px !important;
+  line-height: 1 !important;
+}
+
+.print-editorial-menu-document .print-poster-reserve em {
+  font-family: "Segoe Script", "Brush Script MT", cursive !important;
+  font-size: 18px !important;
+}
+
+.print-editorial-menu-document .print-poster-social {
+  color: #092413 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+body.printing-landscape .print-editorial-menu-document {
+  padding: 24px 30px 72px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading h2 {
+  font-size: 74px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-editorial-heading h3 {
+  font-size: 58px !important;
+}
