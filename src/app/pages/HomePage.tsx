@@ -258,7 +258,10 @@ export function HomePage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {menuItems.map((item, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card
+                key={index}
+                className="overflow-hidden border-[#9aab78]/45 bg-[#e8f1dc] shadow-sm transition-shadow hover:shadow-lg"
+              >
                 <div className="relative h-64">
                   <ImageWithFallback
                     src={item.image}
@@ -266,10 +269,10 @@ export function HomePage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-xl mb-2">{item.name}</h3>
-                  <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
-                  <span className="text-2xl font-bold text-primary">{item.price}€</span>
+                <CardContent className="p-6 bg-gradient-to-b from-[#eef6e4] to-[#e2edcf]">
+                  <h3 className="font-bold text-xl mb-2 text-[#12361f]">{item.name}</h3>
+                  <p className="text-[#55624b] text-sm mb-4">{item.description}</p>
+                  <span className="text-2xl font-bold text-[#255717]">{item.price}€</span>
                 </CardContent>
               </Card>
             ))}
