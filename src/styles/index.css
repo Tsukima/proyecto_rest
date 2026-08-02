@@ -10,6 +10,23 @@ body,
   overflow-x: clip;
 }
 
+.cafi-site-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(31, 107, 50, 0.16), transparent 30%),
+    radial-gradient(circle at 90% 6%, rgba(176, 139, 55, 0.18), transparent 28%),
+    linear-gradient(135deg, #fffaf0 0%, #edf7e8 100%);
+  background-attachment: fixed;
+}
+
+.cafi-site-shell > main {
+  background: transparent;
+}
+
+.cafi-site-shell > main > [class*="min-h-screen"] {
+  background: transparent !important;
+}
+
 html {
   font-size: 100%;
   --page-section-y: clamp(3rem, 6vw, 5rem);
