@@ -753,16 +753,16 @@ const DEFAULT_WEEKDAY: any = {
       sections: [
         { title: "Aperitivo", items: [{ name: "Petisco de bienvenida", allergens: [] }] },
         { title: "Primeros (a elegir)", items: [
-          { name: "Menestra de brécol & coliflor sobre hummus de garbanzo, ajadas y lascas de jamón serrano reserva", allergens: ["Gluten", "Sulfitos"] },
-          { name: "Enchilada de pulled pork con salsa de cheddar, pico de gallo y cebolla morada encurtida", allergens: ["Gluten", "Lácteos"] },
+          { name: "Focaccia ibérica con juliana de chacinas, cremoso de tomate seco, vinagreta de pesto, polvo de queso y rúcula aliñada", allergens: ["Gluten", "Lácteos", "Frutos secos"] },
+          { name: "Gyozas crujientes, rellenas de ventresca & gambón, napadas con bechamel de marisco, cebolla morada encurtida y aceite de aromáticas", allergens: ["Gluten", "Crustáceos", "Lácteos", "Moluscos", "Sésamo"] },
         ]},
         { title: "Segundos (a elegir)", items: [
-          { name: "Salmón sosa-sado sobre risotto marinero de algas, su crujiente y alioli de percebe", allergens: ["Pescado", "Huevos", "Moluscos", "Lácteos"] },
-          { name: "Secreto de Alín a la plancha con salsa de miel & mostaza, cachelos fritos y timbal de pimientos del piquillo", allergens: ["Mostaza", "Sulfitos"] },
+          { name: "Salmón asado con salsa tártara, patatas gajo aliñadas, timbal de pimientos y polvo de oliva negra", allergens: ["Pescado", "Huevos", "Mostaza"] },
+          { name: "Wok de lomo de cerdo laqueado, chow main noodles, verduras thai salteadas, emulsión asiatizada y sésamo negro", allergens: ["Gluten", "Soja", "Sésamo"] },
         ]},
         { title: "Postre (a elegir)", items: [
-          { name: "Flan de huevo", allergens: ["Huevos", "Lácteos"] },
-          { name: "Semifrío de limón", allergens: ["Huevos", "Lácteos", "Gluten"] },
+          { name: "Vasito de fresa", allergens: ["Lácteos", "Gluten"] },
+          { name: "Semifrío de limón", allergens: ["Lácteos", "Gluten"] },
         ]},
       ],
     },
@@ -771,20 +771,40 @@ const DEFAULT_WEEKDAY: any = {
       sections: [
         { title: "Aperitivo", items: [{ name: "Petisco de bienvenida", allergens: [] }] },
         { title: "Primero", items: [
-          { name: "Menestra de brécol & coliflor sobre hummus y ajadas", allergens: ["Sésamo"] },
+          { name: "Focaccia de aceituna al horno con texturas de tomate y brotes aliñados", allergens: ["Gluten", "Lácteos", "Huevos"] },
           { name: "", allergens: [] },
         ]},
         { title: "Segundo", items: [
-          { name: "Mafalda en salsa caponata, parmesano y aceite de aromáticas", allergens: ["Gluten", "Lácteos"] },
+          { name: "Orecchiette en salsa de pesto, timbal de verduras salteadas y polvo de oliva negra", allergens: ["Gluten", "Frutos secos"] },
           { name: "", allergens: [] },
         ]},
         { title: "Postre", items: [
-          { name: "Semifrío de limón", allergens: ["Huevos", "Lácteos", "Gluten"] },
+          { name: "Semifrío de limón", allergens: ["Lácteos", "Gluten"] },
           { name: "", allergens: [] },
         ]},
       ],
     },
   ],
+  degustation: {
+    title: "Menú Degustación de Temporada", price: "35,00 €",
+    includes: "Con café 100% arábica natural",
+    note: "Bodega aparte · Consultar carta de vinos · Incremento +1,00 € en terraza",
+    sections: [
+      { title: "De Temporada", items: [
+        { name: "Mejillones en escabeche de mango, emulsión de coco & curry y perlas cítricas", allergens: ["Moluscos"] },
+        { name: "Volandeiras en ceviche de padrón con contrapunto de manzana ácida", allergens: ["Moluscos"] },
+      ]},
+      { title: "Del Mar", items: [
+        { name: "Bonito de Burela \"todo al rojo\"", allergens: ["Pescado", "Moluscos"] },
+      ]},
+      { title: "De la Tierra", items: [
+        { name: "Lingote de cordero deshuesado, su demiglace y cromatismos naranjas", allergens: ["Lácteos", "Gluten"] },
+      ]},
+      { title: "Está de Dulce", items: [
+        { name: "Mil hojas de Santiago", allergens: ["Lácteos", "Gluten", "Huevos"] },
+      ]},
+    ],
+  },
 };
 
 const DEFAULT_WEEKEND: any = {

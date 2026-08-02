@@ -55,12 +55,21 @@ const DEFAULT_DEGUSTATION = {
   title: "Menú Degustación de Temporada",
   price: "35,00 €",
   includes: "Con café 100% arábica natural",
-  note: "Bodega aparte · Consultar carta de vinos",
+  note: "Bodega aparte · Consultar carta de vinos · Incremento +1,00 € en terraza",
   sections: [
-    { title: "De Temporada", items: [{ ...EMPTY_ITEM }] },
-    { title: "Del Mar", items: [{ ...EMPTY_ITEM }] },
-    { title: "De la Tierra", items: [{ ...EMPTY_ITEM }] },
-    { title: "Está de Dulce", items: [{ ...EMPTY_ITEM }] },
+    { title: "De Temporada", items: [
+      { name: "Mejillones en escabeche de mango, emulsión de coco & curry y perlas cítricas", allergens: ["Moluscos"] },
+      { name: "Volandeiras en ceviche de padrón con contrapunto de manzana ácida", allergens: ["Moluscos"] },
+    ] },
+    { title: "Del Mar", items: [
+      { name: "Bonito de Burela \"todo al rojo\"", allergens: ["Pescado", "Moluscos"] },
+    ] },
+    { title: "De la Tierra", items: [
+      { name: "Lingote de cordero deshuesado, su demiglace y cromatismos naranjas", allergens: ["Lácteos", "Gluten"] },
+    ] },
+    { title: "Está de Dulce", items: [
+      { name: "Mil hojas de Santiago", allergens: ["Lácteos", "Gluten", "Huevos"] },
+    ] },
   ],
 };
 
