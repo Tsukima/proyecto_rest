@@ -969,11 +969,9 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
               <div>
                 <h2>{documentTitle}</h2>
                 <p>{documentKicker}</p>
+                <p className="print-editorial-includes">+ Bebida, postre o café</p>
               </div>
-              <div className="print-editorial-recommendations-heading">
-                <h3>Recomendaciones</h3>
-                <span>del chef</span>
-              </div>
+              <div className="print-editorial-empty-heading" aria-hidden="true" />
             </div>
             <img className="print-menu-watermark" src={logoImg} alt="" aria-hidden="true" />
 

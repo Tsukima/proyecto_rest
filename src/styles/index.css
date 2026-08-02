@@ -1900,6 +1900,26 @@ body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-th
   transform: rotate(-4deg) !important;
 }
 
+.print-editorial-menu-document .print-editorial-heading .print-editorial-includes {
+  display: block !important;
+  width: fit-content !important;
+  margin: 12px 0 0 16px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #242424 !important;
+  font-family: "Arial Narrow", "Roboto Condensed", Arial, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+  transform: none !important;
+}
+
+.print-editorial-menu-document .print-editorial-empty-heading {
+  min-height: 142px !important;
+}
+
 .print-editorial-menu-document .print-menu-horizontal {
   display: grid !important;
   grid-template-columns: repeat(var(--print-menu-column-count, 2), minmax(0, 1fr)) !important;
@@ -1971,8 +1991,8 @@ body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-th
 }
 
 .print-editorial-menu-document .print-menu-column-label::after {
-  content: "+ bebida, postre o cafe" !important;
-  display: inline !important;
+  content: "" !important;
+  display: none !important;
   width: auto !important;
   height: auto !important;
   margin: 0 !important;
