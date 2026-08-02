@@ -1398,6 +1398,9 @@ function PrintableGastrotecaDialog({ open, onClose, menus }: {
                     <ul className="print-gastroteca-list">
                       {menu.items.map((item, itemIndex) => (
                         <li key={itemIndex} className="print-menu-item print-gastroteca-item">
+                          <span className="print-ingredient-illustration">
+                            <IngredientIllustration name={item.name || "plato"} />
+                          </span>
                           <span className="print-menu-item-name">
                             <strong>Plato {itemIndex + 1}.</strong> {item.name || "Sin definir"}
                           </span>
@@ -1422,6 +1425,9 @@ function PrintableGastrotecaDialog({ open, onClose, menus }: {
                     <h4>Postre</h4>
                     <ul className="print-gastroteca-list">
                       <li className="print-menu-item print-gastroteca-item">
+                        <span className="print-ingredient-illustration">
+                          <IngredientIllustration name={menu.dessert.name || "postre"} />
+                        </span>
                         <span className="print-menu-item-name">{menu.dessert.name || "Sin definir"}</span>
                         {menu.dessert.price && <span className="print-gastroteca-item-price">{menu.dessert.price}</span>}
                         {menu.dessert.allergens.length > 0 && (
