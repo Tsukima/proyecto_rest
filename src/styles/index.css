@@ -2329,3 +2329,306 @@ body.printing-landscape .print-gastroteca-document .print-menu-price {
 body.printing-landscape .print-editorial-menu-document .print-menu-horizontal-three .print-menu-price {
   font-size: 30px !important;
 }
+
+/* Final poster pass: make all menu prints follow the reference poster layout. */
+.print-editorial-menu-document,
+.print-gastroteca-document {
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 24px 34px 62px !important;
+  background:
+    linear-gradient(90deg, rgba(10, 41, 21, 0.025), transparent 18%, rgba(10, 41, 21, 0.02) 52%, transparent 78%),
+    #fffdf4 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #0a2915 !important;
+  box-shadow: none !important;
+}
+
+.print-editorial-heading,
+.print-gastroteca-document .print-menu-header {
+  display: grid !important;
+  grid-template-columns: 0.46fr 0.54fr !important;
+  gap: 36px !important;
+  align-items: start !important;
+  margin: 0 0 12px !important;
+}
+
+.print-editorial-heading > div,
+.print-gastroteca-document .print-menu-header h2 {
+  min-height: 132px !important;
+}
+
+.print-editorial-heading > div + div,
+.print-gastroteca-document .print-menu-header::after {
+  min-height: 132px !important;
+  padding-left: 38px !important;
+  border-left: 2px solid rgba(10, 41, 21, 0.38) !important;
+}
+
+.print-editorial-heading h2,
+.print-gastroteca-document .print-menu-header h2 {
+  max-width: 310px !important;
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-size: 78px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.01em !important;
+  line-height: 0.82 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-heading h3,
+.print-gastroteca-document .print-menu-header::after {
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-size: 66px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.01em !important;
+  line-height: 0.9 !important;
+  text-align: left !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-heading p,
+.print-editorial-heading span,
+.print-gastroteca-document .print-menu-header::before {
+  margin-top: 8px !important;
+  font-family: "Segoe Script", "Brush Script MT", cursive !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  transform: rotate(-4deg) !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal,
+.print-gastroteca-body {
+  display: grid !important;
+  grid-template-columns: repeat(var(--print-menu-column-count, 2), minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  min-height: 455px !important;
+}
+
+.print-editorial-menu-document .print-menu-column,
+.print-gastroteca-variant {
+  padding: 0 30px !important;
+}
+
+.print-editorial-menu-document .print-menu-column:first-child,
+.print-gastroteca-variant:first-child {
+  padding-left: 54px !important;
+}
+
+.print-editorial-menu-document .print-menu-column + .print-menu-column,
+.print-gastroteca-variant + .print-gastroteca-variant {
+  border-left: 2px solid rgba(10, 41, 21, 0.38) !important;
+}
+
+.print-editorial-menu-document .print-menu-column-label {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-variant,
+.print-gastroteca-variant {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  padding-top: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-variant-header,
+.print-gastroteca-variant .print-menu-variant-header {
+  margin: 0 0 6px !important;
+}
+
+.print-editorial-menu-document .print-menu-variant-header h3,
+.print-gastroteca-variant .print-menu-variant-header h3 {
+  font-size: 25px !important;
+  line-height: 0.95 !important;
+}
+
+.print-editorial-menu-document .print-menu-variant-header p,
+.print-gastroteca-variant .print-menu-variant-header p {
+  font-size: 13px !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4,
+.print-gastroteca-variant .print-menu-section h4 {
+  margin: 10px 0 5px !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+}
+
+.print-editorial-menu-document .print-menu-section h4::after,
+.print-gastroteca-variant .print-menu-section h4::after {
+  flex-basis: 52px !important;
+  height: 1px !important;
+}
+
+.print-editorial-menu-document .print-menu-section ul,
+.print-gastroteca-list {
+  display: grid !important;
+  gap: 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-item,
+.print-gastroteca-item {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important;
+  min-height: 62px !important;
+  padding: 8px 0 !important;
+  column-gap: 16px !important;
+  border-bottom: 1px solid rgba(10, 41, 21, 0.16) !important;
+}
+
+.print-editorial-menu-document .print-ingredient-illustration,
+.print-gastroteca-document .print-ingredient-illustration {
+  width: 48px !important;
+  height: 48px !important;
+  opacity: 0.95 !important;
+}
+
+.print-editorial-menu-document .print-menu-item-name,
+.print-gastroteca-item .print-menu-item-name {
+  color: #0a2915 !important;
+  font-family: Impact, "Arial Black", "Arial Narrow", sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.005em !important;
+  line-height: 1.06 !important;
+  text-transform: uppercase !important;
+}
+
+.print-editorial-menu-document .print-allergens,
+.print-gastroteca-document .print-allergens {
+  display: none !important;
+}
+
+.print-editorial-menu-document .print-menu-price-block {
+  margin-top: auto !important;
+  padding-top: 10px !important;
+  text-align: center !important;
+}
+
+.print-editorial-menu-document .print-menu-includes {
+  display: block !important;
+  margin-bottom: 2px !important;
+  font-size: 13px !important;
+  font-family: inherit !important;
+  font-style: normal !important;
+}
+
+.print-editorial-menu-document .print-menu-price,
+.print-gastroteca-document .print-menu-price {
+  font-size: 48px !important;
+  line-height: 0.95 !important;
+}
+
+.print-editorial-menu-document .print-menu-veggie-bottom-logo {
+  width: 150px !important;
+  margin: 12px auto 0 !important;
+  opacity: 1 !important;
+}
+
+.print-editorial-footer-grid {
+  grid-template-columns: 1fr 1.35fr 1.2fr !important;
+  gap: 18px !important;
+  min-height: 42px !important;
+  font-size: 15px !important;
+}
+
+.print-editorial-footer-grid > span {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 38px !important;
+}
+
+.print-editorial-footer-grid > span + span {
+  border-left: 2px solid rgba(10, 41, 21, 0.55) !important;
+}
+
+.print-poster-brand img {
+  width: 118px !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.print-poster-reserve {
+  flex-direction: column !important;
+  color: #0a2915 !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: 30px !important;
+  line-height: 1 !important;
+}
+
+.print-poster-reserve em {
+  display: block !important;
+  margin-bottom: 2px !important;
+  font-family: "Segoe Script", "Brush Script MT", cursive !important;
+  font-size: 18px !important;
+}
+
+.print-poster-social {
+  color: #0a2915 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three {
+  min-height: 440px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column {
+  padding: 0 18px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-column:first-child {
+  padding-left: 30px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-item {
+  grid-template-columns: 40px minmax(0, 1fr) auto !important;
+  min-height: 42px !important;
+  padding: 5px 0 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-ingredient-illustration {
+  width: 34px !important;
+  height: 34px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-item-name {
+  font-size: 14px !important;
+  line-height: 1.04 !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-section h4 {
+  font-size: 15px !important;
+}
+
+.print-editorial-menu-document .print-menu-horizontal-three .print-menu-price {
+  font-size: 30px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document,
+body.printing-landscape .print-gastroteca-document {
+  padding: 24px 34px 62px !important;
+}
+
+body.printing-landscape .print-editorial-heading h2,
+body.printing-landscape .print-gastroteca-document .print-menu-header h2 {
+  font-size: 78px !important;
+}
+
+body.printing-landscape .print-editorial-heading h3,
+body.printing-landscape .print-gastroteca-document .print-menu-header::after {
+  font-size: 66px !important;
+}
+
+body.printing-landscape .print-editorial-menu-document .print-menu-item,
+body.printing-landscape .print-gastroteca-item {
+  grid-template-columns: 58px minmax(0, 1fr) auto !important;
+  min-height: 62px !important;
+  padding: 8px 0 !important;
+  font-size: 20px !important;
+}

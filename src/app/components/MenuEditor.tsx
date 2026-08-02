@@ -975,9 +975,11 @@ function HorizontalDocumentDialog({ open, onClose, weekdayMenus, weekendMenus, d
 
             <footer className="print-menu-footer">
               <div className="print-editorial-footer-grid">
-                <span><strong>el cafetín</strong> Pontevedra</span>
-                <span><em>Reserva tu mesa</em> 986 84 78 74</span>
-                <span>@elcafetinpontevedra · El Cafetín Pontevedra</span>
+                <span className="print-poster-brand">
+                  <img src={logoImg} alt="El Cafetín Pontevedra" />
+                </span>
+                <span className="print-poster-reserve"><em>Reserva tu mesa</em> 986 84 78 74</span>
+                <span className="print-poster-social">@elcafetinpontevedra · El Cafetín Pontevedra</span>
               </div>
             </footer>
             </div>
