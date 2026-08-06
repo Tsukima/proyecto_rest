@@ -169,7 +169,7 @@ svg {
 
 .digital-menu-section ul {
   display: grid;
-  gap: 0.82rem;
+  gap: 0.55rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -177,7 +177,12 @@ svg {
 
 .digital-menu-section li {
   display: grid;
-  gap: 0.24rem;
+  gap: 0.28rem;
+  min-height: 54px;
+  padding: 0.62rem 0.72rem;
+  border-left: 3px solid #7fbf7f;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: inset 0 0 0 1px rgba(18, 53, 31, 0.06);
 }
 
 .digital-menu-section li span {
@@ -424,12 +429,19 @@ svg {
   }
 
   body.printing-landscape .digital-menu-section ul {
-    gap: 1.25mm !important;
+    gap: 1.1mm !important;
+  }
+
+  body.printing-landscape .digital-menu-section li {
+    min-height: 9.5mm !important;
+    padding: 1.2mm 1.7mm !important;
+    border-left-width: 0.7mm !important;
+    box-shadow: inset 0 0 0 0.2mm rgba(18, 53, 31, 0.05) !important;
   }
 
   body.printing-landscape .digital-menu-section li span {
-    font-size: 9.1pt !important;
-    line-height: 1.08 !important;
+    font-size: 8.5pt !important;
+    line-height: 1.05 !important;
   }
 
   body.printing-landscape .digital-menu-section li small {
