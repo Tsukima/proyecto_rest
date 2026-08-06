@@ -55,6 +55,8 @@ svg {
 }
 
 .digital-menu-sheet {
+  display: flex;
+  flex-direction: column;
   width: min(1180px, 100%);
   min-height: 680px;
   margin: 0 auto;
@@ -97,10 +99,11 @@ svg {
 }
 
 .digital-menu-grid {
+  flex: 1 1 auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.5rem, 3vw, 2.5rem);
-  padding: clamp(1.5rem, 3vw, 2.4rem) 0;
+  padding: clamp(0.7rem, 2vw, 1.5rem) 0 clamp(2.5rem, 5vw, 4rem);
 }
 
 .digital-menu-column {
@@ -174,6 +177,7 @@ svg {
 }
 
 .digital-menu-footer {
+  margin-top: auto;
   display: grid;
   grid-template-columns: minmax(140px, 190px) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
@@ -292,7 +296,7 @@ svg {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 9mm !important;
-    padding: 6mm 0 !important;
+    padding: 3mm 0 10mm !important;
     overflow: hidden !important;
   }
 

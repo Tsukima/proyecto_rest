@@ -866,13 +866,6 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
 
         <div className="overflow-auto rounded-xl border bg-white p-3">
           <article className="print-area digital-menu-sheet">
-            <header className="digital-menu-hero">
-              <div>
-                <p>Oferta gastronómica</p>
-                <h2>Menú del día</h2>
-              </div>
-            </header>
-
             <main className="digital-menu-grid">
               {visibleMenus.length > 0 ? (
                 visibleMenus.map((menu, index) => <DigitalMenuVariant key={`${menu.title}-${index}`} variant={menu} />)
