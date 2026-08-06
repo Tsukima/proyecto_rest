@@ -393,12 +393,12 @@ svg {
   body.printing-landscape .digital-menu-sheet {
     display: flex !important;
     flex-direction: column !important;
-    width: 277mm !important;
-    max-width: 277mm !important;
-    height: 190mm !important;
+    width: 297mm !important;
+    max-width: 297mm !important;
+    height: 210mm !important;
     box-sizing: border-box !important;
     margin: 0 !important;
-    padding: 2.5mm 3mm 2mm !important;
+    padding: 3.5mm 4mm 3mm !important;
     overflow: hidden !important;
     color: #12351f !important;
     background:
@@ -425,8 +425,8 @@ svg {
     min-height: 0 !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
-    gap: 4mm !important;
-    padding: 1mm 0 1.4mm !important;
+    gap: 5mm !important;
+    padding: 1.5mm 0 2mm !important;
     overflow: hidden !important;
   }
 
@@ -441,7 +441,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-column {
-    padding: 2.6mm !important;
+    padding: 3mm !important;
     border-radius: 2.4mm !important;
     background:
       linear-gradient(135deg, rgba(127, 191, 127, 0.12), rgba(255, 254, 250, 0.72)),
@@ -449,7 +449,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-column-header h3 {
-    font-size: 21pt !important;
+    font-size: 25pt !important;
     line-height: 0.95 !important;
   }
 
@@ -458,7 +458,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-column-header p {
-    font-size: 7.5pt !important;
+    font-size: 8.2pt !important;
     line-height: 1 !important;
     margin-bottom: 1mm !important;
   }
@@ -468,16 +468,16 @@ svg {
   }
 
   body.printing-landscape .digital-menu-title-row span {
-    max-width: 42mm !important;
-    padding: 1mm 2mm !important;
-    font-size: 6.8pt !important;
+    max-width: 48mm !important;
+    padding: 1.1mm 2.2mm !important;
+    font-size: 7.4pt !important;
     line-height: 1.05 !important;
   }
 
   body.printing-landscape .digital-menu-title-row span::before {
-    width: 4.5mm !important;
-    height: 4.5mm !important;
-    font-size: 8pt !important;
+    width: 5mm !important;
+    height: 5mm !important;
+    font-size: 8.8pt !important;
   }
 
   body.printing-landscape .digital-menu-section {
@@ -485,7 +485,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-section h4 {
-    font-size: 7.8pt !important;
+    font-size: 8.8pt !important;
     margin-bottom: 1mm !important;
     line-height: 1.05 !important;
   }
@@ -495,19 +495,19 @@ svg {
   }
 
   body.printing-landscape .digital-menu-section li {
-    min-height: 8.4mm !important;
-    padding: 1mm 1.5mm !important;
+    min-height: 9.4mm !important;
+    padding: 1.25mm 1.8mm !important;
     border-left-width: 0.7mm !important;
     box-shadow: inset 0 0 0 0.2mm rgba(18, 53, 31, 0.05) !important;
   }
 
   body.printing-landscape .digital-menu-section li span {
-    font-size: 8.1pt !important;
+    font-size: 9.2pt !important;
     line-height: 1.05 !important;
   }
 
   body.printing-landscape .digital-menu-section li small {
-    font-size: 6.6pt !important;
+    font-size: 7.2pt !important;
     line-height: 1 !important;
   }
 
@@ -516,12 +516,12 @@ svg {
   }
 
   body.printing-landscape .digital-menu-allergens svg {
-    width: 10px !important;
-    height: 10px !important;
+    width: 11px !important;
+    height: 11px !important;
   }
 
   body.printing-landscape .digital-menu-degustation {
-    padding: 2.4mm !important;
+    padding: 3mm !important;
     border-radius: 2.4mm !important;
   }
 
@@ -530,24 +530,24 @@ svg {
   }
 
   body.printing-landscape .digital-menu-degustation .digital-menu-column-header h3 {
-    font-size: 15.5pt !important;
+    font-size: 18pt !important;
   }
 
   body.printing-landscape .digital-menu-degustation-grid {
-    gap: 1.1mm !important;
+    gap: 1.6mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation-slot {
-    min-height: 9mm !important;
-    padding: 1.1mm 1.5mm !important;
+    min-height: 10.5mm !important;
+    padding: 1.4mm 1.8mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation-slot strong {
-    font-size: 6.8pt !important;
+    font-size: 7.6pt !important;
   }
 
   body.printing-landscape .digital-menu-degustation-slot span {
-    font-size: 6pt !important;
+    font-size: 6.8pt !important;
   }
 
   body.printing-landscape .digital-menu-footer {
@@ -562,11 +562,11 @@ svg {
   }
 
   body.printing-landscape .digital-menu-footer strong {
-    font-size: 11pt !important;
+    font-size: 12.5pt !important;
   }
 
   body.printing-landscape .digital-menu-footer span {
-    font-size: 6.8pt !important;
+    font-size: 7.5pt !important;
     line-height: 1 !important;
   }
 }
@@ -1765,12 +1765,12 @@ svg {
 
 @page {
   size: A4;
-  margin: 14mm;
+  margin: 0;
 }
 
 body.printing-landscape {
-  --print-page-width: 277mm;
-  --print-page-height: 190mm;
+  --print-page-width: 297mm;
+  --print-page-height: 210mm;
 }
 
 body.printing-portrait {
@@ -1781,7 +1781,7 @@ body.printing-portrait {
 @media print {
   @page {
     size: A4;
-    margin: 14mm;
+    margin: 0;
   }
 
   body.printing-landscape,
@@ -2011,9 +2011,9 @@ body.printing-portrait {
   }
 
   body.printing-landscape .print-area {
-    width: 277mm !important;
-    max-width: 277mm !important;
-    height: 190mm !important;
+    width: 297mm !important;
+    max-width: 297mm !important;
+    height: 210mm !important;
     display: flex !important;
     align-items: stretch !important;
     justify-content: center !important;
@@ -2021,7 +2021,7 @@ body.printing-portrait {
 
   body.printing-landscape .print-menu-document {
     width: 100% !important;
-    height: 190mm !important;
+    height: 210mm !important;
     box-sizing: border-box !important;
     padding: 7mm 8mm 15mm !important;
     overflow: hidden !important;
