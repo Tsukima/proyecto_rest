@@ -867,12 +867,10 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
         <div className="overflow-auto rounded-xl border bg-white p-3">
           <article className="print-area digital-menu-sheet">
             <header className="digital-menu-hero">
-              <img src={logoImg} alt="El Cafetín Pontevedra" />
               <div>
-                <p>El Cafetín Pontevedra</p>
+                <p>Oferta gastronómica</p>
                 <h2>Menú del día</h2>
               </div>
-              <strong>986 84 78 74</strong>
             </header>
 
             <main className="digital-menu-grid">
@@ -884,10 +882,15 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
             </main>
 
             <footer className="digital-menu-footer">
-              <span>@ElCafetinPontevedra</span>
-              <span>Instagram</span>
-              <span>WhatsApp</span>
-              <span>Facebook</span>
+              <img src={logoImg} alt="El Cafetín Pontevedra" />
+              <div className="digital-menu-footer-phone">
+                <span>Reserva tu mesa</span>
+                <strong>986 84 78 74</strong>
+              </div>
+              <div className="digital-menu-footer-social">
+                <span>Instagram · WhatsApp · Facebook</span>
+                <strong>@ElCafetinPontevedra</strong>
+              </div>
             </footer>
           </article>
         </div>
