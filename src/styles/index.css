@@ -109,7 +109,12 @@ svg {
 
 .digital-menu-column {
   min-width: 0;
-  padding-right: clamp(0.8rem, 2vw, 1.6rem);
+  padding: clamp(0.85rem, 1.8vw, 1.25rem);
+  border: 1px solid rgba(127, 191, 127, 0.45);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(127, 191, 127, 0.14), rgba(255, 254, 250, 0.72)),
+    rgba(255, 255, 255, 0.6);
 }
 
 .digital-menu-column + .digital-menu-column {
@@ -118,7 +123,7 @@ svg {
 }
 
 .digital-menu-grid > .digital-menu-column:first-child {
-  border-right: 1px solid rgba(18, 53, 31, 0.22);
+  border-right: 1px solid rgba(127, 191, 127, 0.45);
 }
 
 .digital-menu-side-stack {
@@ -129,7 +134,7 @@ svg {
 }
 
 .digital-menu-column-header {
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.9rem;
 }
 
 .digital-menu-column-header h3 {
@@ -149,7 +154,7 @@ svg {
 }
 
 .digital-menu-section {
-  padding: 0.9rem 0;
+  padding: 0.72rem 0;
   border-top: 1px solid rgba(18, 53, 31, 0.14);
 }
 
@@ -322,12 +327,11 @@ svg {
 
   .digital-menu-column,
   .digital-menu-column + .digital-menu-column {
-    padding: 0;
-    border-left: 0;
+    padding: 1rem;
   }
 
   .digital-menu-grid > .digital-menu-column:first-child {
-    border-right: 0;
+    border-right: 1px solid rgba(127, 191, 127, 0.45);
   }
 }
 
@@ -377,11 +381,19 @@ svg {
   }
 
   body.printing-landscape .digital-menu-grid > .digital-menu-column:first-child {
-    border-right: 0.35mm solid rgba(18, 53, 31, 0.22) !important;
+    border-right: 0.35mm solid rgba(127, 191, 127, 0.45) !important;
+  }
+
+  body.printing-landscape .digital-menu-column {
+    padding: 2.8mm !important;
+    border-radius: 3mm !important;
+    background:
+      linear-gradient(135deg, rgba(127, 191, 127, 0.12), rgba(255, 254, 250, 0.72)),
+      rgba(255, 255, 255, 0.6) !important;
   }
 
   body.printing-landscape .digital-menu-column-header h3 {
-    font-size: 23pt !important;
+    font-size: 21pt !important;
     line-height: 0.95 !important;
   }
 
@@ -402,7 +414,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-section {
-    padding: 1.6mm 0 !important;
+    padding: 1.25mm 0 !important;
   }
 
   body.printing-landscape .digital-menu-section h4 {
