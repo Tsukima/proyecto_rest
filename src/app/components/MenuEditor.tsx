@@ -827,7 +827,13 @@ function DigitalMenuVariant({ variant }: { variant: MenuVariant }) {
                   <li key={`${section.title}-${index}`}>
                     <span>{item.name}</span>
                     {item.allergens.length > 0 && (
-                      <small>{item.allergens.map((allergen) => ALLERGEN_ABBR[allergen] || allergen).join(" · ")}</small>
+                      <small className="digital-menu-allergens">
+                        {item.allergens.map((allergen) => (
+                          <span key={allergen} title={allergen}>
+                            <AllergenIcon allergen={allergen} size={18} />
+                          </span>
+                        ))}
+                      </small>
                     )}
                   </li>
                 ))}
@@ -839,14 +845,42 @@ function DigitalMenuVariant({ variant }: { variant: MenuVariant }) {
   );
 }
 
-function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
+function DigitalDegustationStructure({ degustation }: { degustation?: any }) {
+  const title = degustation?.title || "Menú Degustación";
+  const sections = Array.isArray(degustation?.sections) && degustation.sections.length
+    ? degustation.sections.map((section: any) => section?.title).filter(Boolean)
+    : ["De temporada", "Del mar", "De la tierra", "Está de dulce"];
+
+  return (
+    <section className="digital-menu-degustation">
+      <header className="digital-menu-column-header">
+        <p>Experiencia Bistro</p>
+        <h3>{title}</h3>
+        <span>Estructura del menú degustación</span>
+      </header>
+      <div className="digital-menu-degustation-grid">
+        {sections.slice(0, 4).map((section: string, index: number) => (
+          <div key={`${section}-${index}`} className="digital-menu-degustation-slot">
+            <strong>{section}</strong>
+            <span>Plato {index + 1}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DigitalWeekdayMenuDialog({ open, onClose, menus, degustation }: {
   open: boolean;
   onClose: () => void;
   menus: MenuVariant[];
+  degustation?: any;
 }) {
   const visibleMenus = menus
     .filter((menu) => getVariantSections(menu).some((section) => section.items.some((item) => item.name.trim())))
     .slice(0, 2);
+  const dayMenu = visibleMenus.find((menu) => !menu.isVeggie) ?? visibleMenus[0];
+  const veggieMenu = visibleMenus.find((menu) => menu.isVeggie);
 
   const print = () => {
     printCurrentDocument("landscape");
@@ -867,8 +901,14 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
         <div className="overflow-auto rounded-xl border bg-white p-3">
           <article className="print-area digital-menu-sheet">
             <main className="digital-menu-grid">
-              {visibleMenus.length > 0 ? (
-                visibleMenus.map((menu, index) => <DigitalMenuVariant key={`${menu.title}-${index}`} variant={menu} />)
+              {dayMenu ? (
+                <>
+                  <DigitalMenuVariant variant={dayMenu} />
+                  <div className="digital-menu-side-stack">
+                    <DigitalDegustationStructure degustation={degustation} />
+                    {veggieMenu && <DigitalMenuVariant variant={veggieMenu} />}
+                  </div>
+                </>
               ) : (
                 <div className="digital-menu-empty">Agrega platos al menú para ver la vista digital.</div>
               )}
@@ -1265,7 +1305,7 @@ export function WeekdayMenuEditor({ data, onSave }: {
       </div>
 
       <MenuPreviewDialog open={preview} onClose={() => setPreview(false)} menus={menus} title="Menú del Día" />
-      <DigitalWeekdayMenuDialog open={digitalOpen} onClose={() => setDigitalOpen(false)} menus={menus} />
+      <DigitalWeekdayMenuDialog open={digitalOpen} onClose={() => setDigitalOpen(false)} menus={menus} degustation={deg} />
     </div>
   );
 }

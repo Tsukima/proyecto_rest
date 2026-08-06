@@ -102,19 +102,30 @@ svg {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: clamp(1.5rem, 3vw, 2.5rem);
   padding: clamp(0.7rem, 2vw, 1.5rem) 0 clamp(2.5rem, 5vw, 4rem);
 }
 
 .digital-menu-column {
   min-width: 0;
-  padding-right: clamp(1rem, 2vw, 2rem);
+  padding-right: clamp(0.8rem, 2vw, 1.6rem);
 }
 
 .digital-menu-column + .digital-menu-column {
-  padding-left: clamp(1rem, 2vw, 2rem);
-  border-left: 1px solid rgba(18, 53, 31, 0.22);
+  padding-left: 0;
+  border-left: 0;
+}
+
+.digital-menu-grid > .digital-menu-column:first-child {
+  border-right: 1px solid rgba(18, 53, 31, 0.22);
+}
+
+.digital-menu-side-stack {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(1rem, 2vw, 1.4rem);
+  min-width: 0;
 }
 
 .digital-menu-column-header {
@@ -175,6 +186,61 @@ svg {
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   color: #6c756d;
+}
+
+.digital-menu-allergens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.22rem;
+  align-items: center;
+}
+
+.digital-menu-allergens svg {
+  display: block;
+}
+
+.digital-menu-degustation {
+  padding: clamp(0.85rem, 1.8vw, 1.25rem);
+  border: 1px solid rgba(127, 191, 127, 0.45);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(127, 191, 127, 0.16), rgba(255, 254, 250, 0.7)),
+    rgba(255, 255, 255, 0.58);
+}
+
+.digital-menu-degustation .digital-menu-column-header {
+  margin-bottom: 0.9rem;
+}
+
+.digital-menu-degustation .digital-menu-column-header h3 {
+  font-size: clamp(1.65rem, 3vw, 2.7rem);
+}
+
+.digital-menu-degustation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.digital-menu-degustation-slot {
+  display: grid;
+  gap: 0.15rem;
+  min-height: 58px;
+  padding: 0.65rem 0.7rem;
+  border-left: 3px solid #7fbf7f;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.digital-menu-degustation-slot strong {
+  font-size: 0.88rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #12351f;
+}
+
+.digital-menu-degustation-slot span {
+  font-size: 0.78rem;
+  color: #607063;
 }
 
 .digital-menu-footer {
@@ -259,6 +325,10 @@ svg {
     padding: 0;
     border-left: 0;
   }
+
+  .digital-menu-grid > .digital-menu-column:first-child {
+    border-right: 0;
+  }
 }
 
 @media print {
@@ -296,14 +366,22 @@ svg {
     flex: 1 1 auto !important;
     min-height: 0 !important;
     display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 8mm !important;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
+    gap: 7mm !important;
     padding: 1mm 0 4mm !important;
     overflow: hidden !important;
   }
 
+  body.printing-landscape .digital-menu-side-stack {
+    gap: 3mm !important;
+  }
+
+  body.printing-landscape .digital-menu-grid > .digital-menu-column:first-child {
+    border-right: 0.35mm solid rgba(18, 53, 31, 0.22) !important;
+  }
+
   body.printing-landscape .digital-menu-column-header h3 {
-    font-size: 24pt !important;
+    font-size: 23pt !important;
     line-height: 0.95 !important;
   }
 
@@ -345,6 +423,45 @@ svg {
   body.printing-landscape .digital-menu-section li small {
     font-size: 6.6pt !important;
     line-height: 1 !important;
+  }
+
+  body.printing-landscape .digital-menu-allergens {
+    gap: 1mm !important;
+  }
+
+  body.printing-landscape .digital-menu-allergens svg {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation {
+    padding: 2.8mm !important;
+    border-radius: 3mm !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation .digital-menu-column-header {
+    margin-bottom: 2mm !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation .digital-menu-column-header h3 {
+    font-size: 18pt !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation-grid {
+    gap: 1.6mm !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation-slot {
+    min-height: 12mm !important;
+    padding: 1.6mm 2mm !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation-slot strong {
+    font-size: 6.8pt !important;
+  }
+
+  body.printing-landscape .digital-menu-degustation-slot span {
+    font-size: 6pt !important;
   }
 
   body.printing-landscape .digital-menu-footer {
