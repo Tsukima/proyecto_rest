@@ -100,12 +100,13 @@ svg {
 }
 
 .digital-menu-grid {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
   gap: clamp(1.2rem, 2.6vw, 2.1rem);
-  padding: clamp(0.7rem, 2vw, 1.5rem) 0 clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(0.7rem, 2vw, 1.5rem) 0 clamp(1.1rem, 2.2vw, 1.7rem);
 }
 
 .digital-menu-column {
@@ -130,7 +131,7 @@ svg {
 
 .digital-menu-side-stack {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
   gap: clamp(1rem, 2vw, 1.4rem);
   min-width: 0;
 }
@@ -425,12 +426,14 @@ svg {
     display: grid !important;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
     gap: 7mm !important;
-    padding: 1mm 0 4mm !important;
+    padding: 1mm 0 2mm !important;
     overflow: hidden !important;
   }
 
   body.printing-landscape .digital-menu-side-stack {
-    gap: 3mm !important;
+    grid-template-rows: auto minmax(0, 1fr) !important;
+    gap: 2mm !important;
+    min-height: 0 !important;
   }
 
   body.printing-landscape .digital-menu-grid > .digital-menu-column:first-child {
@@ -438,7 +441,7 @@ svg {
   }
 
   body.printing-landscape .digital-menu-column {
-    padding: 2.8mm !important;
+    padding: 2.3mm !important;
     border-radius: 3mm !important;
     background:
       linear-gradient(135deg, rgba(127, 191, 127, 0.12), rgba(255, 254, 250, 0.72)),
@@ -478,28 +481,28 @@ svg {
   }
 
   body.printing-landscape .digital-menu-section {
-    padding: 1.25mm 0 !important;
+    padding: 0.95mm 0 !important;
   }
 
   body.printing-landscape .digital-menu-section h4 {
-    font-size: 8.2pt !important;
-    margin-bottom: 1.4mm !important;
+    font-size: 7.8pt !important;
+    margin-bottom: 1mm !important;
     line-height: 1.05 !important;
   }
 
   body.printing-landscape .digital-menu-section ul {
-    gap: 1.1mm !important;
+    gap: 0.9mm !important;
   }
 
   body.printing-landscape .digital-menu-section li {
-    min-height: 9.5mm !important;
-    padding: 1.2mm 1.7mm !important;
+    min-height: 8.4mm !important;
+    padding: 1mm 1.5mm !important;
     border-left-width: 0.7mm !important;
     box-shadow: inset 0 0 0 0.2mm rgba(18, 53, 31, 0.05) !important;
   }
 
   body.printing-landscape .digital-menu-section li span {
-    font-size: 8.5pt !important;
+    font-size: 8.1pt !important;
     line-height: 1.05 !important;
   }
 
@@ -518,25 +521,25 @@ svg {
   }
 
   body.printing-landscape .digital-menu-degustation {
-    padding: 2.8mm !important;
+    padding: 2.1mm !important;
     border-radius: 3mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation .digital-menu-column-header {
-    margin-bottom: 2mm !important;
+    margin-bottom: 1.4mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation .digital-menu-column-header h3 {
-    font-size: 18pt !important;
+    font-size: 15.5pt !important;
   }
 
   body.printing-landscape .digital-menu-degustation-grid {
-    gap: 1.6mm !important;
+    gap: 1.1mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation-slot {
-    min-height: 12mm !important;
-    padding: 1.6mm 2mm !important;
+    min-height: 9mm !important;
+    padding: 1.1mm 1.5mm !important;
   }
 
   body.printing-landscape .digital-menu-degustation-slot strong {
@@ -550,7 +553,7 @@ svg {
   body.printing-landscape .digital-menu-footer {
     grid-template-columns: 44mm minmax(0, 1fr) minmax(0, 1fr) !important;
     gap: 6mm !important;
-    padding-top: 2.5mm !important;
+    padding-top: 1.8mm !important;
     font-size: 8pt !important;
   }
 
