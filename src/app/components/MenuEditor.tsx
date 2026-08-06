@@ -812,8 +812,10 @@ function DigitalMenuVariant({ variant }: { variant: MenuVariant }) {
     <section className={`digital-menu-column${variant.isVeggie ? " digital-menu-column-veggie" : ""}`}>
       <header className="digital-menu-column-header">
         <p>{variant.isVeggie ? "Opción vegetariana" : "Menú diario"}</p>
-        <h3>{variant.title}</h3>
-        {variant.includes && <span>{variant.includes}</span>}
+        <div className="digital-menu-title-row">
+          <h3>{variant.title}</h3>
+          {variant.includes && <span>{variant.includes}</span>}
+        </div>
       </header>
 
       <div className="digital-menu-section-stack">
