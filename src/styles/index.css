@@ -63,8 +63,9 @@ svg {
   padding: clamp(1.5rem, 3vw, 2.6rem);
   color: #12351f;
   background:
-    radial-gradient(circle at 84% 10%, rgba(127, 191, 127, 0.22), transparent 24%),
-    linear-gradient(135deg, rgba(127, 191, 127, 0.1), transparent 38%),
+    radial-gradient(circle at 86% 10%, rgba(183, 151, 67, 0.16), transparent 23%),
+    radial-gradient(circle at 14% 12%, rgba(127, 191, 127, 0.18), transparent 25%),
+    linear-gradient(135deg, rgba(127, 191, 127, 0.08), transparent 42%),
     #fffefa;
   border: 1px solid rgba(127, 191, 127, 0.42);
   border-radius: 28px;
@@ -103,18 +104,19 @@ svg {
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: clamp(1.2rem, 2.6vw, 2.1rem);
   padding: clamp(0.7rem, 2vw, 1.5rem) 0 clamp(2.5rem, 5vw, 4rem);
 }
 
 .digital-menu-column {
   min-width: 0;
-  padding: clamp(0.85rem, 1.8vw, 1.25rem);
-  border: 1px solid rgba(127, 191, 127, 0.45);
-  border-radius: 18px;
+  padding: clamp(1rem, 2vw, 1.45rem);
+  border: 1px solid rgba(31, 91, 44, 0.18);
+  border-radius: 20px;
   background:
-    linear-gradient(135deg, rgba(127, 191, 127, 0.14), rgba(255, 254, 250, 0.72)),
-    rgba(255, 255, 255, 0.6);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(236, 247, 230, 0.66)),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 32px rgba(18, 53, 31, 0.08);
 }
 
 .digital-menu-column + .digital-menu-column {
@@ -123,7 +125,7 @@ svg {
 }
 
 .digital-menu-grid > .digital-menu-column:first-child {
-  border-right: 1px solid rgba(127, 191, 127, 0.45);
+  border-right: 1px solid rgba(31, 91, 44, 0.18);
 }
 
 .digital-menu-side-stack {
@@ -134,15 +136,17 @@ svg {
 }
 
 .digital-menu-column-header {
-  margin-bottom: 0.9rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(31, 91, 44, 0.14);
 }
 
 .digital-menu-column-header h3 {
   margin: 0;
   font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
-  font-size: clamp(2.2rem, 4.2vw, 4.4rem);
+  font-size: clamp(2.45rem, 4.5vw, 4.65rem);
   line-height: 0.9;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.045em;
   text-transform: uppercase;
   color: #12351f;
 }
@@ -154,17 +158,22 @@ svg {
 }
 
 .digital-menu-section {
-  padding: 0.72rem 0;
-  border-top: 1px solid rgba(18, 53, 31, 0.14);
+  padding: 0.7rem 0 0.2rem;
+  border-top: 0;
 }
 
 .digital-menu-section h4 {
-  margin: 0 0 0.65rem;
-  font-size: 0.98rem;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 0.55rem;
+  padding: 0.24rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(127, 191, 127, 0.16);
+  font-size: 0.78rem;
   font-weight: 900;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #7fbf7f;
+  color: #1f5b2c;
 }
 
 .digital-menu-section ul {
@@ -178,16 +187,19 @@ svg {
 .digital-menu-section li {
   display: grid;
   gap: 0.28rem;
-  min-height: 54px;
-  padding: 0.62rem 0.72rem;
-  border-left: 3px solid #7fbf7f;
-  background: rgba(255, 255, 255, 0.74);
-  box-shadow: inset 0 0 0 1px rgba(18, 53, 31, 0.06);
+  min-height: 50px;
+  padding: 0.58rem 0.72rem 0.56rem;
+  border-left: 4px solid #7fbf7f;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    inset 0 0 0 1px rgba(18, 53, 31, 0.055),
+    0 6px 16px rgba(18, 53, 31, 0.045);
 }
 
 .digital-menu-section li span {
-  font-size: clamp(1rem, 1.45vw, 1.3rem);
-  line-height: 1.22;
+  font-size: clamp(0.96rem, 1.32vw, 1.16rem);
+  line-height: 1.15;
   font-weight: 800;
   color: #1f2d24;
 }
@@ -201,8 +213,9 @@ svg {
 .digital-menu-allergens {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.22rem;
+  gap: 0.18rem;
   align-items: center;
+  opacity: 0.82;
 }
 
 .digital-menu-allergens svg {
@@ -210,12 +223,13 @@ svg {
 }
 
 .digital-menu-degustation {
-  padding: clamp(0.85rem, 1.8vw, 1.25rem);
-  border: 1px solid rgba(127, 191, 127, 0.45);
-  border-radius: 18px;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgba(183, 151, 67, 0.28);
+  border-radius: 20px;
   background:
-    linear-gradient(135deg, rgba(127, 191, 127, 0.16), rgba(255, 254, 250, 0.7)),
-    rgba(255, 255, 255, 0.58);
+    linear-gradient(145deg, rgba(255, 252, 240, 0.94), rgba(236, 247, 230, 0.62)),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: 0 14px 32px rgba(18, 53, 31, 0.08);
 }
 
 .digital-menu-degustation .digital-menu-column-header {
@@ -237,8 +251,10 @@ svg {
   gap: 0.15rem;
   min-height: 58px;
   padding: 0.65rem 0.7rem;
-  border-left: 3px solid #7fbf7f;
-  background: rgba(255, 255, 255, 0.72);
+  border-left: 4px solid #b79743;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(18, 53, 31, 0.055);
 }
 
 .digital-menu-degustation-slot strong {
@@ -259,8 +275,9 @@ svg {
   grid-template-columns: minmax(140px, 190px) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
-  padding-top: 1.1rem;
-  border-top: 1px solid rgba(18, 53, 31, 0.24);
+  padding: 1rem 1.1rem 0;
+  border-top: 1px solid rgba(18, 53, 31, 0.16);
+  background: linear-gradient(90deg, rgba(236, 247, 230, 0.5), rgba(255, 252, 240, 0.58));
   color: #12351f;
 }
 
