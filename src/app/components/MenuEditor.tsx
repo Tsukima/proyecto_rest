@@ -804,6 +804,94 @@ function PrintableDegustation({ degustation }: { degustation?: any }) {
   );
 }
 
+function DigitalMenuVariant({ variant }: { variant: MenuVariant }) {
+  const sections = getVariantSections(variant, false)
+    .filter((section) => section.items.some((item) => item.name.trim()));
+
+  return (
+    <section className={`digital-menu-column${variant.isVeggie ? " digital-menu-column-veggie" : ""}`}>
+      <header className="digital-menu-column-header">
+        <p>{variant.isVeggie ? "Opción vegetariana" : "Menú diario"}</p>
+        <h3>{variant.title}</h3>
+        {variant.includes && <span>{variant.includes}</span>}
+      </header>
+
+      <div className="digital-menu-section-stack">
+        {sections.map((section) => (
+          <div key={section.title} className="digital-menu-section">
+            <h4>{section.title}</h4>
+            <ul>
+              {section.items
+                .filter((item) => item.name.trim())
+                .map((item, index) => (
+                  <li key={`${section.title}-${index}`}>
+                    <span>{item.name}</span>
+                    {item.allergens.length > 0 && (
+                      <small>{item.allergens.map((allergen) => ALLERGEN_ABBR[allergen] || allergen).join(" · ")}</small>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
+  open: boolean;
+  onClose: () => void;
+  menus: MenuVariant[];
+}) {
+  const visibleMenus = menus
+    .filter((menu) => getVariantSections(menu).some((section) => section.items.some((item) => item.name.trim())))
+    .slice(0, 2);
+
+  return (
+    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="w-[96vw] max-w-7xl max-h-[94vh] overflow-hidden grid grid-rows-[auto_minmax(0,1fr)]">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Eye className="h-5 w-5" /> Vista digital del menu editable
+          </DialogTitle>
+          <p className="text-sm text-muted-foreground">
+            Esta vista toma directamente los platos que estás editando en el panel.
+          </p>
+        </DialogHeader>
+
+        <div className="overflow-auto rounded-xl border bg-white p-3">
+          <article className="digital-menu-sheet">
+            <header className="digital-menu-hero">
+              <img src={logoImg} alt="El Cafetín Pontevedra" />
+              <div>
+                <p>El Cafetín Pontevedra</p>
+                <h2>Menú del día</h2>
+              </div>
+              <strong>986 84 78 74</strong>
+            </header>
+
+            <main className="digital-menu-grid">
+              {visibleMenus.length > 0 ? (
+                visibleMenus.map((menu, index) => <DigitalMenuVariant key={`${menu.title}-${index}`} variant={menu} />)
+              ) : (
+                <div className="digital-menu-empty">Agrega platos al menú para ver la vista digital.</div>
+              )}
+            </main>
+
+            <footer className="digital-menu-footer">
+              <span>@ElCafetinPontevedra</span>
+              <span>Instagram</span>
+              <span>WhatsApp</span>
+              <span>Facebook</span>
+            </footer>
+          </article>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 function getPrintableAllergens(menus: MenuVariant[], degustation?: any) {
   const seen = new Set<string>();
   const add = (item: MenuItem) => item.allergens.forEach((allergen) => seen.add(allergen));
@@ -1110,6 +1198,7 @@ export function WeekdayMenuEditor({ data, onSave }: {
   const [saved, setSaved] = useState(false);
   const [preview, setPreview] = useState(false);
   const [horizontalOpen, setHorizontalOpen] = useState(false);
+  const [digitalOpen, setDigitalOpen] = useState(false);
 
   const tabs = useMemo(() => [
     ...menus.map((m, i) => ({ label: `${m.isVeggie ? "🌱 " : "🍽️ "}${m.title}`, menuIdx: i, isDeg: false })),
@@ -1155,16 +1244,24 @@ export function WeekdayMenuEditor({ data, onSave }: {
         />
       )}
 
-      <ActionRow
-        saving={saving}
-        saved={saved}
-        publishLabel="Guardar y Publicar"
-        onPreview={() => setPreview(true)}
-        onHorizontalPreview={() => setHorizontalOpen(true)}
-        onSave={save}
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+        <Button type="button" variant="outline" size="lg" className="gap-2" onClick={() => setDigitalOpen(true)}>
+          <Eye className="h-4 w-4" /> Vista digital
+        </Button>
+        <div className="sm:col-span-3">
+          <ActionRow
+            saving={saving}
+            saved={saved}
+            publishLabel="Guardar y Publicar"
+            onPreview={() => setPreview(true)}
+            onHorizontalPreview={() => setHorizontalOpen(true)}
+            onSave={save}
+          />
+        </div>
+      </div>
 
       <MenuPreviewDialog open={preview} onClose={() => setPreview(false)} menus={menus} title="Menú del Día" />
+      <DigitalWeekdayMenuDialog open={digitalOpen} onClose={() => setDigitalOpen(false)} menus={menus} />
       <HorizontalDocumentDialog
         open={horizontalOpen}
         onClose={() => setHorizontalOpen(false)}

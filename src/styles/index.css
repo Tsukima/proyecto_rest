@@ -54,6 +54,180 @@ svg {
   max-width: 100%;
 }
 
+.digital-menu-sheet {
+  width: min(1180px, 100%);
+  min-height: 680px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  color: #12351f;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(127, 191, 127, 0.22), transparent 24%),
+    linear-gradient(135deg, rgba(127, 191, 127, 0.1), transparent 38%),
+    #fffefa;
+  border: 1px solid rgba(127, 191, 127, 0.42);
+  border-radius: 28px;
+  box-shadow: 0 22px 60px rgba(18, 53, 31, 0.12);
+}
+
+.digital-menu-hero {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding-bottom: 1.3rem;
+  border-bottom: 2px solid #7fbf7f;
+}
+
+.digital-menu-hero img {
+  width: min(180px, 100%);
+  height: auto;
+}
+
+.digital-menu-hero p,
+.digital-menu-column-header p {
+  margin: 0 0 0.15rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7fbf7f;
+}
+
+.digital-menu-hero h2 {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 5rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: #12351f;
+}
+
+.digital-menu-hero strong {
+  font-size: clamp(1.2rem, 2.2vw, 2rem);
+  white-space: nowrap;
+  color: #12351f;
+}
+
+.digital-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.5rem, 3vw, 2.4rem) 0;
+}
+
+.digital-menu-column {
+  min-width: 0;
+  padding-right: clamp(1rem, 2vw, 2rem);
+}
+
+.digital-menu-column + .digital-menu-column {
+  padding-left: clamp(1rem, 2vw, 2rem);
+  border-left: 1px solid rgba(18, 53, 31, 0.22);
+}
+
+.digital-menu-column-header {
+  margin-bottom: 1.4rem;
+}
+
+.digital-menu-column-header h3 {
+  margin: 0;
+  font-family: "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  font-size: clamp(2.2rem, 4.2vw, 4.4rem);
+  line-height: 0.9;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #12351f;
+}
+
+.digital-menu-column-header span {
+  display: inline-block;
+  margin-top: 0.45rem;
+  color: #4d5f52;
+}
+
+.digital-menu-section {
+  padding: 0.9rem 0;
+  border-top: 1px solid rgba(18, 53, 31, 0.14);
+}
+
+.digital-menu-section h4 {
+  margin: 0 0 0.65rem;
+  font-size: 0.98rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7fbf7f;
+}
+
+.digital-menu-section ul {
+  display: grid;
+  gap: 0.82rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.digital-menu-section li {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.digital-menu-section li span {
+  font-size: clamp(1rem, 1.45vw, 1.3rem);
+  line-height: 1.22;
+  font-weight: 800;
+  color: #1f2d24;
+}
+
+.digital-menu-section li small {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #6c756d;
+}
+
+.digital-menu-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(18, 53, 31, 0.24);
+  font-weight: 700;
+  color: #12351f;
+}
+
+.digital-menu-empty {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  border: 1px dashed rgba(18, 53, 31, 0.28);
+  border-radius: 20px;
+  color: #607063;
+}
+
+@media (max-width: 760px) {
+  .digital-menu-sheet {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
+  .digital-menu-hero,
+  .digital-menu-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .digital-menu-hero strong {
+    white-space: normal;
+  }
+
+  .digital-menu-column,
+  .digital-menu-column + .digital-menu-column {
+    padding: 0;
+    border-left: 0;
+  }
+}
+
 .print-menu-document {
   width: 794px;
   min-height: 1123px;

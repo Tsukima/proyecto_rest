@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editar Menú del Día y Veggie</title>
+  <style>
+    :root {
+      --mint: #7fbf7f;
+      --mint-soft: #eaf6ea;
+      --green: #174b2a;
+      --ink: #172018;
+      --muted: #667066;
+      --line: rgba(23, 75, 42, 0.16);
+      --danger: #b42318;
+      --paper: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(127, 191, 127, 0.2), transparent 30%),
+        linear-gradient(135deg, #fffaf0, #eef7e8);
+      color: var(--ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 20px 60px rgba(23, 75, 42, 0.11);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .status {
+      min-width: 180px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: var(--mint-soft);
+      color: var(--green);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    .panel {
+      display: grid;
+      gap: 22px;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 18px 48px rgba(23, 75, 42, 0.1);
+      overflow: hidden;
+    }
+
+    .card-title {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--mint-soft), #ffffff);
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--mint);
+      box-shadow: 0 0 0 4px rgba(127, 191, 127, 0.18);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 900;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s, background 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    button.secondary {
+      border: 1px solid var(--line);
+      background: var(--mint-soft);
+      color: var(--green);
+    }
+
+    button.danger {
+      background: #fff1f0;
+      color: var(--danger);
+      border: 1px solid rgba(180, 35, 24, 0.18);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--green);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: #fbfdf9;
+    }
+
+    td {
+      color: #27362c;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--mint-soft);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .table-actions button {
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    .empty {
+      padding: 26px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 16px;
+      }
+
+      header,
+      .panel {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <h1>Menú del Día y Veggie</h1>
+        <p>Panel editable para administrar aperitivo, primeros, segundos y postres.</p>
+      </div>
+      <div id="status" class="status">Listo</div>
+    </header>
+
+    <section class="panel">
+      <article class="card">
+        <div class="card-title">Editar plato</div>
+        <form id="dishForm">
+          <input type="hidden" id="dishId">
+          <div class="row">
+            <label>
+              Menú
+              <select id="menuType" required>
+                <option value="dia">Menú del Día</option>
+                <option value="veggie">Menú Veggie</option>
+              </select>
+            </label>
+            <label>
+              Sección
+              <select id="section" required>
+                <option value="aperitivo">Aperitivo</option>
+                <option value="primeros">Primeros</option>
+                <option value="segundos">Segundos</option>
+                <option value="postres">Postres</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Nombre del plato
+            <input id="name" type="text" required placeholder="Ej. Petisco de bienvenida">
+          </label>
+          <label>
+            Descripción
+            <textarea id="description" placeholder="Detalle del plato"></textarea>
+          </label>
+          <label>
+            Orden
+            <input id="position" type="number" min="1" value="1">
+          </label>
+          <div class="actions">
+            <button type="submit">Guardar plato</button>
+            <button type="button" id="resetButton" class="secondary">Nuevo</button>
+            <button type="button" id="syncButton" class="secondary">Recargar API</button>
+          </div>
+        </form>
+      </article>
+
+      <article class="card">
+        <div class="card-title">Platos actuales</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Menú</th>
+                <th>Sección</th>
+                <th>Plato</th>
+                <th>Orden</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="dishTable"></tbody>
+          </table>
+          <div id="emptyState" class="empty" hidden>No hay platos cargados.</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    const API_URL = "/api/menu-dia-veggie";
+
+    const initialDishes = [
+      { id: crypto.randomUUID(), menuType: "dia", section: "aperitivo", name: "Petisco de bienvenida", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "primeros", name: "Menestra de brécol & coliflor sobre hummus de garbanzo, ajadas y lascas de jamón serrano reserva", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "primeros", name: "Enchilada de pulled pork con salsa de cheddar, pico de gallo y cebolla morada encurtida", description: "", position: 2 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "segundos", name: "Salmón sosa-sado sobre risotto marino de algas, su crujiente y alioli de percebe", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "segundos", name: "Secreto de Alín a la plancha con salsa de miel & mostaza, cachelos fritos y timbal de pimientos del piquillo", description: "", position: 2 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "postres", name: "Flan de huevo", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "dia", section: "postres", name: "Semifrío de limón", description: "", position: 2 },
+      { id: crypto.randomUUID(), menuType: "veggie", section: "aperitivo", name: "Petisco de bienvenida", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "veggie", section: "primeros", name: "Menestra de brécol & coliflor sobre hummus y ajadas", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "veggie", section: "segundos", name: "Matilda en salsa caponata, parmesano y aceite de aromáticas", description: "", position: 1 },
+      { id: crypto.randomUUID(), menuType: "veggie", section: "postres", name: "Semifrío de limón", description: "", position: 1 }
+    ];
+
+    let dishes = [];
+
+    const form = document.getElementById("dishForm");
+    const dishId = document.getElementById("dishId");
+    const menuType = document.getElementById("menuType");
+    const section = document.getElementById("section");
+    const nameInput = document.getElementById("name");
+    const description = document.getElementById("description");
+    const position = document.getElementById("position");
+    const table = document.getElementById("dishTable");
+    const emptyState = document.getElementById("emptyState");
+    const statusBox = document.getElementById("status");
+    const resetButton = document.getElementById("resetButton");
+    const syncButton = document.getElementById("syncButton");
+
+    function setStatus(text) {
+      statusBox.textContent = text;
+    }
+
+    function saveLocal() {
+      localStorage.setItem("menu-dia-veggie:dishes", JSON.stringify(dishes));
+    }
+
+    function loadLocal() {
+      const saved = localStorage.getItem("menu-dia-veggie:dishes");
+      if (!saved) return initialDishes;
+      try {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : initialDishes;
+      } catch {
+        return initialDishes;
+      }
+    }
+
+    async function fetchDishes() {
+      setStatus("Cargando...");
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error("No se pudo cargar la API");
+        const data = await response.json();
+        dishes = Array.isArray(data) ? data : data.dishes || [];
+        saveLocal();
+        setStatus("API conectada");
+      } catch {
+        dishes = loadLocal();
+        setStatus("Modo local");
+      }
+      render();
+    }
+
+    async function persistDishes() {
+      saveLocal();
+      try {
+        const response = await fetch(API_URL, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ dishes })
+        });
+        if (!response.ok) throw new Error("No se pudo guardar");
+        setStatus("Guardado en API");
+      } catch {
+        setStatus("Guardado local");
+      }
+    }
+
+    function normalizeLabel(value) {
+      const labels = {
+        dia: "Menú del Día",
+        veggie: "Menú Veggie",
+        aperitivo: "Aperitivo",
+        primeros: "Primeros",
+        segundos: "Segundos",
+        postres: "Postres"
+      };
+      return labels[value] || value;
+    }
+
+    function sortedDishes() {
+      return [...dishes].sort((a, b) => {
+        const menuSort = a.menuType.localeCompare(b.menuType);
+        if (menuSort !== 0) return menuSort;
+        const sectionSort = a.section.localeCompare(b.section);
+        if (sectionSort !== 0) return sectionSort;
+        return Number(a.position || 0) - Number(b.position || 0);
+      });
+    }
+
+    function render() {
+      table.innerHTML = "";
+      const rows = sortedDishes();
+      emptyState.hidden = rows.length > 0;
+      rows.forEach((dish) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><span class="badge">${normalizeLabel(dish.menuType)}</span></td>
+          <td>${normalizeLabel(dish.section)}</td>
+          <td><strong>${escapeHtml(dish.name)}</strong>${dish.description ? `<br><small>${escapeHtml(dish.description)}</small>` : ""}</td>
+          <td>${dish.position || ""}</td>
+          <td>
+            <div class="table-actions">
+              <button type="button" class="secondary" data-action="edit" data-id="${dish.id}">Editar</button>
+              <button type="button" class="danger" data-action="delete" data-id="${dish.id}">Eliminar</button>
+            </div>
+          </td>
+        `;
+        table.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function resetForm() {
+      dishId.value = "";
+      menuType.value = "dia";
+      section.value = "aperitivo";
+      nameInput.value = "";
+      description.value = "";
+      position.value = "1";
+      nameInput.focus();
+    }
+
+    function editDish(id) {
+      const dish = dishes.find((item) => item.id === id);
+      if (!dish) return;
+      dishId.value = dish.id;
+      menuType.value = dish.menuType;
+      section.value = dish.section;
+      nameInput.value = dish.name;
+      description.value = dish.description || "";
+      position.value = dish.position || 1;
+      nameInput.focus();
+    }
+
+    async function deleteDish(id) {
+      dishes = dishes.filter((item) => item.id !== id);
+      render();
+      await persistDishes();
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const payload = {
+        id: dishId.value || crypto.randomUUID(),
+        menuType: menuType.value,
+        section: section.value,
+        name: nameInput.value.trim(),
+        description: description.value.trim(),
+        position: Number(position.value || 1)
+      };
+      if (!payload.name) return;
+      const exists = dishes.some((dish) => dish.id === payload.id);
+      dishes = exists ? dishes.map((dish) => dish.id === payload.id ? payload : dish) : [...dishes, payload];
+      render();
+      resetForm();
+      await persistDishes();
+    });
+
+    table.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      const id = button.dataset.id;
+      if (button.dataset.action === "edit") editDish(id);
+      if (button.dataset.action === "delete") deleteDish(id);
+    });
+
+    resetButton.addEventListener("click", resetForm);
+    syncButton.addEventListener("click", fetchDishes);
+
+    fetchDishes();
+  </script>
+</body>
+</html>
