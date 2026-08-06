@@ -391,8 +391,8 @@ svg {
 
 @media print {
   body.printing-landscape .digital-menu-sheet {
-    display: flex !important;
-    flex-direction: column !important;
+    display: block !important;
+    position: relative !important;
     width: 297mm !important;
     max-width: 297mm !important;
     height: 210mm !important;
@@ -400,6 +400,10 @@ svg {
     margin: 0 !important;
     padding: 3.5mm 4mm 3mm !important;
     overflow: hidden !important;
+    break-after: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
     color: #12351f !important;
     background:
       radial-gradient(circle at 84% 10%, rgba(127, 191, 127, 0.18), transparent 25%),
@@ -421,7 +425,9 @@ svg {
   }
 
   body.printing-landscape .digital-menu-grid {
-    flex: 1 1 auto !important;
+    height: calc(100% - 19mm) !important;
+    max-height: calc(100% - 19mm) !important;
+    flex: none !important;
     min-height: 0 !important;
     display: grid !important;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
@@ -551,10 +557,18 @@ svg {
   }
 
   body.printing-landscape .digital-menu-footer {
+    position: absolute !important;
+    right: 4mm !important;
+    bottom: 3mm !important;
+    left: 4mm !important;
+    height: 15mm !important;
+    box-sizing: border-box !important;
     grid-template-columns: 48mm minmax(0, 1fr) minmax(0, 1fr) !important;
     gap: 4mm !important;
     padding: 1.6mm 3mm 0 !important;
     font-size: 8pt !important;
+    margin-top: 0 !important;
+    overflow: hidden !important;
   }
 
   body.printing-landscape .digital-menu-footer img {
