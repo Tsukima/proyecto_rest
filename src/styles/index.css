@@ -228,6 +228,82 @@ svg {
   }
 }
 
+@media print {
+  body.printing-landscape .digital-menu-sheet {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 277mm !important;
+    max-width: 277mm !important;
+    height: 190mm !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 10mm 12mm !important;
+    overflow: hidden !important;
+    color: #12351f !important;
+    background:
+      radial-gradient(circle at 84% 10%, rgba(127, 191, 127, 0.18), transparent 25%),
+      linear-gradient(135deg, rgba(127, 191, 127, 0.1), transparent 40%),
+      #fffefa !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body.printing-landscape .digital-menu-hero {
+    grid-template-columns: 42mm minmax(0, 1fr) auto !important;
+    gap: 8mm !important;
+    padding-bottom: 5mm !important;
+  }
+
+  body.printing-landscape .digital-menu-hero img {
+    width: 42mm !important;
+  }
+
+  body.printing-landscape .digital-menu-hero h2 {
+    font-size: 34pt !important;
+  }
+
+  body.printing-landscape .digital-menu-hero strong {
+    font-size: 16pt !important;
+  }
+
+  body.printing-landscape .digital-menu-grid {
+    flex: 1 1 auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9mm !important;
+    padding: 6mm 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.printing-landscape .digital-menu-column-header h3 {
+    font-size: 30pt !important;
+  }
+
+  body.printing-landscape .digital-menu-section {
+    padding: 3mm 0 !important;
+  }
+
+  body.printing-landscape .digital-menu-section h4 {
+    font-size: 10pt !important;
+    margin-bottom: 2.5mm !important;
+  }
+
+  body.printing-landscape .digital-menu-section ul {
+    gap: 2.5mm !important;
+  }
+
+  body.printing-landscape .digital-menu-section li span {
+    font-size: 12pt !important;
+    line-height: 1.18 !important;
+  }
+
+  body.printing-landscape .digital-menu-footer {
+    padding-top: 4mm !important;
+    font-size: 10pt !important;
+  }
+}
+
 .print-menu-document {
   width: 794px;
   min-height: 1123px;

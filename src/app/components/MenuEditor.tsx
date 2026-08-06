@@ -848,9 +848,13 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
     .filter((menu) => getVariantSections(menu).some((section) => section.items.some((item) => item.name.trim())))
     .slice(0, 2);
 
+  const print = () => {
+    printCurrentDocument("landscape");
+  };
+
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="w-[96vw] max-w-7xl max-h-[94vh] overflow-hidden grid grid-rows-[auto_minmax(0,1fr)]">
+      <DialogContent className="w-[96vw] max-w-7xl max-h-[94vh] overflow-hidden grid grid-rows-[auto_minmax(0,1fr)_auto]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Eye className="h-5 w-5" /> Vista digital del menu editable
@@ -861,7 +865,7 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
         </DialogHeader>
 
         <div className="overflow-auto rounded-xl border bg-white p-3">
-          <article className="digital-menu-sheet">
+          <article className="print-area digital-menu-sheet">
             <header className="digital-menu-hero">
               <img src={logoImg} alt="El Cafetín Pontevedra" />
               <div>
@@ -886,6 +890,15 @@ function DigitalWeekdayMenuDialog({ open, onClose, menus }: {
               <span>Facebook</span>
             </footer>
           </article>
+        </div>
+
+        <div className="flex justify-end gap-3 border-t pt-4">
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cerrar
+          </Button>
+          <Button type="button" className="gap-2" onClick={print}>
+            <Printer className="h-4 w-4" /> Imprimir vista digital
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
@@ -1166,16 +1179,13 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
   );
 }
 
-function ActionRow({ saving, saved, publishLabel, onPreview, onHorizontalPreview, onSave }: {
-  saving: boolean; saved: boolean; publishLabel: string; onPreview: () => void; onHorizontalPreview: () => void; onSave: () => void;
+function ActionRow({ saving, saved, publishLabel, onPreview, onSave }: {
+  saving: boolean; saved: boolean; publishLabel: string; onPreview: () => void; onSave: () => void;
 }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <Button type="button" variant="outline" size="lg" className="gap-2" onClick={onPreview}>
         <Eye className="h-4 w-4" /> Vista previa
-      </Button>
-      <Button type="button" variant="outline" size="lg" className="gap-2" onClick={onHorizontalPreview}>
-        <Printer className="h-4 w-4" /> Imprimir
       </Button>
       <Button type="button" size="lg" className="gap-2" disabled={saving} onClick={onSave}>
         <Save className="h-4 w-4" />
@@ -1197,7 +1207,6 @@ export function WeekdayMenuEditor({ data, onSave }: {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [horizontalOpen, setHorizontalOpen] = useState(false);
   const [digitalOpen, setDigitalOpen] = useState(false);
 
   const tabs = useMemo(() => [
@@ -1244,17 +1253,16 @@ export function WeekdayMenuEditor({ data, onSave }: {
         />
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <Button type="button" variant="outline" size="lg" className="gap-2" onClick={() => setDigitalOpen(true)}>
           <Eye className="h-4 w-4" /> Vista digital
         </Button>
-        <div className="sm:col-span-3">
+        <div className="sm:col-span-2">
           <ActionRow
             saving={saving}
             saved={saved}
             publishLabel="Guardar y Publicar"
             onPreview={() => setPreview(true)}
-            onHorizontalPreview={() => setHorizontalOpen(true)}
             onSave={save}
           />
         </div>
@@ -1262,12 +1270,6 @@ export function WeekdayMenuEditor({ data, onSave }: {
 
       <MenuPreviewDialog open={preview} onClose={() => setPreview(false)} menus={menus} title="Menú del Día" />
       <DigitalWeekdayMenuDialog open={digitalOpen} onClose={() => setDigitalOpen(false)} menus={menus} />
-      <HorizontalDocumentDialog
-        open={horizontalOpen}
-        onClose={() => setHorizontalOpen(false)}
-        weekdayMenus={menus}
-        degustation={deg}
-      />
     </div>
   );
 }
@@ -1284,7 +1286,6 @@ export function WeekendMenuEditor({ data, onSave }: {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [horizontalOpen, setHorizontalOpen] = useState(false);
 
   const tabs = useMemo(() => [
     ...menus.map((m, i) => ({ label: `${m.isVeggie ? "🌱 " : "🍽️ "}${m.title}`, menuIdx: i, isDeg: false })),
@@ -1335,17 +1336,10 @@ export function WeekendMenuEditor({ data, onSave }: {
         saved={saved}
         publishLabel="Guardar y Publicar"
         onPreview={() => setPreview(true)}
-        onHorizontalPreview={() => setHorizontalOpen(true)}
         onSave={save}
       />
 
       <MenuPreviewDialog open={preview} onClose={() => setPreview(false)} menus={menus} title="Menú de Fin de Semana" />
-      <HorizontalDocumentDialog
-        open={horizontalOpen}
-        onClose={() => setHorizontalOpen(false)}
-        weekendMenus={menus}
-        degustation={deg}
-      />
     </div>
   );
 }
